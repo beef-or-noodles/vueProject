@@ -1,6 +1,6 @@
 
 const actions = {
-  add_boos({muations},book){
+  add_boos({commit},book){
     commit('addBook',book);
   }
 }

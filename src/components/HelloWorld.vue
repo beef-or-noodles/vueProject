@@ -1,19 +1,30 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <el-button type="primary">hahah111</el-button>
+    <h1>{{getBookList}}</h1>
+    <h2>{{bookList}}</h2>
+    <el-button type="primary" @click="addBook('javaScript')">mutations</el-button>
+    <el-button type="warning" @click="add_boos('java')">actions</el-button>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions, mapGetters,mapMutations } from 'vuex'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+  //vuex的使用
+  computed:{
+    ...mapState(['bookList']),
+    ...mapGetters(['getBookList'])
+  },//访问state
+  methods:{
+      ...mapMutations(['addBook']),
+      ...mapActions(['add_boos']),
+  },
 }
 </script>
 
