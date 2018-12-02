@@ -7,8 +7,10 @@ import ElementUi from'element-ui'//引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'//手动引入element-ui 的css
 import axios from 'axios'
 import Qs from 'qs'
+import Vuex from 'vuex'
 Vue.config.productionTip = false
 Vue.use(ElementUi)//调用element-ui
+Vue.use(Vuex) //调用vuex
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
