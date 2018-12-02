@@ -2,8 +2,10 @@
   <div class="hello">
     <h1>{{getBookList}}</h1>
     <h2>{{bookList}}</h2>
+    <h2>{{$api.baseURL}}</h2>
     <el-button type="primary" @click="addBook('javaScript')">mutations</el-button>
     <el-button type="warning" @click="add_boos('java')">actions</el-button>
+    <el-button type="danger" @click="bottom">post</el-button>
   </div>
 </template>
 
@@ -24,6 +26,11 @@ export default {
   methods:{
       ...mapMutations(['addBook']),
       ...mapActions(['add_boos']),
+      bottom(){
+        this.$post(this.$api.test,{}).then((data)=>{
+          console.log(data);
+        });
+      }
   },
 }
 </script>

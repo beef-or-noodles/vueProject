@@ -5,11 +5,10 @@ import App from './App'
 import router from './router'
 import ElementUi from'element-ui'//引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'//手动引入element-ui 的css
-import axios from 'axios'
 import Qs from 'qs'
 import store from './tool/vuex/store/store.js'
-import {post} from '@/tool/axios/axios.js'
-import api from '@/tool/api/apiurl.js'
+import {post} from './tool/axios/axiosPost.js'
+import api from './tool/api/apiurl.js'
 //将axios挂载到Vue实例中的$ajax上面,在项目中的任何位置通过this.$post使用
 Vue.prototype.$post = post;
 Vue.prototype.$api = api;
