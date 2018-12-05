@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from './router/index'
 import ElementUi from'element-ui'//引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'//手动引入element-ui 的css
 import Qs from 'qs'
@@ -21,4 +21,15 @@ new Vue({
   store,
   components: { App },
   template: '<App/>'
+})
+
+
+//路由守卫
+router.beforeEach((to, from, next) => {
+  if(to.meta.title != '' && to.meta.title != undefined){
+    document.title = to.meta.title;
+  }else{
+    document.title = "首页";
+  }
+  next();
 })
