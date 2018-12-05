@@ -6,20 +6,19 @@ import {
 import api from '../api/apiurl.js'
 axios.defaults.withCredentials = true; //是否携带cookie
 axios.defaults.baseURL = api.baseURL; //默认请求地址
-//axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+
 let loading;
 // 设置拦截器
 axios.interceptors.request.use(function(config) {
   //发送请求前做些什么
   config => {
-      // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
+      const token = localStorage.getItem('TOKEN');//得到存入浏览器的token
       config.data = JSON.stringify(config.data);
-      config.headers = {
-        'Content-Type': 'application/json'
+      config.timeout = 3000;
+      config.headers = {'Content-Type': 'application/json'}
+      if(token){
+         config.headers.token = token;
       }
-      // if(token){
-      //   config.params = {'token':token}
-      // }
       return config;
     },
     setloading(); //加载动画
@@ -77,7 +76,32 @@ export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.post(url, data)
       .then(response => {
-        resolve(response.data);
+        if(response.data.code == 200){
+          resolve(response.data.data);
+        }else{
+          messageBox('error',response.data.msg,1500);
+        }
+      }, err => {
+        let status = err.response.status;
+        if(status === 404){
+          messageBox('error', '没找到请求地址'+status, 1500);
+        }else if(status === 500){
+          messageBox('error', '服务器错误'+status, 1500);
+        }
+        reject(err)
+      })
+  })
+};
+//get 请求
+export function get(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.get(url, data)
+      .then(response => {
+        if(response.data.code == 200){
+          resolve(response.data.data);
+        }else{
+          messageBox('error',response.data.msg,1500);
+        }
       }, err => {
         let status = err.response.status;
         if(status === 404){
