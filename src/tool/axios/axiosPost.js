@@ -4,7 +4,7 @@ import {
   Message
 } from 'element-ui'
 import api from '../api/apiurl.js'
-axios.defaults.withCredentials = true; //是否携带cookie
+// axios.defaults.withCredentials = true; //是否携带cookie
 axios.defaults.baseURL = api.baseURL; //默认请求地址
 
 let loading;
@@ -98,7 +98,7 @@ export function get(url, data = {}) {
     axios.get(url, data)
       .then(response => {
         if(response.data.code == 200){
-          resolve(response.data.data);
+          resolve(response.data);
         }else{
           messageBox('error',response.data.msg,1500);
         }
