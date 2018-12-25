@@ -2,8 +2,8 @@
 var sqlMap = {
     // 用户
     user: {
-        login: 'SELECT userpsw FROM admin WHERE username = ?;',
-        add: 'insert into admin(username, userpsw) values ( ?, ?);'
+        login: 'SELECT passWord FROM userinfo WHERE userName = ?;',//登陆语句
+        add: 'insert into userinfo(userName, passWord) values ( ?, ?);'//添加语句
     }
 }
 

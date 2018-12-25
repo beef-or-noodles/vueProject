@@ -27,7 +27,7 @@ export default {
       ...mapMutations(['addBook']),
       ...mapActions(['add_boos']),
       bottom(){
-        this.$post(this.$api.test,{}).then((data)=>{
+        this.$post(this.$api.login,{}).then((data)=>{
           console.log(data);
         });
       }
