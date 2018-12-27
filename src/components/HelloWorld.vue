@@ -27,7 +27,11 @@ export default {
       ...mapMutations(['addBook']),
       ...mapActions(['add_boos']),
       bottom(){
-        this.$post(this.$api.login,{}).then((data)=>{
+        let params = {
+          userName:'wwq1',
+          passWord:'12345'
+        }
+        this.$post(this.$api.addUser,params).then((data)=>{
           console.log(data);
         });
       }

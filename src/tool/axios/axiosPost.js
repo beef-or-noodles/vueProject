@@ -76,11 +76,7 @@ export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.post(url, data)
       .then(response => {
-        if(response.data.code == 200){
-          resolve(response.data.data);
-        }else{
-          messageBox('error',response.data.msg,1500);
-        }
+          resolve(response.data);
       }, err => {
         let status = err.response.status;
         if(status === 404){

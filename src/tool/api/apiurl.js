@@ -1,5 +1,6 @@
 const baseURL = '/api' //设置默认基础地址 location.origin
 export default{
 
-  login : baseURL + '/login'
+  login : baseURL + '/login',
+  addUser : baseURL + '/addUser'
 }
