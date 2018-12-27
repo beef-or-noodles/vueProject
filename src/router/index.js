@@ -16,6 +16,11 @@ export default new Router({
       name:'404',
       component:resolve => require(['@/components/404'],resolve),
       meta:{title:'404'},
+    },{
+      path:'/login',
+      name:'login',
+      component:resolve => require(['@/components/login/login'],resolve),
+      meta:{title:'登录'},
     }
   ]
 })

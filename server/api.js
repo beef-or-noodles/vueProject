@@ -30,16 +30,20 @@ router.post('/login', (req, res) => {
       console.log(err);
     }
     if (result) {
-      //  jsonWrite(res, result);
       var data = {}
-      for (var i = 0; i < result.length; i++) {
-        console.log("请求回来！", result[i])
-        console.log("请求结果！", typeof result[i], result[i].passWord);
+      //  jsonWrite(res, result);
+      if(result.length == 0){
+        data.isLogin = false;
+        data.msg = '用户名不存在';
+      }
 
+      for (var i = 0; i < result.length; i++) {
         if (result[i].passWord == params.passWord) {
-          data.isLogin = true
+          data.isLogin = true;
+          data.msg = '登陆成功';
         }else{
-          data.isLogin = false
+          data.isLogin = false;
+          data.msg = '密码错误';
         }
       }
       res.send(data);//返回数据给前台

@@ -28,6 +28,11 @@ new Vue({
 
 //路由守卫
 router.beforeEach((to, from, next) => {
+  let login = sessionStorage.getItem('isLogin');
+    console.log(1212);
+    if(!login){
+      router.push('/login')
+    }
   if(to.meta.title != '' && to.meta.title != undefined){
     document.title = to.meta.title;
   }else{
