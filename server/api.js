@@ -67,4 +67,9 @@ router.post('/addUser', (req, res) => {
     }
   })
 });
+//验证码接口
+router.get('/getCold',(req,res)=>{
+  res.send('11');
+  res.end('is over');
+});
 module.exports = router;

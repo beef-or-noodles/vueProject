@@ -6,6 +6,7 @@
     <el-button type="primary" @click="addBook('javaScript')">mutations</el-button>
     <el-button type="warning" @click="add_boos('java')">actions</el-button>
     <el-button type="danger" @click="bottom">post</el-button>
+    <el-button type="danger" @click="bottomCode">得到验证码</el-button>
   </div>
 </template>
 
@@ -32,6 +33,11 @@ export default {
           passWord:'12345'
         }
         this.$post(this.$api.addUser,params).then((data)=>{
+          console.log(data);
+        });
+      },
+      bottomCode(){
+        this.$get(this.$api.getCode,{}).then((data)=>{
           console.log(data);
         });
       }

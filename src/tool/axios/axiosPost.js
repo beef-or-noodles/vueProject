@@ -93,11 +93,7 @@ export function get(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.get(url, data)
       .then(response => {
-        if(response.data.code == 200){
           resolve(response.data);
-        }else{
-          messageBox('error',response.data.msg,1500);
-        }
       }, err => {
         let status = err.response.status;
         if(status === 404){
