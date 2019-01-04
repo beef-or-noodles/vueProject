@@ -67,7 +67,7 @@ export default {
   width: 100%;
   height: 100%;
   position: absolute;
-  background: url('../../../static/images/loginBg.jpg');
+  background: url('../../../../static/images/loginBg.jpg');
   background-size: cover;
 }
 .box-card{

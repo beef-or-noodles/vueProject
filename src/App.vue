@@ -5,8 +5,23 @@
 </template>
 
 <script>
+import {pageRouter} from './router/index.js'
+import {routerData} from '@/tool/public/routerData.js'//配置的路由表
 export default {
-  name: 'App'
+  name:'app',
+  data(){
+    return{
+
+    }
+  },
+  created() {
+    this.setPageRouter();
+  },
+  methods: {
+    setPageRouter() {
+      pageRouter(routerData);
+    }
+  }
 }
 </script>
 

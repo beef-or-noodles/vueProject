@@ -24,6 +24,10 @@ export default {
     ...mapState(['bookList']),
     ...mapGetters(['getBookList'])
   },//访问state
+  mounted() {
+    //do something after mounting vue instance
+
+  },
   methods:{
       ...mapMutations(['addBook']),
       ...mapActions(['add_boos']),

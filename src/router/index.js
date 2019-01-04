@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 Vue.use(Router)
 
-export default new Router({
+  const router = new Router({
   routes: [
     {
       path: '/',
@@ -16,11 +16,22 @@ export default new Router({
       name:'404',
       component:resolve => require(['@/components/404'],resolve),
       meta:{title:'404'},
-    },{
-      path:'/login',
-      name:'login',
-      component:resolve => require(['@/components/login/login'],resolve),
-      meta:{title:'登录'},
     }
   ]
-})
+});
+//page路由
+export function pageRouter(pageData){
+  let pageList = []
+  for(let item of pageData){
+    if(item.power){ //判断是否有权限
+      pageList.push({
+        path:item.path,
+        name:item.name,
+        component:(resolve) => require(['@/components'+item.routerPath+'.vue'],resolve),
+        meta:{'title':item.routerName}
+      })
+    }
+  };
+  router.addRoutes(pageList);
+}
+export default router
