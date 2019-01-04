@@ -19,6 +19,9 @@ Vue.use(Router)
     }
   ]
 });
+export function menuRouter(pageData){
+  console.log(pageData);
+}
 //page路由
 export function pageRouter(pageData){
   let pageList = []
