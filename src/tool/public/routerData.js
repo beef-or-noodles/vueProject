@@ -16,23 +16,23 @@
 export const routerMenuData = [{
   rootMainName: '文章管理',
   power: true,
-  rooutMainIcon:'',
+  rooutMainIcon:'el-icon-tickets',
   menuIndex:'1',
   rootMainList: [{
     rootChildName:'文章列表',
     rootPower:true,
     rootLogin:true,
-    rootPath:'/',
-    path:'/',
-    name:'',
+    rootPath:'/manage/artice/articeList',
+    path:'/home/articeList',
+    name:'articeList',
     icon:'',
   },{
     rootChildName:'文章编辑',
     rootPower:true,
     rootLogin:true,
-    rootPath:'/',
-    path:'/',
-    name:'',
+    rootPath:'/manage/artice/articeEdit',
+    path:'/home/articeEdit',
+    name:'articeEdit',
     icon:'',
   }]
 }];

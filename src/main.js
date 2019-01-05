@@ -17,6 +17,7 @@ Vue.prototype.$api = api;
 Vue.config.productionTip = false;
 Vue.use(ElementUi);//调用element-ui
 /* eslint-disable no-new */
+router.push('/')
 new Vue({
   el: '#app',
   router,

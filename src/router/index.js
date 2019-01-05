@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+import mainIndex from '@/components/manage/mainIndex'
 Vue.use(Router)
 
   const router = new Router({
@@ -12,6 +13,12 @@ Vue.use(Router)
       meta:{title:'首页'},
     },
     {
+      path: '/home',
+      name: 'mainIndex',
+      component:mainIndex,
+      meta:{title:'后台'},
+    },
+    {
       path:'*',
       name:'404',
       component:resolve => require(['@/components/404'],resolve),
@@ -19,8 +26,31 @@ Vue.use(Router)
     }
   ]
 });
+// 后台菜单路由
 export function menuRouter(pageData){
-  console.log(pageData);
+  let routerList = [];
+  for(let item of pageData){
+    let rootList = item.rootMainList;
+    if(item.power){
+      for(let f of rootList){
+        if(f.rootPower){
+          routerList.push({
+            path:f.path,
+            name:f.name,
+            component:(resolve) => require(['@/components'+f.rootPath+'.vue'],resolve),
+            meta:{'title':f.rootChildName,'rootLogin':f.rootLogin}
+          })
+        }
+      }
+    }
+  }
+  router.addRoutes([{
+      path:'/home',
+      name:'home',
+      component:mainIndex,
+      meta:{'rootLogin':true},
+      children:routerList
+  }]);
 }
 //page路由
 export function pageRouter(pageData){
