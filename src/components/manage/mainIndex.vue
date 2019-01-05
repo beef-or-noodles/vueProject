@@ -3,7 +3,7 @@
   <div class="allContent">
     <el-container>
       <el-aside width="200px" class="leftNav" :class="{active:isCollapse}">
-        <el-menu active-text-color="#ffd04b" router text-color="white">
+        <el-menu active-text-color="#f9b15d" router text-color="#808281">
           <el-submenu v-for="(item,index) in menuData" :index="(index+1) + ''" :key="index">
             <template slot="title">
               <i :class="item.rooutMainIcon"></i>
@@ -67,6 +67,10 @@ export default {
 }
 </script>
 <style scoped>
+.home .el-menu{
+  background: none;
+  color: #808281 !important;
+}
 .home {
   position: fixed;
   width: 100vw;
