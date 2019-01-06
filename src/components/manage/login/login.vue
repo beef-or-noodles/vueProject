@@ -36,15 +36,16 @@ export default {
         });
       } else {
         this.$post(this.$api.login, params).then((data) => {
+          sessionStorage.setItem('isLogin', data.isLogin);
           if (data.isLogin) {
             this.$message({
               message: '登录成功',
               type: 'success'
             });
             this.$router.push({
-              path: '/'
+              path: '/home'
             })
-            sessionStorage.setItem('isLogin', data.isLogin);
+
           } else {
             this.$message({
               message: data.msg,

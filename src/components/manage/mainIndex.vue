@@ -3,6 +3,9 @@
   <div class="allContent">
     <el-container>
       <el-aside width="200px" class="leftNav" :class="{active:isCollapse}">
+        <div class="leftHead">
+          {{setTitle[1]}}
+        </div>
         <el-menu active-text-color="#f9b15d" router text-color="#808281">
           <el-submenu v-for="(item,index) in menuData" :index="(index+1) + ''" :key="index">
             <template slot="title">
@@ -60,12 +63,27 @@ export default {
       this.setTitle = data
     },
     setRouter() {
-      menuRouter(routerMenuData); //进入主页创建对应路由表
+
       this.menuData = routerMenuData
     }
   }
 }
 </script>
+<style>
+.allContent .el-menu{
+  background:inherit !important;
+}
+.allContent .el-menu-item.is-active{
+  border-right: 3px solid rgb(249, 177, 93);
+}
+.el-menu-item:focus, .el-menu-item:hover{
+    background:inherit !important;
+}
+.el-submenu .el-menu-item{
+  line-height: 40px;
+  height: 40px;
+}
+</style>
 <style scoped>
 .home .el-menu{
   background: none;
@@ -93,5 +111,10 @@ export default {
 }
 .right{
   background:rgba(255, 255, 255, 0.4);
+}
+.leftHead{
+  width: 200px;
+  line-height: 60px;
+  text-align: center;
 }
 </style>

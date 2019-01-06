@@ -13,12 +13,6 @@ Vue.use(Router)
       meta:{title:'首页'},
     },
     {
-      path: '/home',
-      name: 'mainIndex',
-      component:mainIndex,
-      meta:{title:'后台'},
-    },
-    {
       path:'*',
       name:'404',
       component:resolve => require(['@/components/404'],resolve),
