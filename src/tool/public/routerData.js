@@ -16,40 +16,62 @@
 export const routerMenuData = [{
   rootMainName: '文章管理',
   power: true,
-  rooutMainIcon:'el-icon-tickets',
-  menuIndex:'1',
+  rooutMainIcon: 'el-icon-tickets',
+  menuIndex: '1',
   rootMainList: [{
-    rootChildName:'文章列表',
-    rootPower:true,
-    rootLogin:true,
-    rootPath:'/manage/artice/articeList',
-    path:'/home/articeList',
-    name:'articeList',
-    icon:'',
+    rootChildName: '文章列表',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/artice/articeList',
+    path: '/home/articeList',
+    name: 'articeList',
+    icon: '',
+  }, {
+    rootChildName: '文章编辑',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/artice/articeEdit',
+    path: '/home/articeEdit',
+    name: 'articeEdit',
+    icon: '',
+  }]
+}, {
+  rootMainName: '账号管理',
+  power: true,
+  rooutMainIcon: 'el-icon-news',
+  menuIndex: '1',
+  rootMainList: [{
+    rootChildName: '账号管理',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/userInfo/userEdit',
+    path: '/home/userEdit',
+    name: 'userEdit',
+    icon: '',
   },{
-    rootChildName:'文章编辑',
-    rootPower:true,
-    rootLogin:true,
-    rootPath:'/manage/artice/articeEdit',
-    path:'/home/articeEdit',
-    name:'articeEdit',
-    icon:'',
+    rootChildName: '用户权限设置',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/userInfo/userRoot',
+    path: '/home/userRoot',
+    name: 'userRoot',
+    icon: '',
   }]
 }];
 
 
 // 单个路由配置
 /*
-*routerName  :路由名称
-*routerPath  :路由页面路径
-*path        :路由路径名字
-*name        :路由名字
-*power       :查看权限
-*/
+ *routerName  :路由名称
+ *routerPath  :路由页面路径
+ *path        :路由路径名字
+ *name        :路由名字
+ *power       :查看权限
+ */
 export const routerData = [{
-  routerName:'登陆',
-  routerPath:'/manage/login/login',
-  power:true,
-  path:'/login',
-  name:'login',
+  routerName: '登陆',
+  routerPath: '/manage/login/login',
+  power: true,
+  path: '/login',
+  name: 'login',
 }];

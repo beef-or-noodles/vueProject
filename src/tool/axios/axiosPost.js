@@ -48,8 +48,8 @@ axios.interceptors.response.use(function(response) {
 function setloading() {
   loading = Loading.service({
     spinner: 'el-icon-loading',
-    text: '努力加载中。。。。',
-    background: 'rgba(0,0,0,0.5)',
+    text: '客官别慌，随后就到',
+    background: 'rgba(0,0,0,0)',
     target: document.querySelector('.loadingTarget'),
   });
 }

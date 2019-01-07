@@ -21,7 +21,7 @@ var jsonWrite = function(res, ret) {
 
 // 登录用户接口
 router.post('/login', (req, res) => {
-  var sql = $sql.user.login;
+  var sql = $sql.user.UserLogin;
   var params = req.body;
   console.log("sql", sql);
   console.log("params", params);
@@ -53,7 +53,7 @@ router.post('/login', (req, res) => {
 });
 // 增加用户接口
 router.post('/addUser', (req, res) => {
-  var sql = $sql.user.add;
+  var sql = $sql.user.UserAdd;
   var params = req.body;
   console.log("sql", sql);
   console.log("params", params);
@@ -67,9 +67,55 @@ router.post('/addUser', (req, res) => {
     }
   })
 });
-//验证码接口
-router.get('/getCold',(req,res)=>{
-  res.send('11');
-  res.end('is over');
+//查询所有用户数据
+router.post('/userQuery',(req,res)=>{
+  var sql = $sql.user.UserQuery;
+  var params = req.body;
+  let pageNo = (params.pageNo - 1) * params.pageSize;
+  let pageSize = params.pageSize;
+  conn.query(sql,[pageNo,pageSize],function(err,result){
+    if(err){
+      console.log(err);
+    }
+    if(result){
+      res.send(result);
+    }
+  })
 });
+//删除用户
+router.post('/delectUser',(req,res)=>{
+  var sql = $sql.user.delectUser;
+  var id = req.body.id;
+  var idList = req.body.idList;
+  let list = "";
+  if(id == "" || id == undefined){
+    list = idList
+  }else{
+    list = id;
+  }
+  conn.query(sql,[list],function(err,result){
+    if(err){
+      console.log(err);
+    }
+    if(result){
+      console.log(sql);
+      res.send("成功");
+    }
+  })
+})
+//模糊查询
+router.post('/searchUser',(req,res)=>{
+
+  var sql = $sql.user.searchUser;
+  var value = '%'+req.body.userSearch+'%';
+  conn.query(sql,[value],function(err,result){
+    if(err){
+      console.log(err);
+    }
+    if(result){
+      console.log(sql);
+      res.send(result);
+    }
+  })
+})
 module.exports = router;

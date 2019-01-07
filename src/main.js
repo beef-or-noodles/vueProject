@@ -35,7 +35,6 @@ new Vue({
 router.beforeEach((to, from, next) => {
   var login = sessionStorage.getItem('isLogin');
   if(to.meta.rootLogin){
-    console.log(login+'11');
     if(login !== 'true'){
         ElementUi.Message.error("请登陆")
         router.push('/login');
