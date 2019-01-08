@@ -1,6 +1,6 @@
 // sql语句
 var sqlMap = {
-  countAll:'select count(*) from ?',// ?表名   计算数据库总条数
+  countAll:'select count(*) from userinfo',// ?表名   计算数据库总条数
   // 用户
   user: {
     UserLogin: 'SELECT passWord FROM userinfo WHERE userName = ?;', //登陆语句

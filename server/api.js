@@ -18,7 +18,19 @@ var jsonWrite = function(res, ret) {
     res.json(ret);
   }
 };
+// 查询总条数
 
+var queryCountAll = function(){
+  let sql = $sql.countAll;
+  conn.query(sql,['userinfo'],function(err,result){
+    if(err){
+      console.log(err);
+    };
+    if(result){
+      return result;
+    }
+  })
+}
 // 登录用户接口
 router.post('/login', (req, res) => {
   var sql = $sql.user.UserLogin;
@@ -69,6 +81,8 @@ router.post('/userQuery',(req,res)=>{
   var params = req.body;
   let pageNo = (params.pageNo - 1) * params.pageSize;
   let pageSize = params.pageSize;
+  let countAll = queryCountAll();
+  console.log(countAll);
   conn.query(sql,[pageNo,pageSize],function(err,result){
     if(err){
       console.log(err);
