@@ -36,8 +36,12 @@
       </el-table-column>
     </el-table>
     <div class="block">
-      <el-pagination
 
+      <el-pagination
+        @size-change="changePagesize"
+        @current-change = "currentChange"
+        @prev-click = "prevClick"
+        @next-click = 'nextClick'
         :page-sizes="[10, 20, 30, 40]"
         :page-size="10"
         layout="sizes, prev, pager, next"
@@ -79,7 +83,11 @@ export default {
         relPassword: '',
       },
       tableData: [],
-      idList: []
+      idList: [],
+      paging:{
+        pageNo: 1,
+        pageSize: 10,
+      },
     }
   },
   created() {
@@ -90,6 +98,27 @@ export default {
     this.getUserList();
   },
   methods: {
+    // 改变每页条数
+    changePagesize(value){
+      this.paging.pageSize = value;
+      this.getUserList();
+    },
+    // 当前页改变
+    currentChange(val){
+      this.paging.pageNo = val;
+      this.getUserList();
+    },
+    // 上一页
+    prevClick(val){
+      this.paging.pageNo = val;
+      this.getUserList();
+    },
+    // 下一页
+    nextClick(val){
+      this.paging.pageNo = val;
+      this.getUserList();
+    },
+    // 多选
     handleSelectionChange(val) {
       let arr = []
       for (let i in val) {
@@ -127,11 +156,7 @@ export default {
     },
     //得到用户列表
     getUserList() {
-      let params = {
-        pageNo: 1,
-        pageSize: 20,
-      }
-      this.$post(this.$api.userQuery, params).then((data) => {
+      this.$post(this.$api.userQuery, this.paging).then((data) => {
         this.tableData = data;
       });
     },
@@ -144,7 +169,6 @@ export default {
         this.getUserList();
       }else{
         this.$post(this.$api.searchUser, params).then((data) => {
-          console.log(data);
           this.tableData = data;
         });
       }

@@ -1,6 +1,6 @@
 // node 后端服务器
 
-const userApi = require('./api');
+const userApi = require('./api');//挂在接口
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');

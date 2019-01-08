@@ -23,8 +23,6 @@ var jsonWrite = function(res, ret) {
 router.post('/login', (req, res) => {
   var sql = $sql.user.UserLogin;
   var params = req.body;
-  console.log("sql", sql);
-  console.log("params", params);
   conn.query(sql, [params.userName], function(err, result) {
     if (err) {
       console.log(err);
@@ -55,8 +53,6 @@ router.post('/login', (req, res) => {
 router.post('/addUser', (req, res) => {
   var sql = $sql.user.UserAdd;
   var params = req.body;
-  console.log("sql", sql);
-  console.log("params", params);
   conn.query(sql, [params.userName, params.passWord], function(err, result) {
     if (err) {
       console.log(err);
@@ -98,7 +94,6 @@ router.post('/delectUser',(req,res)=>{
       console.log(err);
     }
     if(result){
-      console.log(sql);
       res.send("成功");
     }
   })
@@ -113,7 +108,6 @@ router.post('/searchUser',(req,res)=>{
       console.log(err);
     }
     if(result){
-      console.log(sql);
       res.send(result);
     }
   })
