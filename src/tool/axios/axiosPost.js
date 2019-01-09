@@ -24,6 +24,7 @@ axios.interceptors.request.use(function(config) {
     setloading(); //加载动画
   return config;
 }, function(error) {
+    endLoading();
   // 对请求错误做些什么
   return Promise.reject(error);
 });

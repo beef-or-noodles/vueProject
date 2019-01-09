@@ -192,7 +192,7 @@ export default {
         let params = {
           userName: this.fromData.username,
           passWord: this.fromData.password,
-          imgurl : this.fromData.password,
+          imgurl : this.fromData.imgurl,
         }
         if(type=== 1){
           this.$post(this.$api.addUser, params).then((data) => {

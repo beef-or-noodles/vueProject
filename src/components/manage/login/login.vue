@@ -67,7 +67,7 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   background: url('../../../../static/images/loginBg.jpg');
   background-size: cover;
 }
