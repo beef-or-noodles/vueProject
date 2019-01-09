@@ -9,7 +9,7 @@
       </div>
     </el-col>
     <el-col :span="20">
-      <el-button type="primary" size="small" @click="editDialog = true" icon="el-icon-plus">添加用户</el-button>
+      <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加用户</el-button>
       <el-button type="danger" size="small" @click="delect('',false)" icon="el-icon-delete">批量删除</el-button>
     </el-col>
   </el-row>
@@ -27,10 +27,9 @@
       </el-table-column>
       <el-table-column prop="creatTime" label="注册时间" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="220">
+      <el-table-column label="操作" fixed="right" width="150">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini">修改</el-button>
-          <el-button type="warning" size="mini">权限</el-button>
+          <el-button type="primary" size="mini" @click="update(scope.row,2)">修改</el-button>
           <el-button type="danger" @click='delect(scope.row.id,true)' size="mini">删除</el-button>
         </template>
       </el-table-column>
@@ -45,7 +44,7 @@
         :page-sizes="[10, 20, 30, 40]"
         :page-size="10"
         layout="sizes, prev, pager, next"
-        :total="100">
+        :total="paging.total">
       </el-pagination>
     </div>
   </div>
@@ -62,11 +61,22 @@
         <el-form-item label="确认密码:" prop="relPassword">
           <el-input type="password" v-model="fromData.relPassword"></el-input>
         </el-form-item>
+        <el-form-item label="上传头像:" prop="imgurl">
+          <el-upload
+            class="avatar-uploader"
+            :action="$api.upload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            >
+            <img v-if="fromData.imgurl" :src="fromData.imgurl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="editDialog = false" size="small">取 消</el-button>
-      <el-button type="primary" @click="addUser()" size="small">确 定</el-button>
+      <el-button type="primary" @click="addUser(submitType)" size="small">确 定</el-button>
     </span>
   </el-dialog>
 </div>
@@ -76,22 +86,38 @@ export default {
   data() {
     return {
       editDialog: false,
+      submitType:1,//1：增加  2：修改
+      updateID:'',
       userSearch: '',
       fromData: {
         username: '',
         password: '',
         relPassword: '',
+        imgurl:'',
       },
       tableData: [],
       idList: [],
       paging:{
         pageNo: 1,
         pageSize: 10,
+        total:1,
       },
     }
   },
   created() {
 
+  },
+  watch:{
+    editDialog(val){
+      if(val == false){
+        this.fromData = {
+            username: '',
+            password: '',
+            relPassword: '',
+            imgurl:'',
+          };
+      };
+    },
   },
   mounted() {
     //do something after mounting vue instance
@@ -126,8 +152,32 @@ export default {
       }
       this.idList = arr;
     },
+
+    // 上传图片
+    handleAvatarSuccess(res, file) {
+        // this.imageUrl = URL.createObjectURL(file.raw);
+        console.log(res);
+        this.fromData.imgurl = res.path;
+      },
+    //增加
+    addUserBtn(type){
+      this.editDialog = true;
+      this.submitType = type;
+    },
+    // 修改
+      update(val,type){
+        this.editDialog = true;
+        this.submitType = type;
+        this.updateID = val.id;
+        this.fromData = {
+            username: val.userName,
+            password: val.passWord,
+            relPassword: val.passWord,
+            imgurl:val.image,
+          };
+      },
     // 添加用户
-    addUser() {
+    addUser(type) {
       if (this.fromData.username == "" || this.fromData.password == '' || this.fromData.password == '') {
         this.$message({
           message: '请输入信息',
@@ -142,22 +192,37 @@ export default {
         let params = {
           userName: this.fromData.username,
           passWord: this.fromData.password,
+          imgurl : this.fromData.password,
         }
-        this.$post(this.$api.addUser, params).then((data) => {
-          this.$message({
-            message: '添加成功',
-            type: 'success'
+        if(type=== 1){
+          this.$post(this.$api.addUser, params).then((data) => {
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            });
+            this.editDialog = false;
+            this.getUserList();
           });
-          this.editDialog = false;
-          this.getUserList();
-        });
+        }else if(type === 2){//修改接口
+          params.id = this.updateID;
+          this.$post(this.$api.updateUser, params).then((data) => {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            });
+            this.editDialog = false;
+            this.getUserList();
+          });
+        }
+
       }
 
     },
     //得到用户列表
     getUserList() {
       this.$post(this.$api.userQuery, this.paging).then((data) => {
-        this.tableData = data;
+        this.tableData = data.data;
+        this.paging.total = data.total;
       });
     },
     //查找用户
@@ -209,6 +274,32 @@ export default {
   }
 }
 </script>
+<style>
+
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+  }
+  .avatar {
+    width: 120px;
+    height: 120px;
+    display: block;
+  }
+</style>
 <style scoped>
 .search {
   overflow: hidden;
@@ -221,4 +312,5 @@ export default {
   background-color: white;
   text-align: right;
 }
+
 </style>

@@ -1,6 +1,7 @@
 // node 后端服务器
 
 const userApi = require('./api');//挂在接口
+const upload = require('./uploadApi/upload');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -16,10 +17,10 @@ app.get('*', function(req, res) {
     res.send(html)
 })
 // 后端api路由
-app.use('/api', userApi);
+app.use('/api', [userApi,upload]);
 // 监听端口
 app.listen(8088);
-console.log('success listen at port:8088......');
+console.log('服务启动成功 服务端口:8088......');
 
 
 

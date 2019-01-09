@@ -5,6 +5,7 @@ module.exports = {
         user: 'root',
         password: '',
         database: 'user',
-        port: '3306'
+        port: '3306',
+        multipleStatements:true,//多条语句
     }
 }

@@ -18,7 +18,7 @@
           </el-submenu>
         </el-menu>
         <div class="exit" @click="exitBtn">
-          <i class="el-icon-circle-close"></i>退出
+          <i class="el-icon-back"></i>退出
         </div>
       </el-aside>
       <el-container>
