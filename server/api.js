@@ -3,7 +3,6 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql'); //引入数据库驱动
 var $sql = require('./sqlfun'); //sql语句
-
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 
@@ -28,6 +27,7 @@ router.post('/login', (req, res) => {
         if (result[i].passWord == params.passWord) {
           data.isLogin = true;
           data.msg = '登陆成功';
+          data.data = result;
         } else {
           data.isLogin = false;
           data.msg = '密码错误';
@@ -116,7 +116,6 @@ router.post('/delectUser', (req, res) => {
 })
 //模糊查询
 router.post('/searchUser', (req, res) => {
-
   var sql = $sql.user.searchUser;
   var value = '%' + req.body.userSearch + '%';
   conn.query(sql, [value], function(err, result) {
@@ -127,5 +126,5 @@ router.post('/searchUser', (req, res) => {
       res.send(result);
     }
   })
-})
+});
 module.exports = router;

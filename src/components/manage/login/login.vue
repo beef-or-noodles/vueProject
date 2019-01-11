@@ -36,7 +36,8 @@ export default {
         });
       } else {
         this.$post(this.$api.login, params).then((data) => {
-          sessionStorage.setItem('isLogin', data.isLogin);
+          let user = JSON.stringify(data)
+          sessionStorage.setItem('userInfo', user);
           if (data.isLogin) {
             this.$message({
               message: '登录成功',

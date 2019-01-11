@@ -26,7 +26,7 @@
           <div>
             <div class="contentTop">
               <div class="icon">
-                <img src="../../../static/images/icon.jpg" alt="">
+                <img :src="userInfo.data[0].image" alt="">
               </div>
               <div class="message">
                 <el-badge :value="200" :max="99">
@@ -61,15 +61,20 @@ export default {
       isCollapse: true,
       menuData: '', //菜单数据
       textName: "C_CMS",
+      userInfo:'',
     }
   },
+  created(){
+    //得到登陆信息
+    var login = sessionStorage.getItem('userInfo');
+    var user = JSON.parse(login);
+    this.userInfo = user;
+  },
   mounted() {
-    //do something after mounting vue instance
     this.setRouter();
   },
   methods: {
     setRouter() {
-
       this.menuData = routerMenuData
     },
     exitBtn(){

@@ -3,7 +3,7 @@ var sqlMap = {
   countAll: 'select count(*) from userinfo', // ?表名   计算数据库总条数
   // 用户
   user: {
-    UserLogin: 'SELECT passWord FROM userinfo WHERE userName = ?;', //登陆语句
+    UserLogin: 'SELECT * FROM userinfo WHERE userName = ?;', //登陆语句
     UserAdd: 'insert into userinfo(userName, passWord, image) values ( ?, ?,?);', //添加语句
     UserQuery: "select * from userinfo limit ?,?;", //查询所有用户表
     delectUser: 'DELETE FROM userinfo WHERE id in (?);', //删除用户

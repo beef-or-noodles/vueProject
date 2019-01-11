@@ -19,13 +19,21 @@
       </el-table-column>
       <el-table-column label="用户ID" prop="id" width="80px" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="userName" label="用户名" show-overflow-tooltip>
+      <el-table-column prop="userName" width="70px" label="头像">
+        <template slot-scope="scope">
+          <div class="headIcon">
+            <img :src="scope.row.image"/>
+          </div>
+        </template>
       </el-table-column>
-      <el-table-column prop="userName" label="账号" show-overflow-tooltip>
+      <el-table-column prop="userName" label="用户名" show-overflow-tooltip>
       </el-table-column>
       <el-table-column prop="passWord" label="密码" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="creatTime" label="注册时间" show-overflow-tooltip>
+      <el-table-column prop="creatTime" width="140px" label="注册时间" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{setTime(scope.row.creatTime)}}</span>
+        </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="150">
         <template slot-scope="scope">
@@ -124,6 +132,12 @@ export default {
     this.getUserList();
   },
   methods: {
+    setTime:function(val){
+      let date = new Date(val);
+      let time = date.getTime();
+      let settime = this.$tool.formatTime(time/1000,true);
+      return settime
+    },
     // 改变每页条数
     changePagesize(value){
       this.paging.pageSize = value;
@@ -313,4 +327,13 @@ export default {
   text-align: right;
 }
 
+.headIcon{
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.headIcon img{
+  width: 100%;
+}
 </style>
