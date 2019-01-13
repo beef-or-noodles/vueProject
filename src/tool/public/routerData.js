@@ -19,6 +19,14 @@ export const routerMenuData = [{
   rooutMainIcon: 'el-icon-tickets',
   menuIndex: '1',
   rootMainList: [{
+    rootChildName: '栏目编辑',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/artice/columnEdit',
+    path: '/home/columnEdit',
+    name: 'columnEdit',
+    icon: '',
+  },{
     rootChildName: '文章列表',
     rootPower: true,
     rootLogin: true,

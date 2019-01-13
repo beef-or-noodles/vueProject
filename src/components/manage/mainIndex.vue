@@ -78,7 +78,7 @@ export default {
       this.menuData = routerMenuData
     },
     exitBtn(){
-      sessionStorage.removeItem('isLogin');
+      sessionStorage.removeItem('userInfo');
       this.$router.push('/login');
     }
   }

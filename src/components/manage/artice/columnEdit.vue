@@ -3,14 +3,14 @@
   <el-row :gutter="20">
     <el-col :span="4">
       <div class="search">
-        <el-input placeholder="搜索用户" @keyup.enter.native="searchUser" size="small" v-model="userSearch">
+        <el-input placeholder="搜索栏目" @keyup.enter.native="searchUser" size="small" v-model="userSearch">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </div>
     </el-col>
     <el-col :span="20">
       <el-button type="primary" size="small" @click="searchUser" icon="el-icon-search">搜索</el-button>
-      <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加用户</el-button>
+      <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加栏目</el-button>
       <el-button type="danger" size="small" @click="delect('',false)" icon="el-icon-delete">批量删除</el-button>
     </el-col>
   </el-row>
@@ -18,23 +18,11 @@
     <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark"  height="590" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection">
       </el-table-column>
-      <el-table-column label="用户ID" prop="id" width="80px" show-overflow-tooltip>
+      <el-table-column label="栏目ID" prop="id" width="80px" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="userName" width="70px" label="头像">
-        <template slot-scope="scope">
-          <div class="headIcon">
-            <img :src="scope.row.image"/>
-          </div>
-        </template>
+      <el-table-column prop="userName" label="父栏目名" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="userName" label="用户名" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column prop="passWord" label="密码" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column prop="creatTime" width="140px" label="注册时间" show-overflow-tooltip>
-        <template slot-scope="scope">
-          <span>{{setTime(scope.row.creatTime)}}</span>
-        </template>
+      <el-table-column prop="passWord" label="栏目名" show-overflow-tooltip>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="150">
         <template slot-scope="scope">

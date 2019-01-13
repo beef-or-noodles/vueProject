@@ -22,7 +22,7 @@ Vue.prototype.$tool = tool;//工具类
 Vue.config.productionTip = false;
 Vue.use(ElementUi); //调用element-ui
 /* eslint-disable no-new */
-router.push('/')
+// router.push('/')
 new Vue({
   el: '#app',
   router,

@@ -41,9 +41,7 @@ export default {
         });
       },
       bottomCode(){
-        this.$get(this.$api.getCode,{}).then((data)=>{
-          console.log(data);
-        });
+        this.$router.push('/login')
       }
   },
 }

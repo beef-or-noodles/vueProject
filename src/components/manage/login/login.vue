@@ -40,7 +40,7 @@ export default {
           sessionStorage.setItem('userInfo', user);
           if (data.isLogin) {
             this.$message({
-              message: '登录成功',
+              message: '欢迎回来'+data.data[0].userName,
               type: 'success'
             });
             this.$router.push({
