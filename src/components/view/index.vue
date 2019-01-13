@@ -318,7 +318,6 @@
 			<p class="copyright"></p>
 		</div>
 	</footer>
-	<!-- Footer section end -->
   </div>
 </template>
 <script>
