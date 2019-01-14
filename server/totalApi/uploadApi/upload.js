@@ -38,7 +38,7 @@ var createFolder = function(folder){
     }
 };
 
-var uploadFolder = './upload/';
+var uploadFolder = '../../upload/';
 createFolder(uploadFolder);
 
 // 创建 multer 对象

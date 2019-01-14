@@ -11,11 +11,11 @@
     <el-col :span="20">
       <el-button type="primary" size="small" @click="searchUser" icon="el-icon-search">搜索</el-button>
       <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加栏目</el-button>
-      <el-button type="danger" size="small" @click="delect('',false)" icon="el-icon-delete">批量删除</el-button>
+      <el-button type="danger" size="small" @click="delect('',false)" icon="el-icon-delete">批量删除栏目</el-button>
     </el-col>
   </el-row>
   <div class="content">
-    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark"  height="590" style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="590" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection">
       </el-table-column>
       <el-table-column label="栏目ID" prop="id" width="80px" show-overflow-tooltip>
@@ -23,6 +23,17 @@
       <el-table-column prop="userName" label="父栏目名" show-overflow-tooltip>
       </el-table-column>
       <el-table-column prop="passWord" label="栏目名" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column label="是否显示">
+        <template slot-scope="scope">
+          <el-switch v-model="ifShow" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否">
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column label="排序" width="150">
+        <template slot-scope="scope">
+          <el-input-number v-model="number1" size="small" @change="numberChange" :min="1" label="排序"></el-input-number>
+        </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="150">
         <template slot-scope="scope">
@@ -33,43 +44,35 @@
     </el-table>
     <div class="block">
 
-      <el-pagination
-        @size-change="changePagesize"
-        @current-change = "currentChange"
-        @prev-click = "prevClick"
-        @next-click = 'nextClick'
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="10"
-        layout="sizes, prev, pager, next"
-        :total="paging.total">
+      <el-pagination @size-change="changePagesize" @current-change="currentChange" @prev-click="prevClick" @next-click='nextClick' :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="sizes, prev, pager, next" :total="paging.total">
       </el-pagination>
     </div>
   </div>
   <!-- 增加弹窗 -->
-  <el-dialog title="增加用户" :visible.sync="editDialog" width="450px" :close-on-click-modal="false">
+  <el-dialog title="栏目编辑" :visible.sync="editDialog" width="450px" :close-on-click-modal="false">
     <div class="box">
       <el-form v-model="fromData" label-width="80px">
-        <el-form-item label="用户名:" prop="username">
+        <el-form-item label="栏目名称:" prop="username">
           <el-input v-model="fromData.username"></el-input>
         </el-form-item>
-        <el-form-item label="密码:" prop="password">
-          <el-input type="password" v-model="fromData.password"></el-input>
+        <el-form-item label="所属栏目:" prop="password">
+          <el-select v-model="value8" style="width:100%;" filterable placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="确认密码:" prop="relPassword">
-          <el-input type="password" v-model="fromData.relPassword"></el-input>
-        </el-form-item>
-        <el-form-item label="上传头像:" prop="imgurl">
-          <el-upload
-            class="avatar-uploader"
-            :action="$api.upload"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            >
-            <img v-if="fromData.imgurl" :src="fromData.imgurl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
+        <el-col :span="12">
+          <el-form-item label="是否显示:" prop="relPassword">
+            <el-switch v-model="ifShow"  active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="栏目排序:" prop="relPassword">
+            <el-input-number v-model="number1" size="small" @change="numberChange" :min="1" label="排序"></el-input-number>
+          </el-form-item>
+        </el-col>
       </el-form>
+
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="editDialog = false" size="small">取 消</el-button>
@@ -82,37 +85,59 @@
 export default {
   data() {
     return {
+      ifShow: true, //是否显示
+      number1: 6, //排序
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value8: '',
+
+
+
+
       editDialog: false,
-      submitType:1,//1：增加  2：修改
-      updateID:'',
+      submitType: 1, //1：增加  2：修改
+      updateID: '',
       userSearch: '',
       fromData: {
         username: '',
         password: '',
         relPassword: '',
-        imgurl:'',
       },
       tableData: [],
       idList: [],
-      paging:{
+      paging: {
         pageNo: 1,
         pageSize: 10,
-        total:1,
+        total: 1,
       },
     }
   },
   created() {
 
   },
-  watch:{
-    editDialog(val){
-      if(val == false){
+  watch: {
+    editDialog(val) {
+      if (val == false) {
         this.fromData = {
-            username: '',
-            password: '',
-            relPassword: '',
-            imgurl:'',
-          };
+          username: '',
+          password: '',
+          relPassword: '',
+          imgurl: '',
+        };
       };
     },
   },
@@ -121,29 +146,34 @@ export default {
     this.getUserList();
   },
   methods: {
-    setTime:function(val){
+    //排序改变
+    numberChange(val) {
+      console.log(val);
+    },
+    // 转换时间格式
+    setTime: function(val) {
       let date = new Date(val);
       let time = date.getTime();
-      let settime = this.$tool.formatTime(time/1000,true);
+      let settime = this.$tool.formatTime(time / 1000, true);
       return settime
     },
     // 改变每页条数
-    changePagesize(value){
+    changePagesize(value) {
       this.paging.pageSize = value;
       this.getUserList();
     },
     // 当前页改变
-    currentChange(val){
+    currentChange(val) {
       this.paging.pageNo = val;
       this.getUserList();
     },
     // 上一页
-    prevClick(val){
+    prevClick(val) {
       this.paging.pageNo = val;
       this.getUserList();
     },
     // 下一页
-    nextClick(val){
+    nextClick(val) {
       this.paging.pageNo = val;
       this.getUserList();
     },
@@ -156,27 +186,23 @@ export default {
       this.idList = arr;
     },
 
-    // 上传图片
-    handleAvatarSuccess(res, file) {
-        this.fromData.imgurl = res.path;
-      },
     //增加
-    addUserBtn(type){
+    addUserBtn(type) {
       this.editDialog = true;
       this.submitType = type;
     },
     // 修改
-      update(val,type){
-        this.editDialog = true;
-        this.submitType = type;
-        this.updateID = val.id;
-        this.fromData = {
-            username: val.userName,
-            password: val.passWord,
-            relPassword: val.passWord,
-            imgurl:val.image,
-          };
-      },
+    update(val, type) {
+      this.editDialog = true;
+      this.submitType = type;
+      this.updateID = val.id;
+      this.fromData = {
+        username: val.userName,
+        password: val.passWord,
+        relPassword: val.passWord,
+        imgurl: val.image,
+      };
+    },
     // 添加用户
     addUser(type) {
       if (this.fromData.username == "" || this.fromData.password == '' || this.fromData.password == '') {
@@ -193,9 +219,9 @@ export default {
         let params = {
           userName: this.fromData.username,
           passWord: this.fromData.password,
-          imgurl : this.fromData.imgurl,
+          imgurl: this.fromData.imgurl,
         }
-        if(type=== 1){
+        if (type === 1) {
           this.$post(this.$api.addUser, params).then((data) => {
             this.$message({
               message: '添加成功',
@@ -204,7 +230,7 @@ export default {
             this.editDialog = false;
             this.getUserList();
           });
-        }else if(type === 2){//修改接口
+        } else if (type === 2) { //修改接口
           params.id = this.updateID;
           this.$post(this.$api.updateUser, params).then((data) => {
             this.$message({
@@ -227,13 +253,13 @@ export default {
       });
     },
     //查找用户
-    searchUser(){
+    searchUser() {
       let params = {
-        userSearch:this.userSearch,
+        userSearch: this.userSearch,
       }
-      if(this.userSearch == ''){
+      if (this.userSearch == '') {
         this.getUserList();
-      }else{
+      } else {
         this.$post(this.$api.searchUser, params).then((data) => {
           this.tableData = data;
         });
@@ -245,14 +271,14 @@ export default {
       if (type) {
         params.id = id;
       } else {
-        if(this.idList == "" || this.idList.length == 0) {
+        if (this.idList == "" || this.idList.length == 0) {
           this.$message({
             message: '请选择记录',
             type: 'info',
-            duration:1500,
+            duration: 1500,
           });
           return;
-        }else{
+        } else {
           params.idList = this.idList;
         }
 
@@ -262,13 +288,13 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-          this.$post(this.$api.delectUser, params).then((data) => {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            });
-            this.getUserList();
+        this.$post(this.$api.delectUser, params).then((data) => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
           });
+          this.getUserList();
+        });
       }).catch(() => {});
 
     }
@@ -276,30 +302,32 @@ export default {
 }
 </script>
 <style>
-
 .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 120px;
-    height: 120px;
-    line-height: 120px;
-    text-align: center;
-  }
-  .avatar {
-    width: 120px;
-    height: 120px;
-    display: block;
-  }
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  display: block;
+}
 </style>
 <style scoped>
 .search {
@@ -309,18 +337,20 @@ export default {
 .content {
   margin: 20px 0;
 }
-.block{
+
+.block {
   background-color: white;
   text-align: right;
 }
 
-.headIcon{
+.headIcon {
   width: 40px;
   height: 40px;
   border-radius: 5px;
   overflow: hidden;
 }
-.headIcon img{
+
+.headIcon img {
   width: 100%;
 }
 </style>

@@ -1,8 +1,8 @@
-var models = require('./db'); //数据库链接信息
+var models = require('../db'); //数据库链接信息
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql'); //引入数据库驱动
-var $sql = require('./sqlfun'); //sql语句
+var $sql = require('../sqlfun'); //sql语句
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 
