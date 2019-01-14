@@ -235,8 +235,7 @@ export default {
     },
     // 上传之前
     handlePreview(file,fileList) {
-      console.log(file);
-      this.imgurl = file;
+      this.imgurl = URL.createObjectURL(file.raw);
     },
     // 上传图片
     handleAvatarSuccess(res, file) {
