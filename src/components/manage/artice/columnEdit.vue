@@ -208,10 +208,6 @@ export default {
         } else if (type === 2) { //修改接口
           params.id = this.updateID;
           this.$post(this.$api.updateUser, params).then((data) => {
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            });
             this.editDialog = false;
             this.getUserList();
           });

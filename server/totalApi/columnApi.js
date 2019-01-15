@@ -12,6 +12,12 @@ conn.connect();
 router.post('/addColumn',(req,res)=>{
   var sql = $sql.column.addColumn;
   var params = req.body;
+  if(params.show){
+    params.show = 1;
+  }else{
+    params.show = 0;
+  }
+  console.log(params);
   conn.query(sql,[params.columnName,params.belongId,params.sort,params.show],function(err,result){
     if(err){
       console.log(err);

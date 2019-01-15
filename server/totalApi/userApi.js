@@ -34,7 +34,8 @@ router.post('/login', (req, res) => {
           data.msg = '密码错误';
         }
       }
-      res.send(data); //返回数据给前台
+      let rdata = returnData(200,data,'登陆成功',false);
+      res.send(rdata); //返回数据给前台
     }
   })
 });
