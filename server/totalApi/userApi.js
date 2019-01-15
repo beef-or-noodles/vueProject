@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql'); //引入数据库驱动
 var $sql = require('../sqlfun'); //sql语句
+var returnData = require('../tool/returnData');//返回数据封装
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 
@@ -34,7 +35,6 @@ router.post('/login', (req, res) => {
         }
       }
       res.send(data); //返回数据给前台
-      res.end('is over');
     }
   })
 });
@@ -47,8 +47,8 @@ router.post('/addUser', (req, res) => {
       console.log(err);
     }
     if (result) {
-      res.send("返回回来了！");
-      res.end('is over');
+      let data = returnData(200,'','添加成功',true);
+      res.send(data);
     }
   })
 });
@@ -73,7 +73,9 @@ router.post('/userQuery', (req, res) => {
         'pageNo' : pageNo,
         'data':result[1],
       };
-      res.send(data);
+
+      let rdata = returnData(200,data,'',false);
+      res.send(rdata);
     }
   })
 });
@@ -90,7 +92,8 @@ router.post('/updateUser',(req,res)=>{
       console.log(err);
     }
     if(result){
-      res.send('成功');
+      let rdata = returnData(200,'','',true);
+      res.send(rdata);
     }
   })
 });
@@ -110,7 +113,8 @@ router.post('/delectUser', (req, res) => {
       console.log(err);
     }
     if (result) {
-      res.send("成功");
+      let rdata = returnData(200,'','删除成功',true);
+      res.send(rdata);
     }
   })
 })
@@ -123,7 +127,8 @@ router.post('/searchUser', (req, res) => {
       console.log(err);
     }
     if (result) {
-      res.send(result);
+      let rdata = returnData(200,result,'共找到 '+result.length+' 条数据',true);
+      res.send(rdata);
     }
   })
 });

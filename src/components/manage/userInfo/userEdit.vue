@@ -170,7 +170,7 @@ export default {
 
     // 上传图片
     handleAvatarSuccess(res, file) {
-        this.fromData.imgurl = res.path;
+        this.fromData.imgurl = res.data.path;
       },
     //增加
     addUserBtn(type){
@@ -209,20 +209,12 @@ export default {
         }
         if(type=== 1){
           this.$post(this.$api.addUser, params).then((data) => {
-            this.$message({
-              message: '添加成功',
-              type: 'success'
-            });
             this.editDialog = false;
             this.getUserList();
           });
         }else if(type === 2){//修改接口
           params.id = this.updateID;
           this.$post(this.$api.updateUser, params).then((data) => {
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            });
             this.editDialog = false;
             this.getUserList();
           });
@@ -259,7 +251,7 @@ export default {
       } else {
         if(this.idList == "" || this.idList.length == 0) {
           this.$message({
-            message: '请选择记录',
+            message: '请选择',
             type: 'info',
             duration:1500,
           });
@@ -275,10 +267,6 @@ export default {
         type: 'warning'
       }).then(() => {
           this.$post(this.$api.delectUser, params).then((data) => {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            });
             this.getUserList();
           });
       }).catch(() => {});

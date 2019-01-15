@@ -52,23 +52,23 @@
   <el-dialog title="栏目编辑" :visible.sync="editDialog" width="450px" :close-on-click-modal="false">
     <div class="box">
       <el-form v-model="fromData" label-width="80px">
-        <el-form-item label="栏目名称:" prop="username">
-          <el-input v-model="fromData.username"></el-input>
+        <el-form-item label="栏目名称:">
+          <el-input v-model="fromData.columnName"></el-input>
         </el-form-item>
-        <el-form-item label="所属栏目:" prop="password">
-          <el-select v-model="value8" style="width:100%;" filterable placeholder="请选择">
+        <el-form-item label="所属栏目:">
+          <el-select v-model="fromData.belongId" style="width:100%;" filterable placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-col :span="12">
-          <el-form-item label="是否显示:" prop="relPassword">
-            <el-switch v-model="ifShow"  active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
+          <el-form-item label="是否显示:">
+            <el-switch v-model="fromData.show"  active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="栏目排序:" prop="relPassword">
-            <el-input-number v-model="number1" size="small" @change="numberChange" :min="1" label="排序"></el-input-number>
+            <el-input-number v-model="fromData.sort" size="small" @change="numberChange" :min="0" label="排序"></el-input-number>
           </el-form-item>
         </el-col>
       </el-form>
@@ -113,9 +113,10 @@ export default {
       updateID: '',
       userSearch: '',
       fromData: {
-        username: '',
-        password: '',
-        relPassword: '',
+        columnName: '',
+        belongId: '',
+        sort: '',
+        show: '',
       },
       tableData: [],
       idList: [],
@@ -133,10 +134,10 @@ export default {
     editDialog(val) {
       if (val == false) {
         this.fromData = {
-          username: '',
-          password: '',
-          relPassword: '',
-          imgurl: '',
+          columnName: '',
+          sort: false,
+          belongId: '',
+          show: 0,
         };
       };
     },
@@ -149,13 +150,6 @@ export default {
     //排序改变
     numberChange(val) {
       console.log(val);
-    },
-    // 转换时间格式
-    setTime: function(val) {
-      let date = new Date(val);
-      let time = date.getTime();
-      let settime = this.$tool.formatTime(time / 1000, true);
-      return settime
     },
     // 改变每页条数
     changePagesize(value) {
@@ -205,28 +199,9 @@ export default {
     },
     // 添加用户
     addUser(type) {
-      if (this.fromData.username == "" || this.fromData.password == '' || this.fromData.password == '') {
-        this.$message({
-          message: '请输入信息',
-          type: 'info'
-        });
-      } else if (this.fromData.password !== this.fromData.relPassword) {
-        this.$message({
-          message: '与输入密码不符',
-          type: 'info'
-        });
-      } else {
-        let params = {
-          userName: this.fromData.username,
-          passWord: this.fromData.password,
-          imgurl: this.fromData.imgurl,
-        }
+        let params = this.fromData;
         if (type === 1) {
-          this.$post(this.$api.addUser, params).then((data) => {
-            this.$message({
-              message: '添加成功',
-              type: 'success'
-            });
+          this.$post(this.$api.addColumn, params).then((data) => {
             this.editDialog = false;
             this.getUserList();
           });
@@ -241,8 +216,6 @@ export default {
             this.getUserList();
           });
         }
-
-      }
 
     },
     //得到用户列表

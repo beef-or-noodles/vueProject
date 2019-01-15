@@ -243,7 +243,7 @@ export default {
         message: '上传成功',
         type: 'success'
       });
-      this.fromData.imgurl = res.path;
+      this.fromArtie.imgurl = res.data.path;
     },
     //手动上传缩略图
     submitUpload() {

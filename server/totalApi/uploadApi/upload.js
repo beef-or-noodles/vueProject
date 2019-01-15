@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var returnData = require('../../tool/returnData');
 /*
  1. fs.stat  检测是文件还是目录(目录 文件是否存在)
  2. fs.mkdir  创建目录 （创建之前先判断是否存在）
@@ -49,7 +49,9 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
     var file = req.file;
     // 接收文件成功后返回数据给前端
     let pathUrl = `/server/${file.destination}/${file.filename}`
-    res.json({path: pathUrl});
+    var data = {path: pathUrl};
+    var returnD = returnData(200,data,'上传成功',true);
+    res.json(returnD);
 });
 
 // 导出模块（在 app.js 中引入）

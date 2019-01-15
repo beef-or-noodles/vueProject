@@ -1,6 +1,6 @@
 // node 后端服务器
 
-const userApi = require('./totalApi/userApi');//挂在接口
+const userApi = require('./totalApi/userApi.js');//挂在接口
 const upload = require('./totalApi/uploadApi/upload');
 const fs = require('fs');
 const path = require('path');

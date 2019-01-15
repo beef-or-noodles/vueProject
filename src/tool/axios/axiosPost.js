@@ -12,19 +12,21 @@ let loading;
 axios.interceptors.request.use(function(config) {
   //发送请求前做些什么
   config => {
-      const token = localStorage.getItem('TOKEN');//得到存入浏览器的token
+      const token = localStorage.getItem('TOKEN'); //得到存入浏览器的token
       config.data = JSON.stringify(config.data);
       config.timeout = 3000;
-      config.headers = {'Content-Type': 'application/json'}
-      if(token){
-         config.headers.token = token;
+      config.headers = {
+        'Content-Type': 'application/json'
+      }
+      if (token) {
+        config.headers.token = token;
       }
       return config;
     },
     setloading(); //加载动画
   return config;
 }, function(error) {
-    endLoading();
+  endLoading();
   // 对请求错误做些什么
   return Promise.reject(error);
 });
@@ -77,30 +79,44 @@ export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.post(url, data)
       .then(response => {
-          resolve(response.data);
+        if (response.data.code == 200) {
+          if (response.data.diaShow) {
+            messageBox('success', response.data.msg, 1500);
+          }
+          resolve(response.data.data);
+        } else {
+          messageBox('error', response.data.msg, 1500);
+        }
       }, err => {
         let status = err.response.status;
-        if(status === 404){
-          messageBox('error', '没找到请求地址'+status, 1500);
-        }else if(status === 500){
-          messageBox('error', '服务器错误'+status, 1500);
+        if (status === 404) {
+          messageBox('error', '没找到请求地址' + status, 1500);
+        } else if (status === 500 || status === 504) {
+          messageBox('error', '服务器错误' + status, 1500);
         }
         reject(err)
       })
   })
 };
 //get 请求
-export function get(url, data = {}) {
+export function get(url) {
   return new Promise((resolve, reject) => {
     axios.get(url, data)
       .then(response => {
-          resolve(response.data);
+        if (response.data.code == 200) {
+          resolve(response.data.data);
+          if (response.data.diaShow) {
+            messageBox('success', response.data.msg, 1500);
+          }
+        } else {
+          messageBox('error', response.data.msg, 1500);
+        }
       }, err => {
         let status = err.response.status;
-        if(status === 404){
-          messageBox('error', '没找到请求地址'+status, 1500);
-        }else if(status === 500){
-          messageBox('error', '服务器错误'+status, 1500);
+        if (status === 404) {
+          messageBox('error', '没找到请求地址' + status, 1500);
+        } else if (status === 500 || status === 504) {
+          messageBox('error', '服务器错误' + status, 1500);
         }
         reject(err)
       })
