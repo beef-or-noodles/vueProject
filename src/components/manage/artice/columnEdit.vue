@@ -11,28 +11,25 @@
     <el-col :span="20">
       <el-button type="primary" size="small" @click="searchUser" icon="el-icon-search">搜索</el-button>
       <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加栏目</el-button>
-      <el-button type="danger" size="small" @click="delect('',false)" icon="el-icon-delete">批量删除栏目</el-button>
     </el-col>
   </el-row>
   <div class="content">
-    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="590" style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection">
-      </el-table-column>
+    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="590" style="width: 100%" :default-sort = "{prop: 'id', order: 'ascending'}" >
       <el-table-column label="栏目ID" prop="id" width="80px" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="userName" label="父栏目名" show-overflow-tooltip>
+      <el-table-column prop="belongName" label="父栏目名" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="passWord" label="栏目名" show-overflow-tooltip>
+      <el-table-column prop="columnName" label="栏目名" show-overflow-tooltip>
       </el-table-column>
       <el-table-column label="是否显示">
         <template slot-scope="scope">
-          <el-switch v-model="ifShow" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否">
-          </el-switch>
+          <span v-if="scope.row.checkRoot == 1" style="color:#00b504;">是</span>
+          <span v-else style="color:red;">否</span>
         </template>
       </el-table-column>
       <el-table-column label="排序" width="150">
         <template slot-scope="scope">
-          <el-input-number v-model="number1" size="small" @change="numberChange" :min="1" label="排序"></el-input-number>
+          <el-input-number v-model="scope.row.sort" size="small" @change="numberChange" :min="0" label="排序"></el-input-number>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="150">
@@ -42,11 +39,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block">
-
-      <el-pagination @size-change="changePagesize" @current-change="currentChange" @prev-click="prevClick" @next-click='nextClick' :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="sizes, prev, pager, next" :total="paging.total">
-      </el-pagination>
-    </div>
   </div>
   <!-- 增加弹窗 -->
   <el-dialog title="栏目编辑" :visible.sync="editDialog" width="450px" :close-on-click-modal="false">
@@ -56,14 +48,16 @@
           <el-input v-model="fromData.columnName"></el-input>
         </el-form-item>
         <el-form-item label="所属栏目:">
-          <el-select v-model="fromData.belongId" style="width:100%;" filterable placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          <el-select v-model="fromData.belongId" style="width:100%;" filterable value-key="id" placeholder="请选择">
+            <el-option :key="0" label="顶级栏目" :value="{id:'0',name:'顶级栏目'}">
+            </el-option>
+            <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
         <el-col :span="12">
           <el-form-item label="是否显示:">
-            <el-switch v-model="fromData.show"  active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
+            <el-switch v-model="fromData.checkRoot" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -87,26 +81,8 @@ export default {
     return {
       ifShow: true, //是否显示
       number1: 6, //排序
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
+      options: [],
       value8: '',
-
-
-
 
       editDialog: false,
       submitType: 1, //1：增加  2：修改
@@ -114,17 +90,15 @@ export default {
       userSearch: '',
       fromData: {
         columnName: '',
-        belongId: '',
-        sort: '',
-        show: '',
+        belongId: {
+          id: '0',
+          name: '顶级栏目'
+        },
+        sort: 0,
+        checkRoot: true,
       },
       tableData: [],
       idList: [],
-      paging: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 1,
-      },
     }
   },
   created() {
@@ -136,89 +110,97 @@ export default {
         this.fromData = {
           columnName: '',
           sort: false,
-          belongId: '',
-          show: 0,
+          belongId: {
+            id: '0',
+            name: '顶级栏目'
+          },
+          checkRoot: true,
+          sort:0,
         };
+      } else {
+        this.selectColumn();
       };
     },
   },
   mounted() {
     //do something after mounting vue instance
     this.getUserList();
+    this.selectColumn();
   },
   methods: {
     //排序改变
     numberChange(val) {
       console.log(val);
     },
-    // 改变每页条数
-    changePagesize(value) {
-      this.paging.pageSize = value;
-      this.getUserList();
-    },
-    // 当前页改变
-    currentChange(val) {
-      this.paging.pageNo = val;
-      this.getUserList();
-    },
-    // 上一页
-    prevClick(val) {
-      this.paging.pageNo = val;
-      this.getUserList();
-    },
-    // 下一页
-    nextClick(val) {
-      this.paging.pageNo = val;
-      this.getUserList();
-    },
-    // 多选
-    handleSelectionChange(val) {
-      let arr = []
-      for (let i in val) {
-        arr.push(val[i].id)
-      }
-      this.idList = arr;
-    },
-
     //增加
     addUserBtn(type) {
       this.editDialog = true;
       this.submitType = type;
     },
-    // 修改
+    // 查询顶级栏目
+    selectColumn() {
+      this.$post(this.$api.selectColumn).then((data) => {
+        let arr = []
+        for(let i in data){
+          arr.push({id:data[i].id,name:data[i].columnName});
+        }
+        this.options = arr;
+      });
+    },
+    // 修改栏目
     update(val, type) {
       this.editDialog = true;
       this.submitType = type;
       this.updateID = val.id;
-      this.fromData = {
-        username: val.userName,
-        password: val.passWord,
-        relPassword: val.passWord,
-        imgurl: val.image,
+      let num = '';
+      let select = {
+        id: val.belongId,
+        name: val.belongName,
       };
+
+      if (val.checkRoot == 1) {
+        num = true;
+      } else {
+        num = false;
+      }
+      let _this = this;
+      this.fromData = {
+        columnName: val.columnName,
+        belongId: select,
+        sort: val.sort,
+        checkRoot: num,
+      }
+
+
     },
-    // 添加用户
+    // 添加栏目
     addUser(type) {
-        let params = this.fromData;
-        if (type === 1) {
+      let params = this.fromData;
+      if (type === 1) {
+        if(this.fromData.columnName != ""){
           this.$post(this.$api.addColumn, params).then((data) => {
             this.editDialog = false;
             this.getUserList();
           });
-        } else if (type === 2) { //修改接口
-          params.id = this.updateID;
-          this.$post(this.$api.updateUser, params).then((data) => {
-            this.editDialog = false;
-            this.getUserList();
+        }else{
+          this.$message({
+            message: '请输入栏目名称',
+            type: 'info'
           });
         }
+      } else if (type === 2) { //修改接口
+        params.id = this.updateID;
+        this.$post(this.$api.updateColumn, params).then((data) => {
+          this.editDialog = false;
+          this.getUserList();
+        });
+      }
 
     },
-    //得到用户列表
+    //得到栏目列表
     getUserList() {
-      this.$post(this.$api.userQuery, this.paging).then((data) => {
-        this.tableData = data.data;
-        this.paging.total = data.total;
+      this.$post(this.$api.queryColumn).then((data) => {
+        this.tableData = data;
       });
     },
     //查找用户
@@ -229,7 +211,7 @@ export default {
       if (this.userSearch == '') {
         this.getUserList();
       } else {
-        this.$post(this.$api.searchUser, params).then((data) => {
+        this.$post(this.$api.searchColumn, params).then((data) => {
           this.tableData = data;
         });
       }
@@ -257,11 +239,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$post(this.$api.delectUser, params).then((data) => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          });
+        this.$post(this.$api.delectColumn, params).then((data) => {
           this.getUserList();
         });
       }).catch(() => {});

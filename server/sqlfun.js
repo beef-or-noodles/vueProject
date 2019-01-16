@@ -12,11 +12,12 @@ var sqlMap = {
   },
   //栏目
   column:{
-    addColumn:'insert into column(columnName,belongId,sort,show) values (?,?,?,?) ',//增加栏目
-    queryColumn:'select * from column limit ?,?',//查询栏目表
-    delectColumn:'delect from columm where id in (?)',//删除栏目
-    searchColumn:'select * from columm where concat(columnName) like ?',//根据名字模糊查询
-    updateColumn:'update columm set columnName = ? ,belongId = ? , sort = ? , show = ? ,where id = ?',//根据ID修改
+    addColumn:'insert into columnList(columnName, belongId, sort, checkRoot, belongName) values ( ?, ?, ?, ?,?);',//增加栏目
+    queryColumn:'select * from columnList;',//查询栏目表
+    queryTopColumn:'select * from columnList where belongId = ?;',//查询栏目表
+    delectColumn:'delete from columnList where id in (?);',//删除栏目
+    searchColumn:'select * from columnList where concat(columnName) like ?;',//根据名字模糊查询
+    updateColumn:'update columnList set columnName = ? ,belongId = ? , checkRoot = ? ,belongName = ?, sort = ? where id = ?;',//根据ID修改
   }
 }
 

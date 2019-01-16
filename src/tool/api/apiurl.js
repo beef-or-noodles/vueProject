@@ -10,5 +10,9 @@ export default{
   updateUser:baseURL + '/updateUser',//修改用户信息
 
   addColumn:baseURL + '/addColumn',//修改用户信息
-
+  selectColumn:baseURL + '/selectColumn',//查询顶级栏目
+  queryColumn:baseURL + '/queryColumn',//查询顶级栏目
+  searchColumn:baseURL + '/searchColumn',//模糊查询
+  delectColumn:baseURL + '/delectColumn',//删除栏目
+  updateColumn:baseURL + '/updateColumn',//修改
 }

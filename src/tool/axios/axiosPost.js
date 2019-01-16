@@ -94,6 +94,7 @@ export function post(url, data = {}) {
         } else if (status === 500 || status === 504) {
           messageBox('error', '服务器错误' + status, 1500);
         }
+        endLoading();
         reject(err)
       })
   })
@@ -118,6 +119,7 @@ export function get(url) {
         } else if (status === 500 || status === 504) {
           messageBox('error', '服务器错误' + status, 1500);
         }
+        endLoading();
         reject(err)
       })
   })
