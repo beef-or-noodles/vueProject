@@ -142,7 +142,7 @@ export default {
       this.$post(this.$api.selectColumn).then((data) => {
         let arr = []
         for(let i in data){
-          arr.push({id:data[i].id,name:data[i].columnName});
+          arr.push({id:data[i].id+'',name:data[i].columnName});
         }
         this.options = arr;
       });
@@ -154,7 +154,7 @@ export default {
       this.updateID = val.id;
       let num = '';
       let select = {
-        id: val.belongId,
+        id: val.belongId+'',
         name: val.belongName,
       };
 
@@ -199,11 +199,11 @@ export default {
     },
     //得到栏目列表
     getUserList() {
-      this.$post(this.$api.queryColumn).then((data) => {
+      this.$post(this.$api.queryColumn,{type:0}).then((data) => {
         this.tableData = data;
       });
     },
-    //查找用户
+    //查找栏目
     searchUser() {
       let params = {
         userSearch: this.userSearch,

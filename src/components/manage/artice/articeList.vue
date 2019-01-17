@@ -21,12 +21,12 @@
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
         <!-- 栏目树 -->
-        <el-tree :data="data2" :props="defaultProps" :filter-node-method="filterNode" ref="tree2"></el-tree>
+        <el-tree :data="treeData" :props="defaultProps" :filter-node-method="filterNode" @node-click="treeClick" ref="tree2"></el-tree>
       </div>
     </el-col>
     <el-col :span="19">
       <div>
-        <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="590" style="width: 100%">
+        <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="613" style="width: 100%">
           <el-table-column type="selection">
           </el-table-column>
           <el-table-column label="" width='80'>
@@ -79,6 +79,14 @@
             <el-form-item label="文章摘要:" style="margin-bottom:10px;">
               <el-input type="textarea" v-model="fromArtie.title" size="small"></el-input>
             </el-form-item>
+            <el-form-item label="所属栏目:">
+              <el-select v-model="fromArtie.belongId" style="width:100%;" filterable value-key="id" placeholder="请选择">
+                <el-option :key="0" label="顶级栏目" :value="{id:'0',name:'顶级栏目'}">
+                </el-option>
+                <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item">
+                </el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="创建时间:">
               <el-date-picker v-model="fromArtie.time" type="datetime" placeholder="选择日期时间" default-time="12:00:00" style="width:100%;">
               </el-date-picker>
@@ -130,6 +138,7 @@ export default {
         pageSize: 10,
         total: 30,
       },
+      options:[],
       fromArtie: {
         title: '',
         time: '',
@@ -137,6 +146,10 @@ export default {
         audit: false,
         imgurl: '',
         content: '',
+        belongId:{
+          id: '0',
+          name: '顶级栏目'
+        },
       },
       tableData: [{
         date: '2016-05-03',
@@ -145,56 +158,8 @@ export default {
         city: '普陀区',
         address: '上海市普陀区金沙江路 1518 弄',
         zip: 200333
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
       }],
-      data2: [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
-      }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }],
+      treeData: [],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -207,7 +172,8 @@ export default {
     }
   },
   mounted() {
-
+    this.getTreeList();//得到树壮列表
+    this.getColumnList();
   },
   methods: {
     // 改变每页条数
@@ -249,9 +215,34 @@ export default {
     submitUpload() {
       this.$refs.upload.submit();
     },
-    // 富文本编辑框改变时间
+    // 富文本编辑框改变事件
     change(val) {
       this.fromArtie.content = val;
+    },
+    //得到栏目列表
+    getTreeList() {
+      this.$post(this.$api.queryColumn,{type:1}).then((data) => {
+        this.treeData = data;
+      });
+    },
+    // 树点击事件
+    treeClick(data,index,val){
+      let id = data.id; //当前点击栏目id
+      console.log(data.id);
+    },
+    //查询所有栏目
+    getColumnList() {
+      this.$post(this.$api.queryColumn,{type:0}).then((data) => {
+        var arr = [];
+        for(let i in data){
+          let item = {
+            id:data[i].id,
+            name:data[i].columnName,
+          }
+          arr.push(item);
+        }
+        this.options = arr;
+      });
     },
   },
 }
@@ -301,15 +292,14 @@ export default {
 .content {
   margin: 20px 0;
   margin-bottom: 0;
-  background-color: white;
   height: 645px;
   overflow: auto;
 }
 
 .columnLeft {
-  border-right: 1px solid #dcdfe6;
   height: 645px;
   overflow: auto;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .image {
@@ -331,7 +321,6 @@ export default {
 }
 
 .block {
-  background-color: white;
   text-align: right;
 }
 

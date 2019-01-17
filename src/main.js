@@ -8,7 +8,8 @@ import ElementUi from 'element-ui'; //引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'; //手动引入element-ui 的css
 import Qs from 'qs';
 import store from './tool/vuex/store/store.js';
-import tool from './tool/public.js'
+import tool from './tool/public.js';
+import './assets/css/elementUI.css';
 import {
   post,
   get

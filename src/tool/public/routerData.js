@@ -35,12 +35,12 @@ export const routerMenuData = [{
     name: 'articeList',
     icon: '',
   }, {
-    rootChildName: '文章编辑',
+    rootChildName: '回收站',
     rootPower: true,
     rootLogin: true,
-    rootPath: '/manage/artice/articeEdit',
-    path: '/home/articeEdit',
-    name: 'articeEdit',
+    rootPath: '/manage/artice/recycle',
+    path: '/home/recycle',
+    name: 'recycle',
     icon: '',
   }]
 }, {

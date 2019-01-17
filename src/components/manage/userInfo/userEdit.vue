@@ -310,7 +310,6 @@ export default {
   margin: 20px 0;
 }
 .block{
-  background-color: white;
   text-align: right;
 }
 

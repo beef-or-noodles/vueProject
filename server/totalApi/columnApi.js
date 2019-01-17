@@ -42,16 +42,132 @@ router.post('/selectColumn', (req, res) => {
   });
 });
 // 查找所有栏目
-//查找顶级栏目
+/*
+*title 排序字段
+*type true 升序 fasle 降序
+*/
+function sortRule(title,type){
+  return function(a,b){
+    var v1 = a[title];
+    var v2 = b[title];
+    if(type){
+      if(v1<v2){
+        return -1
+      }else if(v1 == v2){
+        return 0
+      }else if(v1 > v2){
+        return 1
+      }
+    }else{
+      if(v1 > v2){
+        return -1
+      }else if(v1 == v2){
+        return 0
+      }else if(v1 < v2){
+        return 1
+      }
+    }
+
+  }
+}
+/*
+ *type 0 查看所有   1.按照树型格式输出 2 按照树型格式输出只有可看的
+ */
 router.post('/queryColumn', (req, res) => {
   var sql = $sql.column.queryColumn;
+  var type = req.body.type;
   conn.query(sql, function(err, result) {
     if (err) {
       console.log(err);
     };
     if (result) {
-      let data = result;
-      var rdata = returnData(200, data, '', false);
+      var data = result;
+      var rdata = '';
+      if (type == 0) {
+        rdata = returnData(200, data, '', false);
+      } else if (type == 1) {
+        /*
+         *------返回树型结构显示全部------------------------------
+         */
+        var rootMenu = []; //父栏目
+        var chird = []; //子栏目
+        var setData = [];
+        // 拆分父子栏目
+        for (let i in data) {
+          if (data[i].belongId == 0) {
+            rootMenu.push(data[i])
+          } else {
+            chird.push(data[i])
+          }
+        }
+         rootMenu.sort(sortRule('sort',true));//排序
+
+        // 拼合树型数据
+        for (let f in rootMenu) {
+              var id = rootMenu[f].id; //取得父ID
+              var name = rootMenu[f].columnName; //取得父名字
+              var children = []; //子栏目
+              for (let q in chird) {
+                  var cId = chird[q].belongId;
+                  if (id == cId) {
+                    children.push({
+                      'id': chird[q].id,
+                      'label': chird[q].columnName,
+                    })
+                  }
+              }
+              children.sort(sortRule('sort',true));//排序
+              let arr = {
+                'id': id,
+                'label': name,
+                'children': children,
+              }
+              setData.push(arr);
+
+          }
+        rdata = returnData(200, setData, '', false);
+      }else if (type == 2) {
+        /*
+         *------返回树型结构显示过滤------------------------------
+         */
+        var rootMenu = []; //父栏目
+        var chird = []; //子栏目
+        var setData = [];
+        // 拆分父子栏目
+        for (let i in data) {
+          if (data[i].belongId == 0) {
+            rootMenu.push(data[i])
+          } else {
+            chird.push(data[i])
+          }
+        }
+        // 拼合树型数据
+        for (let f in rootMenu) {
+            if (rootMenu[f].checkRoot == 1) {
+              var id = rootMenu[f].id; //取得父ID
+              var name = rootMenu[f].columnName; //取得父名字
+              var children = []; //子栏目
+              for (let q in chird) {
+                if (rootMenu[f].checkRoot == 1) {
+                  var cId = chird[q].belongId;
+                  if (id == cId) {
+                    children.push({
+                      'id': chird[q].id,
+                      'label': chird[q].columnName,
+                    })
+                  }
+                }
+              }
+              let arr = {
+                'id': id,
+                'label': name,
+                'children': children,
+              }
+              setData.push(arr);
+            }
+          }
+        rdata = returnData(200, setData, '', false);
+      }
       res.send(rdata);
     }
   });
@@ -98,7 +214,7 @@ router.post('/delectColumn', (req, res) => {
             res.send(rdata);
           }
         })
-      }else{ //存在
+      } else { //存在
         let rdata = returnData(500, '', '此栏目是顶级栏目，请确保没有子栏目再删除', true);
         res.send(rdata);
       }
@@ -109,7 +225,7 @@ router.post('/delectColumn', (req, res) => {
 })
 
 // 修改
-router.post('/updateColumn',(req,res)=>{
+router.post('/updateColumn', (req, res) => {
   var sql = $sql.column.updateColumn;
   var id = req.body.id;
   var columnName = req.body.columnName;
@@ -117,12 +233,12 @@ router.post('/updateColumn',(req,res)=>{
   var checkRoot = req.body.checkRoot;
   var belongName = req.body.belongId.name;
   var sort = req.body.sort;
-  conn.query(sql,[columnName,belongId,checkRoot,belongName,sort,id],function(err,result){
-    if(err){
+  conn.query(sql, [columnName, belongId, checkRoot, belongName, sort, id], function(err, result) {
+    if (err) {
       console.log(err);
     }
-    if(result){
-      let rdata = returnData(200,'','',true);
+    if (result) {
+      let rdata = returnData(200, '', '', true);
       res.send(rdata);
     }
   })

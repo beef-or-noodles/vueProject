@@ -1,0 +1,18 @@
+.el-table, .el-table__expanded-cell{
+  background: inherit;
+}
+.el-table th, .el-table tr{
+  background: rgba(255, 255, 255, 0.4);
+}
+.el-input__inner{
+  background: rgba(255, 255, 255, 0.6);
+}
+.v-modal{
+  position: static;
+}
+.el-tree{
+  background:inherit;
+}
+.el-pagination .btn-next, .el-pagination .btn-prev{
+  background: rgba(255, 255, 255, 0.6);
+}

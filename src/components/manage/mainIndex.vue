@@ -1,12 +1,21 @@
 <template>
 <div class="home">
+
+  <audio controls autoplay>
+      <!-- <source src="mp3/Approaching%20Nirvana%20-%20You.mp3"> -->
+  </audio>
+  <div id="background" class="wall"></div>
+  <div id="midground" class="wall"></div>
+  <div id="foreground" class="wall"></div>
+  <div id="top" class="wall"></div>
+
   <div class="allContent">
     <el-container>
       <el-aside width="200px" class="leftNav" :class="{active:isCollapse}">
         <div class="leftHead">
           {{textName}}
         </div>
-        <el-menu active-text-color="#f9b15d" router unique-opened text-color="#808281">
+        <el-menu active-text-color="#f56c6c" router unique-opened text-color="#808281">
           <el-submenu v-for="(item,index) in menuData" :index="(index+1) + ''" :key="index">
             <template slot="title">
               <i :class="item.rooutMainIcon"></i>
@@ -49,6 +58,7 @@
 </div>
 </template>
 <script>
+import "@/assets/css/style.css";
 import {
   menuRouter
 } from '@/router/index.js'
@@ -95,7 +105,7 @@ export default {
 }
 
 .allContent .el-menu-item.is-active {
-  border-right: 3px solid rgb(249, 177, 93);
+  border-right: 3px solid #f56c6c;
 }
 
 .el-menu-item:focus,
@@ -119,7 +129,7 @@ export default {
   width: 100%;
   height: 100vh;
   /* background: url('../../../static/images/mainBg.jpg'); */
-  background: radial-gradient(ellipse at top left, rgba(181, 197, 216, 1) 0%, rgba(105, 155, 200, 1) 57%);
+  /* background: radial-gradient(ellipse at top left, rgba(181, 197, 216, 1) 0%, rgba(105, 155, 200, 1) 57%); */
   background-size: 100% 100%;
   display: flex;
   justify-content: center;
@@ -130,9 +140,10 @@ export default {
 .allContent {
   width: 1300px;
   height: 800px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.5);
   box-shadow: 0px 0px 4px white;
-    overflow: auto;
+  overflow: auto;
+  z-index: 6;
 }
 
 .leftNav {
@@ -142,7 +153,7 @@ export default {
 }
 
 .right {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   padding: 0;
 }
 
@@ -169,7 +180,8 @@ export default {
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid rgba(255, 255, 255, 0.5);
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  margin-top: 3px;
 }
 
 .content {

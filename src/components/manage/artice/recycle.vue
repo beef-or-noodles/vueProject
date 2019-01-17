@@ -1,6 +1,6 @@
 <template>
   <div>
-    文章编辑
+    回收站
   </div>
 </template>
 <script>
