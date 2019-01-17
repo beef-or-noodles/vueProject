@@ -228,7 +228,7 @@ export default {
     // 树点击事件
     treeClick(data,index,val){
       let id = data.id; //当前点击栏目id
-      console.log(data.id);
+      console.log(data);
     },
     //查询所有栏目
     getColumnList() {
