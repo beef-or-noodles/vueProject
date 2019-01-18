@@ -11,13 +11,18 @@
     <el-col :span="20">
       <el-button type="primary" size="small" @click="searchUser" icon="el-icon-search">搜索</el-button>
       <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加栏目</el-button>
+        <el-button type="warning" size="small" @click="keepSort" icon="el-icon-plus">保存排序</el-button>
     </el-col>
   </el-row>
   <div class="content">
-    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="590" style="width: 100%" :default-sort = "{prop: 'id', order: 'ascending'}" >
+    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="590" style="width: 100%">
       <el-table-column label="栏目ID" prop="id" width="80px" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="belongName" label="父栏目名" show-overflow-tooltip>
+      <el-table-column label="父栏目名" show-overflow-tooltip>
+        <template slot-scope='scope'>
+          <span v-if="scope.row.belongId == 0"><i style="color:red;" class="el-icon-caret-right"></i>{{scope.row.belongName}}</span>
+          <span v-else>　{{scope.row.belongName}}</span>
+        </template>
       </el-table-column>
       <el-table-column prop="columnName" label="栏目名" show-overflow-tooltip>
       </el-table-column>
@@ -29,7 +34,7 @@
       </el-table-column>
       <el-table-column label="排序" width="150">
         <template slot-scope="scope">
-          <el-input-number v-model="scope.row.sort" size="small" @change="numberChange" :min="0" label="排序"></el-input-number>
+          <el-input-number v-model="scope.row.sort" size="small" @change="numberBlur(scope.row)" :min="0" label="排序"></el-input-number>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="150">
@@ -62,7 +67,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="栏目排序:" prop="relPassword">
-            <el-input-number v-model="fromData.sort" size="small" @change="numberChange" :min="0" label="排序"></el-input-number>
+            <el-input-number v-model="fromData.sort" size="small" :min="0" label="排序"></el-input-number>
           </el-form-item>
         </el-col>
       </el-form>
@@ -99,6 +104,7 @@ export default {
       },
       tableData: [],
       idList: [],
+      columnSort:[],
     }
   },
   created() {
@@ -129,8 +135,42 @@ export default {
   },
   methods: {
     //排序改变
-    numberChange(val) {
-      console.log(val);
+    numberBlur(val) {
+      var arr = {
+        'id':val.id,
+        'sort':val.sort,
+      }
+      if(this.columnSort.length == 0){
+        this.columnSort.push(arr);
+      }else{
+        var i = 0;
+        let a = this.columnSort.some((item,index)=>{//匹配数组元素
+          if(item.id == arr.id){
+            i = index;
+            return true;
+          }
+        });
+        if(a){
+          this.columnSort.splice(i,1,arr);
+        }else{
+          this.columnSort.push(arr);
+        }
+      }
+    },
+    //保存数组元素
+    keepSort(){
+      var params = this.columnSort;
+      if(this.columnSort.length != 0){
+        this.$post(this.$api.batchSort,params).then((data) => {
+          this.columnSort = [];
+        });
+      }else{
+        this.$message({
+          message: '请修改排序',
+          type: 'info'
+        });
+      }
+
     },
     //增加
     addUserBtn(type) {
@@ -199,8 +239,15 @@ export default {
     },
     //得到栏目列表
     getUserList() {
-      this.$post(this.$api.queryColumn,{type:0}).then((data) => {
-        this.tableData = data;
+      this.$post(this.$api.queryColumn,{type:1}).then((data) => {
+        var arr  = [];
+        for(let i in data){
+          arr.push(data[i]);
+          for(let f in data[i].children){
+            arr.push(data[i].children[f]);
+          }
+        }
+        this.tableData = arr;
       });
     },
     //查找栏目

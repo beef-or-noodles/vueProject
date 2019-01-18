@@ -110,18 +110,15 @@ router.post('/queryColumn', (req, res) => {
               for (let q in chird) {
                   var cId = chird[q].belongId;
                   if (id == cId) {
-                    children.push({
-                      'id': chird[q].id,
-                      'label': chird[q].columnName,
-                    })
+                    let item = chird[q];
+                    item.label = chird[q].columnName
+                    children.push(item);
                   }
               }
               children.sort(sortRule('sort',true));//排序
-              let arr = {
-                'id': id,
-                'label': name,
-                'children': children,
-              }
+              let arr = rootMenu[f];
+              arr.label = name;
+              arr.children = children;
               setData.push(arr);
 
           }
@@ -239,6 +236,29 @@ router.post('/updateColumn', (req, res) => {
     }
     if (result) {
       let rdata = returnData(200, '', '', true);
+      res.send(rdata);
+    }
+  })
+});
+
+// 批量排序
+router.post('/batchSort',(req,res)=>{
+  var params = req.body;
+  var idArr = [];
+  var sql = `UPDATE columnList SET sort = CASE id `;
+  for(let i in params){
+    sql += `WHEN ${params[i].id} THEN ${params[i].sort} `
+    idArr.push(params[i].id);
+  }
+  var idTxt = idArr.join(',')//分割字符串
+  sql += `END WHERE id IN (${idTxt})`;
+
+  conn.query(sql,function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      let rdata = returnData(200, '', '报存成功', true);
       res.send(rdata);
     }
   })

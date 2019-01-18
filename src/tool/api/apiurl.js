@@ -15,4 +15,5 @@ export default{
   searchColumn:baseURL + '/searchColumn',//模糊查询
   delectColumn:baseURL + '/delectColumn',//删除栏目
   updateColumn:baseURL + '/updateColumn',//修改
+  batchSort:baseURL + '/batchSort', //保存批量排序
 }
