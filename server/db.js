@@ -3,7 +3,7 @@ module.exports = {
     mysql: {
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: '123456',
         database: 'user',
         port: '3306',
         multipleStatements:true,//多条语句

@@ -11,7 +11,7 @@
     <el-col :span="20">
       <el-button type="primary" size="small" icon="el-icon-search">搜索</el-button>
       <el-button type="primary" size="small" @click='dialogVisible = true' icon="el-icon-plus">添加文章</el-button>
-      <el-button type="danger" size="small" icon="el-icon-delete">批量删除文章</el-button>
+      <el-button type="danger" size="small" @click="delect(idList,false)" icon="el-icon-delete">批量删除文章</el-button>
     </el-col>
   </el-row>
   <div class="content">
@@ -26,36 +26,42 @@
     </el-col>
     <el-col :span="19">
       <div>
-        <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="613" style="width: 100%">
+        <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="613" style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection">
           </el-table-column>
           <el-table-column label="" width='80'>
             <template slot-scope="scope">
               <div class="image">
-                <img src="../../../../static/images/icon.jpg" />
+                <img :src="scope.row.imgurl" />
               </div>
             </template>
           </el-table-column>
           <el-table-column label="">
             <template slot-scope="scope">
-
               <div class="articeTitle">
-                <h5>这里是标题这里是标题这里是标题标题啊就是标题真的是标题</h5>
+                <h5>{{scope.row.articeTitle}}</h5>
               </div>
-              <el-tooltip class="item" effect="dark" content="这里是标题这里是标题这里是标题标题啊就是标题真的是标题" placement="bottom">
+              <el-tooltip class="item" effect="dark" :content="scope.row.articeTitle" placement="bottom">
                 <div class="abs">
                   <p>
-                    这里是标题这里是标题这里是标题标题啊就是标题真的是标题
-                    这里是标题这里是标题这里是标题标题啊就是标题真的是标题
+                  {{scope.row.abstract}}
                   </p>
                 </div>
               </el-tooltip>
+              <el-col :span="14">
+                时间：{{setTime(scope.row.creatTime)}}
+              </el-col>
+              <el-col :span="10">
+                <span>状态：</span>
+                <span style="color:red;" v-if="scope.row.checkRoot == 0">待审核</span>
+                <span style="color:green;" v-if="scope.row.checkRoot == 1">审核通过</span>
+              </el-col>
             </template>
           </el-table-column>
           <el-table-column label="" fixed="right" width="150">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini">编辑</el-button>
-              <el-button type="warning" size="mini">审核</el-button>
+              <el-button type="primary" size="mini" @click="editArtice(scope.row)">编辑</el-button>
+              <el-button type="danger" @click="delect(scope.row.id, true)" size="mini">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -73,16 +79,14 @@
       <el-row :gutter="15">
         <el-col :span="7">
           <el-form label-width="80px" :model="fromArtie">
-            <el-form-item label="文章标题:">
-              <el-input v-model="fromArtie.title" size="small"></el-input>
+            <el-form-item label="文章标题:" prop="articeTitle">
+              <el-input v-model="fromArtie.articeTitle" size="small"></el-input>
             </el-form-item>
             <el-form-item label="文章摘要:" style="margin-bottom:10px;">
-              <el-input type="textarea" v-model="fromArtie.title" size="small"></el-input>
+              <el-input type="textarea" v-model="fromArtie.abstract" size="small"></el-input>
             </el-form-item>
             <el-form-item label="所属栏目:">
-              <el-select v-model="fromArtie.belongId" style="width:100%;" filterable value-key="id" placeholder="请选择">
-                <el-option :key="0" label="顶级栏目" :value="{id:'0',name:'顶级栏目'}">
-                </el-option>
+              <el-select v-model="fromArtie.columnId" style="width:100%;" filterable value-key="id" placeholder="请选择">
                 <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item">
                 </el-option>
               </el-select>
@@ -92,11 +96,11 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item label="是否审核:" style="margin-bottom:10px;">
-              <el-switch v-model="fromArtie.audit" active-color="#13ce66" inactive-color="#ff4949" active-text="审核通过" inactive-text="待审核">
+              <el-switch v-model="fromArtie.checkRoot" active-color="#13ce66" inactive-color="#ff4949" active-text="审核通过" inactive-text="待审核">
               </el-switch>
             </el-form-item>
             <el-form-item label="作者:" style="margin-bottom:10px;">
-              <el-input v-model="fromArtie.anthor" size="small"></el-input>
+              <el-input v-model="fromArtie.author" size="small"></el-input>
             </el-form-item>
             <el-form-item label="缩略图:">
               <el-upload class="avatar-uploader" ref="upload" :action="$api.upload" :show-file-list="false" :auto-upload="false" :on-change="handlePreview" :on-success="handleAvatarSuccess">
@@ -115,7 +119,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogVisible = false">保存</el-button>
+      <el-button type="primary" @click="addArtice">保存</el-button>
     </span>
   </el-dialog>
 </div>
@@ -140,35 +144,40 @@ export default {
       },
       options:[],
       fromArtie: {
-        title: '',
-        time: '',
-        anthor: '',
-        audit: false,
+        articeTitle: '',
+        abstract: '',
         imgurl: '',
         content: '',
-        belongId:{
-          id: '0',
-          name: '顶级栏目'
-        },
+        columnId:{},
+        author:'',
+        checkRoot:false,
       },
-      tableData: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }],
+      tableData: [],
       treeData: [],
       defaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+      idList:[],
+      columnId:'',
     }
   },
   watch: {
     filterText(val) {
       this.$refs.tree2.filter(val);
+    },
+    dialogVisible(val){
+      if(!val){
+        this.fromArtie = {
+          articeTitle: '',
+          abstract: '',
+          imgurl: '',
+          content: '',
+          columnId:{},
+          author:'',
+          checkRoot:false,
+        }
+      }
     }
   },
   mounted() {
@@ -176,6 +185,12 @@ export default {
     this.getColumnList();
   },
   methods: {
+    setTime:function(val){
+      let date = new Date(val);
+      let time = date.getTime();
+      let settime = this.$tool.formatTime(time/1000,true);
+      return settime
+    },
     // 改变每页条数
     changePagesize(value) {
       this.paging.pageSize = value;
@@ -205,14 +220,14 @@ export default {
     },
     // 上传图片
     handleAvatarSuccess(res, file) {
-      this.$message({
-        message: '上传成功',
-        type: 'success'
-      });
       this.fromArtie.imgurl = res.data.path;
     },
     //手动上传缩略图
     submitUpload() {
+      this.$message({
+        message: '上传成功',
+        type: 'success'
+      });
       this.$refs.upload.submit();
     },
     // 富文本编辑框改变事件
@@ -228,7 +243,18 @@ export default {
     // 树点击事件
     treeClick(data,index,val){
       let id = data.id; //当前点击栏目id
-      console.log(data);
+      this.queryArtice(id);
+    },
+
+    // 根据栏目ID查询文章
+    queryArtice(id){
+      this.columnId = id;
+      let params={
+        columnId : id,
+      }
+      this.$post(this.$api.queryArtice,params).then((data) => {
+        this.tableData = data;
+      });
     },
     //查询所有栏目
     getColumnList() {
@@ -236,7 +262,7 @@ export default {
         var arr = [];
         for(let i in data){
           let item = {
-            id:data[i].id,
+            id:data[i].id+"",
             name:data[i].columnName,
           }
           arr.push(item);
@@ -244,6 +270,85 @@ export default {
         this.options = arr;
       });
     },
+    //添加文章
+    addArtice(){
+      let params = this.fromArtie;
+      if(this.fromArtie.articeTitle == ""){
+        this.$message({
+          message: '请输入标题',
+          type: 'info'
+        });
+      }else if(this.fromArtie.content == ''){
+        this.$message({
+          message: '请输入内容',
+          type: 'info'
+        });
+      }else if(this.fromArtie.columnId == ''){
+        this.$message({
+          message: '请选择栏目',
+          type: 'info'
+        });
+      }else{
+        this.$post(this.$api.addArtice,params).then((data)=>{
+          this.dialogVisible = false;
+        });
+      }
+
+    },
+    // 多选
+    handleSelectionChange(val) {
+      let arr = []
+      for (let i in val) {
+        arr.push(val[i].id)
+      }
+      this.idList = arr;
+    },
+    //删除文章
+    delect(id = "", type) {
+      let params = {}
+      if (type) {
+        params.id = id;
+      } else {
+        if(this.idList == "" || this.idList.length == 0) {
+          this.$message({
+            message: '请选择',
+            type: 'info',
+            duration:1500,
+          });
+          return;
+        }else{
+          params.idList = this.idList;
+        }
+
+      }
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+          this.$post(this.$api.delectArtice, params).then((data) => {
+           this.queryArtice(this.columnId);
+          });
+      }).catch(() => {});
+
+    },
+    // 编辑文章
+    editArtice(row){
+      var arr = row;
+      console.log(row.columnId);
+      if(row.checkRoot == 0){
+        arr.checkRoot = false;
+      }else{
+        arr.checkRoot = true;
+      }
+      arr.columnId = {
+        id : row.columnId + '',
+        name:row.columnName,
+      }
+      console.log(arr.columnId);
+      this.fromArtie = arr;
+      this.dialogVisible = true;
+    }
   },
 }
 </script>
@@ -325,18 +430,17 @@ export default {
 }
 
 .abs p {
-  height: 35px;
+  height: 15px;
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   line-height: 18px;
   text-align: justify;
   margin-top: 5px;
-  text-indent: 2em;
-  text-align: justify;
+    text-align: justify;
 }
 
 .headIcon {

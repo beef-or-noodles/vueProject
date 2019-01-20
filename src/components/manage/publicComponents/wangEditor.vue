@@ -11,7 +11,7 @@
 import E from 'wangeditor'
 export default {
   name: 'Editorbar',
-  data () {
+  data() {
     return {
       editor: null,
       info_: null
@@ -32,7 +32,7 @@ export default {
     }
   },
   watch: {
-    isClear (val) {
+    isClear(val) {
       // 触发清除文本域内容
       if (val) {
         this.editor.txt.clear()
@@ -40,17 +40,19 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.seteditor()
     this.editor.txt.html(this.value)
   },
   methods: {
-    seteditor () {
+    seteditor() {
       this.editor = new E(this.$refs.toolbar, this.$refs.editor)
 
       this.editor.customConfig.uploadImgShowBase64 = true // base 64 存储图片
-      this.editor.customConfig.uploadImgServer = '/api/upload'// 配置服务器端地址
-      this.editor.customConfig.uploadImgHeaders = {'enctype':'multipart/form-data'}// 自定义 header
+      this.editor.customConfig.uploadImgServer = '/api/upload' // 配置服务器端地址
+      this.editor.customConfig.uploadImgHeaders = {
+        'enctype': 'multipart/form-data'
+      } // 自定义 header
       this.editor.customConfig.uploadFileName = 'file' // 后端接受上传文件的参数名
       this.editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
       this.editor.customConfig.uploadImgMaxLength = 6 // 限制一次最多上传 3 张图片
@@ -83,7 +85,7 @@ export default {
       this.editor.customConfig.uploadImgHooks = {
         fail: (xhr, editor, result) => {
           // 插入图片失败回调
-           console.log('图片上传并返回结果，但图片插入错误')
+          console.log('图片上传并返回结果，但图片插入错误')
         },
         success: (xhr, editor, result) => {
           // 图片上传成功回调
@@ -99,9 +101,9 @@ export default {
         },
         customInsert: (insertImg, result, editor) => {
           // 图片上传成功，插入图片的回调
+          var url = result.data.path
+          insertImg(url)
           console.log(' 图片上传并返回结果')
-           var url = result.path
-           insertImg(url)
         }
       }
       this.editor.customConfig.onchange = (html) => {

@@ -16,4 +16,8 @@ export default{
   delectColumn:baseURL + '/delectColumn',//删除栏目
   updateColumn:baseURL + '/updateColumn',//修改
   batchSort:baseURL + '/batchSort', //保存批量排序
+
+  addArtice:baseURL + '/addArtice', //保存批量排序
+  queryArtice:baseURL + '/queryArtice',//根据栏目id查询文章
+  delectArtice:baseURL + '/delectArtice',//删除文章
 }

@@ -3,6 +3,7 @@
 const userApi = require('./totalApi/userApi.js');//挂在接口
 const upload = require('./totalApi/uploadApi/upload');
 const columnApi = require('./totalApi/columnApi');
+const articeApi = require('./totalApi/articeApi');
 
 const fs = require('fs');
 const path = require('path');
@@ -19,7 +20,7 @@ app.get('*', function(req, res) {
     res.send(html)
 })
 // 后端api路由
-app.use('/api', [userApi,upload,columnApi]);
+app.use('/api', [userApi,upload,columnApi,articeApi]);
 // 监听端口
 app.listen(8088);
 console.log('服务启动成功 服务端口:8088......');

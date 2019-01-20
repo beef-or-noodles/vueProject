@@ -18,7 +18,12 @@ var sqlMap = {
     delectColumn:'delete from columnList where id in (?);',//删除栏目
     searchColumn:'select * from columnList where concat(columnName) like ?;',//根据名字模糊查询
     updateColumn:'update columnList set columnName = ? ,belongId = ? , checkRoot = ? ,belongName = ?, sort = ? where id = ?;',//根据ID修改
-  }
+  },
+  artice:{
+    addArtice:'insert into artice(columnId,articeTitle,abstract,content,author,checkRoot,imgurl,columnName) values(?,?,?,?,?,?,?,?);',//添加文章
+    queryArtice:'select * from artice where columnId = ? and recycle = 1',//根据栏目id查找文章
+    delectArtice:'DELETE FROM artice WHERE id in (?);',//删除文章
+  },
 }
 
 module.exports = sqlMap;
