@@ -38,6 +38,9 @@ export default {
         this.editor.txt.clear()
         this.info_ = null
       }
+    },
+    value(val){
+      this.editor.txt.html(this.value);
     }
   },
   mounted() {

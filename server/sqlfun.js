@@ -23,6 +23,7 @@ var sqlMap = {
     addArtice:'insert into artice(columnId,articeTitle,abstract,content,author,checkRoot,imgurl,columnName) values(?,?,?,?,?,?,?,?);',//添加文章
     queryArtice:'select * from artice where columnId = ? and recycle = 1',//根据栏目id查找文章
     delectArtice:'DELETE FROM artice WHERE id in (?);',//删除文章
+    updateArtice:'update artice set columnId=?,articeTitle=?,abstract=?,content=?,author=?,checkRoot=?,imgurl=?,columnName=? where id = ?',//添加文章
   },
 }
 

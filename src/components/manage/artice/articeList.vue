@@ -160,6 +160,7 @@ export default {
       },
       idList:[],
       columnId:'',
+      articeId:'',
     }
   },
   watch: {
@@ -177,6 +178,7 @@ export default {
           author:'',
           checkRoot:false,
         }
+        this.articeId = "";
       }
     }
   },
@@ -289,9 +291,19 @@ export default {
           type: 'info'
         });
       }else{
-        this.$post(this.$api.addArtice,params).then((data)=>{
-          this.dialogVisible = false;
-        });
+        if(this.articeId == ''){
+            console.log(params);
+          this.$post(this.$api.addArtice,params).then((data)=>{
+            this.dialogVisible = false;
+          });
+        }else{
+          params.id = this.articeId;
+          console.log(params);
+          this.$post(this.$api.updateArtice,params).then((data)=>{
+            this.dialogVisible = false;
+          });
+        }
+
       }
 
     },
@@ -334,8 +346,10 @@ export default {
     },
     // 编辑文章
     editArtice(row){
-      var arr = row;
-      console.log(row.columnId);
+      var arr = {};
+      for(var key in row){
+        arr[key] = row[key];
+      }
       if(row.checkRoot == 0){
         arr.checkRoot = false;
       }else{
@@ -345,9 +359,9 @@ export default {
         id : row.columnId + '',
         name:row.columnName,
       }
-      console.log(arr.columnId);
       this.fromArtie = arr;
       this.dialogVisible = true;
+      this.articeId = row.id;
     }
   },
 }

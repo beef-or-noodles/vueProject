@@ -20,4 +20,5 @@ export default{
   addArtice:baseURL + '/addArtice', //保存批量排序
   queryArtice:baseURL + '/queryArtice',//根据栏目id查询文章
   delectArtice:baseURL + '/delectArtice',//删除文章
+  updateArtice:baseURL + '/updateArtice',//修改文章
 }

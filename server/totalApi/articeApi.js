@@ -28,7 +28,25 @@ router.post('/addArtice', function(req, res) {
   })
 });
 
-
+//修改文章
+router.post('/updateArtice', function(req, res) {
+  var params = req.body;
+  if(params.checkRoot){
+    params.checkRoot = 1;
+  }else{
+    params.checkRoot = 0;
+  }
+  var sql = $sql.artice.updateArtice;
+  conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name,params.id], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      let data = returnData(200, '', '修改成功', true);
+      res.send(data);
+    }
+  })
+});
 /*
 *title 排序字段
 *type true 升序 fasle 降序
