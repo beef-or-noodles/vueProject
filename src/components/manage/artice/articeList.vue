@@ -44,7 +44,7 @@
               <el-tooltip class="item" effect="dark" :content="scope.row.articeTitle" placement="bottom">
                 <div class="abs">
                   <p>
-                  {{scope.row.abstract}}
+                    {{scope.row.abstract}}
                   </p>
                 </div>
               </el-tooltip>
@@ -142,15 +142,15 @@ export default {
         pageSize: 10,
         total: 30,
       },
-      options:[],
+      options: [],
       fromArtie: {
         articeTitle: '',
         abstract: '',
         imgurl: '',
         content: '',
-        columnId:{},
-        author:'',
-        checkRoot:false,
+        columnId: {},
+        author: '',
+        checkRoot: false,
       },
       tableData: [],
       treeData: [],
@@ -158,39 +158,39 @@ export default {
         children: 'children',
         label: 'label'
       },
-      idList:[],
-      columnId:'',
-      articeId:'',
+      idList: [],
+      columnId: '',
+      articeId: '',
     }
   },
   watch: {
     filterText(val) {
       this.$refs.tree2.filter(val);
     },
-    dialogVisible(val){
-      if(!val){
+    dialogVisible(val) {
+      if (!val) {
         this.fromArtie = {
           articeTitle: '',
           abstract: '',
           imgurl: '',
           content: '',
-          columnId:{},
-          author:'',
-          checkRoot:false,
+          columnId: {},
+          author: '',
+          checkRoot: false,
         }
         this.articeId = "";
       }
     }
   },
   mounted() {
-    this.getTreeList();//得到树壮列表
+    this.getTreeList(); //得到树壮列表
     this.getColumnList();
   },
   methods: {
-    setTime:function(val){
+    setTime: function(val) {
       let date = new Date(val);
       let time = date.getTime();
-      let settime = this.$tool.formatTime(time/1000,true);
+      let settime = this.$tool.formatTime(time / 1000, true);
       return settime
     },
     // 改变每页条数
@@ -217,7 +217,7 @@ export default {
       return data.label.indexOf(value) !== -1;
     },
     // 上传之前
-    handlePreview(file,fileList) {
+    handlePreview(file, fileList) {
       this.imgurl = URL.createObjectURL(file.raw);
     },
     // 上传图片
@@ -238,34 +238,38 @@ export default {
     },
     //得到栏目列表
     getTreeList() {
-      this.$post(this.$api.queryColumn,{type:1}).then((data) => {
+      this.$post(this.$api.queryColumn, {
+        type: 1
+      }).then((data) => {
         this.treeData = data;
       });
     },
     // 树点击事件
-    treeClick(data,index,val){
+    treeClick(data, index, val) {
       let id = data.id; //当前点击栏目id
       this.queryArtice(id);
     },
 
     // 根据栏目ID查询文章
-    queryArtice(id){
+    queryArtice(id) {
       this.columnId = id;
-      let params={
-        columnId : id,
+      let params = {
+        columnId: id,
       }
-      this.$post(this.$api.queryArtice,params).then((data) => {
+      this.$post(this.$api.queryArtice, params).then((data) => {
         this.tableData = data;
       });
     },
     //查询所有栏目
     getColumnList() {
-      this.$post(this.$api.queryColumn,{type:0}).then((data) => {
+      this.$post(this.$api.queryColumn, {
+        type: 0
+      }).then((data) => {
         var arr = [];
-        for(let i in data){
+        for (let i in data) {
           let item = {
-            id:data[i].id+"",
-            name:data[i].columnName,
+            id: data[i].id + "",
+            name: data[i].columnName,
           }
           arr.push(item);
         }
@@ -273,34 +277,34 @@ export default {
       });
     },
     //添加文章
-    addArtice(){
+    addArtice() {
       let params = this.fromArtie;
-      if(this.fromArtie.articeTitle == ""){
+      if (this.fromArtie.articeTitle == "") {
         this.$message({
           message: '请输入标题',
           type: 'info'
         });
-      }else if(this.fromArtie.content == ''){
+      } else if (this.fromArtie.content == '') {
         this.$message({
           message: '请输入内容',
           type: 'info'
         });
-      }else if(this.fromArtie.columnId == ''){
+      } else if (this.fromArtie.columnId == '') {
         this.$message({
           message: '请选择栏目',
           type: 'info'
         });
-      }else{
-        if(this.articeId == ''){
-            console.log(params);
-          this.$post(this.$api.addArtice,params).then((data)=>{
+      } else {
+        if (this.articeId == '') {
+          this.$post(this.$api.addArtice, params).then((data) => {
             this.dialogVisible = false;
+            this.queryArtice(this.columnId);
           });
-        }else{
+        } else {
           params.id = this.articeId;
-          console.log(params);
-          this.$post(this.$api.updateArtice,params).then((data)=>{
+          this.$post(this.$api.updateArtice, params).then((data) => {
             this.dialogVisible = false;
+            this.queryArtice(this.columnId);
           });
         }
 
@@ -321,14 +325,14 @@ export default {
       if (type) {
         params.id = id;
       } else {
-        if(this.idList == "" || this.idList.length == 0) {
+        if (this.idList == "" || this.idList.length == 0) {
           this.$message({
             message: '请选择',
             type: 'info',
-            duration:1500,
+            duration: 1500,
           });
           return;
-        }else{
+        } else {
           params.idList = this.idList;
         }
 
@@ -338,26 +342,26 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-          this.$post(this.$api.delectArtice, params).then((data) => {
-           this.queryArtice(this.columnId);
-          });
+        this.$post(this.$api.delectArtice, params).then((data) => {
+          this.queryArtice(this.columnId);
+        });
       }).catch(() => {});
 
     },
     // 编辑文章
-    editArtice(row){
+    editArtice(row) {
       var arr = {};
-      for(var key in row){
+      for (var key in row) {
         arr[key] = row[key];
       }
-      if(row.checkRoot == 0){
+      if (row.checkRoot == 0) {
         arr.checkRoot = false;
-      }else{
+      } else {
         arr.checkRoot = true;
       }
       arr.columnId = {
-        id : row.columnId + '',
-        name:row.columnName,
+        id: row.columnId + '',
+        name: row.columnName,
       }
       this.fromArtie = arr;
       this.dialogVisible = true;
@@ -454,7 +458,7 @@ export default {
   line-height: 18px;
   text-align: justify;
   margin-top: 5px;
-    text-align: justify;
+  text-align: justify;
 }
 
 .headIcon {
