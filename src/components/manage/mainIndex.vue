@@ -2,7 +2,7 @@
 <div class="home">
 
   <audio controls autoplay>
-      <!-- <source src="mp3/Approaching%20Nirvana%20-%20You.mp3"> -->
+    <!-- <source src="mp3/Approaching%20Nirvana%20-%20You.mp3"> -->
   </audio>
   <div id="background" class="wall"></div>
   <div id="midground" class="wall"></div>
@@ -71,10 +71,10 @@ export default {
       isCollapse: true,
       menuData: '', //菜单数据
       textName: "C_CMS",
-      userInfo:'',
+      userInfo: '',
     }
   },
-  created(){
+  created() {
     //得到登陆信息
     var login = sessionStorage.getItem('userInfo');
     var user = JSON.parse(login);
@@ -82,12 +82,22 @@ export default {
   },
   mounted() {
     this.setRouter();
+    // 禁止刷新
+    document.oncontextmenu = function() {
+      return false;
+    }
+    document.onkeydown = function(event) {
+      var e = event || window.event || arguments.callee.caller.arguments[0];
+      if (e && e.keyCode == 116) {
+        return false;
+      }
+    }
   },
   methods: {
     setRouter() {
       this.menuData = routerMenuData
     },
-    exitBtn(){
+    exitBtn() {
       sessionStorage.removeItem('userInfo');
       this.$router.push('/login');
     }
@@ -99,6 +109,7 @@ export default {
 .el-input__inner:focus {
   border-color: rgb(249, 177, 93);
 }
+
 .allContent .el-menu {
   background: inherit !important;
   border: none;
@@ -205,7 +216,8 @@ export default {
   left: 50px;
   color: #808281;
 }
-.exit:hover{
+
+.exit:hover {
   cursor: pointer;
 }
 </style>

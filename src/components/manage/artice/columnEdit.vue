@@ -163,7 +163,8 @@ export default {
       if(this.columnSort.length != 0){
         this.$post(this.$api.batchSort,params).then((data) => {
           this.columnSort = [];
-        });
+          this.getUserList();
+        }); 
       }else{
         this.$message({
           message: '请修改排序',

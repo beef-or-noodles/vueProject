@@ -20,6 +20,8 @@ router.post('/addColumn', (req, res) => {
   conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     };
     if (result) {
       var rdata = returnData(200, '', '添加成功', true);
@@ -33,6 +35,8 @@ router.post('/selectColumn', (req, res) => {
   conn.query(sql, [0], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     };
     if (result) {
       let data = result;
@@ -79,6 +83,8 @@ router.post('/queryColumn', (req, res) => {
   conn.query(sql, function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     };
     if (result) {
       var data = result;
@@ -176,6 +182,8 @@ router.post('/searchColumn', (req, res) => {
   conn.query(sql, [value], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let rdata = returnData(200, result, '共找到 ' + result.length + ' 条数据', true);
@@ -205,6 +213,8 @@ router.post('/delectColumn', (req, res) => {
         conn.query(sql, [list], function(err, result) {
           if (err) {
             console.log(err);
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
           }
           if (result) {
             let rdata = returnData(200, '', '删除成功', true);
@@ -233,6 +243,8 @@ router.post('/updateColumn', (req, res) => {
   conn.query(sql, [columnName, belongId, checkRoot, belongName, sort, id], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let rdata = returnData(200, '', '', true);
@@ -256,6 +268,8 @@ router.post('/batchSort',(req,res)=>{
   conn.query(sql,function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let rdata = returnData(200, '', '报存成功', true);

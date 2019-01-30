@@ -16,6 +16,8 @@ router.post('/login', (req, res) => {
   conn.query(sql, [params.userName], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       var data = {}
@@ -46,6 +48,8 @@ router.post('/addUser', (req, res) => {
   conn.query(sql, [params.userName, params.passWord,params.imgurl], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let data = returnData(200,'','添加成功',true);
@@ -65,6 +69,8 @@ router.post('/userQuery', (req, res) => {
   conn.query(sqls, function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let total = result[0][0]['count(*)'];//得到总条数
@@ -91,6 +97,8 @@ router.post('/updateUser',(req,res)=>{
   conn.query(sql,[userName,passWord,imgurl,id],function(err,result){
     if(err){
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if(result){
       let rdata = returnData(200,'','',true);
@@ -112,6 +120,8 @@ router.post('/delectUser', (req, res) => {
   conn.query(sql, [list], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let rdata = returnData(200,'','删除成功',true);
@@ -126,6 +136,8 @@ router.post('/searchUser', (req, res) => {
   conn.query(sql, [value], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let rdata = returnData(200,result,'共找到 '+result.length+' 条数据',true);

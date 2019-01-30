@@ -21,4 +21,5 @@ export default{
   queryArtice:baseURL + '/queryArtice',//根据栏目id查询文章
   delectArtice:baseURL + '/delectArtice',//删除文章
   updateArtice:baseURL + '/updateArtice',//修改文章
+  searchArtice:baseURL + '/searchArtice',//模糊查询
 }

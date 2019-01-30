@@ -20,6 +20,8 @@ router.post('/addArtice', function(req, res) {
   conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name], function(err, result) {
     if (err) {
       console.log(err);
+        let Edata = returnData(500, '', '服务器错误', true);
+        res.send(Edata);
     }
     if (result) {
       let data = returnData(200, '', '添加成功', true);
@@ -40,6 +42,8 @@ router.post('/updateArtice', function(req, res) {
   conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name,params.id], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let data = returnData(200, '', '修改成功', true);
@@ -80,14 +84,27 @@ function sortRule(title,type){
 router.post('/queryArtice', function(req, res) {
   var params = req.body;
   var sql = $sql.artice.queryArtice;
-  conn.query(sql, [params.columnId], function(err, result) {
+  let pageNo = (params.pageNo - 1) * params.pageSize;
+  let pageSize = params.pageSize;
+
+  var sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by creatTime DESC limit ${pageNo},${pageSize}`
+
+  conn.query(sqls, [params.columnId], function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
-      let sortData = result.sort(sortRule('id',true));//排序
-      let data = returnData(200, result, '', false);
-      res.send(data);
+      let total = result[0][0]['count(*)'];//得到总条数
+      let data = {
+        'total':total,
+        'pageSize':pageSize,
+        'pageNo' : pageNo,
+        'data':result[1],
+      };
+      let rdata = returnData(200, data, '', false);
+      res.send(rdata);
     }
   })
 });
@@ -115,6 +132,8 @@ router.post('/delectArtice', (req, res) => {
   conn.query(sql,function(err, result) {
     if (err) {
       console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
     }
     if (result) {
       let rdata = returnData(200, '', '删除成功可在回收站查看', true);
@@ -122,4 +141,23 @@ router.post('/delectArtice', (req, res) => {
     }
   })
 })
+
+//模糊查询
+router.post('/searchArtice', (req, res) => {
+  var sql = $sql.artice.searchArtice;
+  var value = '%' + req.body.searchName + '%';
+  conn.query(sql, [value], function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      console.log(sql);
+      let rdata = returnData(200, result, '共找到 ' + result.length + ' 条数据', true);
+      res.send(rdata);
+    }
+  })
+});
+
 module.exports = router;

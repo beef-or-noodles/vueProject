@@ -3,13 +3,13 @@
   <el-row :gutter="20">
     <el-col :span="4">
       <div class="search">
-        <el-input placeholder="搜索文章" @keyup.enter.native="searchUser" size="small" v-model="searchArtuce">
+        <el-input placeholder="搜索文章" @keyup.enter.native="serchArtice" size="small" v-model="searchName">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </div>
     </el-col>
     <el-col :span="20">
-      <el-button type="primary" size="small" icon="el-icon-search">搜索</el-button>
+      <el-button type="primary" @click='serchArtice' size="small" icon="el-icon-search">搜索</el-button>
       <el-button type="primary" size="small" @click='dialogVisible = true' icon="el-icon-plus">添加文章</el-button>
       <el-button type="danger" size="small" @click="delect(idList,false)" icon="el-icon-delete">批量删除文章</el-button>
     </el-col>
@@ -133,14 +133,14 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      searchArtuce: '', //搜索文章
+      searchName: '', //搜索文章
       filterText: '',
       isClear: false,
       imgurl: '',
       paging: {
         pageNo: 1,
         pageSize: 10,
-        total: 30,
+        total: 0,
       },
       options: [],
       fromArtie: {
@@ -196,21 +196,22 @@ export default {
     // 改变每页条数
     changePagesize(value) {
       this.paging.pageSize = value;
+      this.queryArtice(this.columnId);
     },
     // 当前页改变
     currentChange(val) {
       this.paging.pageNo = val;
-
+      this.queryArtice(this.columnId);
     },
     // 上一页
     prevClick(val) {
       this.paging.pageNo = val;
-
+      this.queryArtice(this.columnId);
     },
     // 下一页
     nextClick(val) {
       this.paging.pageNo = val;
-
+      this.queryArtice(this.columnId);
     },
     filterNode(value, data) {
       if (!value) return true;
@@ -247,17 +248,22 @@ export default {
     // 树点击事件
     treeClick(data, index, val) {
       let id = data.id; //当前点击栏目id
+      this.fromArtie.columnId = {
+        id: data.id + '',
+        name: data.columnName,
+      }
+      this.paging.pageNo = 1;
+      this.columnId = id;
       this.queryArtice(id);
     },
 
     // 根据栏目ID查询文章
     queryArtice(id) {
-      this.columnId = id;
-      let params = {
-        columnId: id,
-      }
+      let params = this.paging;
+      params.columnId = id;
       this.$post(this.$api.queryArtice, params).then((data) => {
-        this.tableData = data;
+        this.tableData = data.data;
+        this.paging.total = data.total;
       });
     },
     //查询所有栏目
@@ -276,6 +282,25 @@ export default {
         this.options = arr;
       });
     },
+    //搜索文章
+    serchArtice() {
+      if(this.searchName == ''){
+        this.$message({
+          message: '请输入搜索内容',
+          type: 'info'
+        });
+        return;
+      }
+      this.$post(this.$api.searchArtice, {
+        searchName: this.searchName
+      }).then((data) => {
+        if(data != ''){
+            this.tableData = data;
+            this.paging.total = 10;
+        }
+
+      });
+    },
     //添加文章
     addArtice() {
       let params = this.fromArtie;
@@ -284,12 +309,12 @@ export default {
           message: '请输入标题',
           type: 'info'
         });
-      } else if (this.fromArtie.content == '') {
+      } else if (this.fromArtie.content == '<p><br></p>' || this.fromArtie.content == '') {
         this.$message({
           message: '请输入内容',
           type: 'info'
         });
-      } else if (this.fromArtie.columnId == '') {
+      } else if(JSON.stringify(this.fromArtie.columnId) == '{}') {
         this.$message({
           message: '请选择栏目',
           type: 'info'
