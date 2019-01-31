@@ -292,7 +292,8 @@ export default {
         return;
       }
       this.$post(this.$api.searchArtice, {
-        searchName: this.searchName
+        searchName: this.searchName,
+        recycle:1,
       }).then((data) => {
         if(data != ''){
             this.tableData = data;
@@ -362,11 +363,12 @@ export default {
         }
 
       }
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该文章, 是否继续?', '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        params.recycle=0;
         this.$post(this.$api.delectArtice, params).then((data) => {
           this.queryArtice(this.columnId);
         });

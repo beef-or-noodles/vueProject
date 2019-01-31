@@ -22,4 +22,7 @@ export default{
   delectArtice:baseURL + '/delectArtice',//删除文章
   updateArtice:baseURL + '/updateArtice',//修改文章
   searchArtice:baseURL + '/searchArtice',//模糊查询
+
+  queryRecycle:baseURL + '/queryRecycle',//查询回收站文章
+  delectRecycle:baseURL + '/delectRecycle',//彻底删除文章
 }

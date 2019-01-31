@@ -111,9 +111,9 @@ router.post('/queryArtice', function(req, res) {
 
 //删除文章加入回收站
 router.post('/delectArtice', (req, res) => {
-  var sql = $sql.artice.delectArtice;
   var id = req.body.id;
   var idList = req.body.idList;
+  var type = req.body.recycle; //1文章 0回收站
   var params = [];
   if (id == "" || id == undefined) {
     params = idList;
@@ -123,7 +123,7 @@ router.post('/delectArtice', (req, res) => {
   var idArr = [];
   var sql = `UPDATE artice SET recycle = CASE id `;
   for(let i in params){
-    sql += `WHEN ${params[i]} THEN 0 `
+    sql += `WHEN ${params[i]} THEN ${type} `
     idArr.push(params[i]);
   }
   var idTxt = idArr.join(',')//分割字符串
@@ -136,7 +136,13 @@ router.post('/delectArtice', (req, res) => {
       res.send(Edata);
     }
     if (result) {
-      let rdata = returnData(200, '', '删除成功可在回收站查看', true);
+      var rdata='';
+      if(type == 0){
+         rdata = returnData(200, '', '删除成功可在回收站查看', true);
+      }else{
+         rdata = returnData(200, '', '文章恢复成功', true);
+      }
+
       res.send(rdata);
     }
   })
@@ -146,18 +152,71 @@ router.post('/delectArtice', (req, res) => {
 router.post('/searchArtice', (req, res) => {
   var sql = $sql.artice.searchArtice;
   var value = '%' + req.body.searchName + '%';
-  conn.query(sql, [value], function(err, result) {
+  var type = req.body.recycle;  //type 1 文章  0 回收站
+  conn.query(sql, [type,value], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
       res.send(Edata);
     }
     if (result) {
-      console.log(sql);
       let rdata = returnData(200, result, '共找到 ' + result.length + ' 条数据', true);
       res.send(rdata);
     }
   })
 });
+
+// 查询回收站文章
+router.post('/queryRecycle', function(req, res) {
+  var params = req.body;
+  var sql = $sql.artice.queryArtice;
+  let pageNo = (params.pageNo - 1) * params.pageSize;
+  let pageSize = params.pageSize;
+
+  var sqls = `select count(*) from artice where recycle = 0 ; select * from artice where recycle=0 order by creatTime DESC limit ${pageNo},${pageSize}`
+
+  conn.query(sqls, function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let total = result[0][0]['count(*)'];//得到总条数
+      let data = {
+        'total':total,
+        'pageSize':pageSize,
+        'pageNo' : pageNo,
+        'data':result[1],
+      };
+      let rdata = returnData(200, data, '', false);
+      res.send(rdata);
+    }
+  })
+});
+
+// 彻底删除文章
+router.post('/delectRecycle', (req, res) => {
+  var sql = $sql.artice.delectArtice;
+  var id = req.body.id;
+  var idList = req.body.idList;
+  let list = "";
+  if (id == "" || id == undefined) {
+    list = idList
+  } else {
+    list = id;
+  }
+  conn.query(sql, [list], function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let rdata = returnData(200,'','删除成功',true);
+      res.send(rdata);
+    }
+  })
+})
 
 module.exports = router;
