@@ -151,7 +151,7 @@ export default {
 .allContent {
   width: 1300px;
   height: 800px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.6);
   box-shadow: 0px 0px 4px white;
   overflow: auto;
   z-index: 6;
