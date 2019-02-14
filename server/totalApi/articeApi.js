@@ -16,6 +16,9 @@ router.post('/addArtice', function(req, res) {
   }else{
     params.checkRoot = 0;
   }
+  if(params.imgurl == ''){
+    params.imgurl = '/server/upload/noImg.png'
+  }
   var sql = $sql.artice.addArtice;
   conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name], function(err, result) {
     if (err) {
