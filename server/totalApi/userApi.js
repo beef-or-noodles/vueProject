@@ -57,6 +57,28 @@ router.post('/addUser', (req, res) => {
     }
   })
 });
+//判断用户名是否以存在
+router.post('/judegeUserName',(req,res)=>{
+  var name = req.body.userName;
+  var sql = `select * from userinfo where userName = '${name}'`
+  conn.query(sql,function(err,result){
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if(result){
+      var data = "";
+      if(result != ""){
+        data = returnData(200,{type:1,msg:'用户名已存在'},'用户名已存在',false);
+      }else{
+        data = returnData(200,{type:0,msg:'可以使用'},'可以使用',false);
+      }
+
+      res.send(data);
+    }
+  });
+});
 //查询所有用户数据
 router.post('/userQuery', (req, res) => {
   // 查询总条数

@@ -8,6 +8,7 @@ export default{
   delectUser:baseURL + '/delectUser',//删除用户
   searchUser:baseURL + '/searchUser',//模糊查询用户
   updateUser:baseURL + '/updateUser',//修改用户信息
+  judegeUserName:baseURL + '/judegeUserName',//用户名是否存在
 
   addColumn:baseURL + '/addColumn',//修改用户信息
   selectColumn:baseURL + '/selectColumn',//查询顶级栏目
