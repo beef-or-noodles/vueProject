@@ -14,6 +14,7 @@ var returnData = require('../../tool/returnData');
 */
 var fs = require('fs');//node文件模块
 var multer = require('multer');
+
 // 使用硬盘存储模式设置存放接收到的文件的路径以及文件名
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -22,7 +23,15 @@ var storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         // 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
-        cb(null, Date.now() + "-" + file.originalname);
+        var time2 = new Date().Format("yyyy年MM月dd日HH时mm分ss秒");
+        var imgUrl = time2 + "-" + file.originalname;
+        var setUrl = "";
+        if(imgUrl.indexOf('.') == -1){
+          setUrl = imgUrl + ".jpg"
+        }else{
+          setUrl = imgUrl;
+        }
+        cb(null, setUrl);
     }
 });
 

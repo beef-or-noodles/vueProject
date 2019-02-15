@@ -123,4 +123,39 @@ export function get(url) {
         reject(err)
       })
   })
+};
+
+// 上传图片
+export function uploadImg(url, data) {
+  let param = new FormData(); // 创建form对象
+  param.append("file", data); //) // 通过append向form对象添加数据
+  return new Promise((resolve, redect) => {
+    axios({
+      method: 'post',
+      url: url,
+      data: param,
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+    }).then(response => {
+      if (response.data.code == 200) {
+        resolve(response.data.data);
+        if (response.data.diaShow) {
+          messageBox('success', response.data.msg, 1500);
+        }
+      } else {
+        messageBox('error', response.data.msg, 1500);
+      }
+    }, err => {
+      let status = err.response.status;
+      if (status === 404) {
+        messageBox('error', '没找到请求地址' + status, 1500);
+      } else if (status === 500 || status === 504) {
+        messageBox('error', '服务器错误' + status, 1500);
+      }
+      endLoading();
+      reject(err)
+    });
+  })
+
 }

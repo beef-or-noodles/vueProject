@@ -103,11 +103,18 @@
               <el-input v-model="fromArtie.author" size="small"></el-input>
             </el-form-item>
             <el-form-item label="缩略图:">
-              <el-upload class="avatar-uploader" ref="upload" :action="$api.upload" :show-file-list="false" :auto-upload="false" :on-change="handlePreview" :on-success="handleAvatarSuccess">
-                <img v-if="imgurl" :src="imgurl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-              <el-button style="margin-left: 10px;" size="small" type="primary" @click="submitUpload">上传</el-button>
+              <el-col :span="24">
+                <el-upload class="avatar-uploader" :action="$api.upload" ref="upload" :show-file-list="false" :on-change="uploadChange" :auto-upload="false">
+                  <img v-if="imgurl" :src="imgurl" ref="imgUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+              </el-col>
+              <el-col :span="24">
+                <span>是否压缩：</span>
+                <el-switch v-model="isCompress" active-text="是" inactive-text="否">
+                </el-switch>
+                <el-button type="primary" size="mini" @click="submitUpload">上传</el-button>
+              </el-col>
             </el-form-item>
           </el-form>
         </el-col>
@@ -137,6 +144,8 @@ export default {
       filterText: '',
       isClear: false,
       imgurl: '',
+      isCompress: true, //是否压缩
+      imgFormData: '', //图片file对象
       paging: {
         pageNo: 1,
         pageSize: 10,
@@ -217,21 +226,41 @@ export default {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
-    // 上传之前
-    handlePreview(file, fileList) {
+    // 选择图片
+    uploadChange(file, fileList) {
       this.imgurl = URL.createObjectURL(file.raw);
+      this.imgFormData = file.raw;
     },
-    // 上传图片
-    handleAvatarSuccess(res, file) {
-      this.fromArtie.imgurl = res.data.path;
-    },
-    //手动上传缩略图
+    //手动上传图片
     submitUpload() {
-      this.$message({
-        message: '上传成功',
-        type: 'success'
-      });
-      this.$refs.upload.submit();
+      var _this = this;
+      if (this.imgurl != "") {
+        if (this.isCompress) {
+          lrz(_this.imgurl)
+            .then(function(rst) {
+              //成功时执行
+              console.log("压缩图片");
+              _this.$post(_this.$api.upload, rst.formData).then((data) => {
+                _this.fromArtie.imgurl = data.path;
+              })
+            }).catch(function(error) {
+              //失败时执行
+            }).always(function() {
+              //不管成功或失败，都会执行
+            })
+        } else {
+          console.log("不压缩");
+          this.$uploadImg(this.$api.upload, this.imgFormData).then((data) => {
+            this.fromArtie.imgurl = data.path;
+          })
+        }
+      } else {
+        this.$message({
+          message: '请选择图片',
+          type: 'info'
+        });
+      }
+
     },
     // 富文本编辑框改变事件
     change(val) {
@@ -284,7 +313,7 @@ export default {
     },
     //搜索文章
     serchArtice() {
-      if(this.searchName == ''){
+      if (this.searchName == '') {
         this.$message({
           message: '请输入搜索内容',
           type: 'info'
@@ -293,11 +322,11 @@ export default {
       }
       this.$post(this.$api.searchArtice, {
         searchName: this.searchName,
-        recycle:1,
+        recycle: 1,
       }).then((data) => {
-        if(data != ''){
-            this.tableData = data;
-            this.paging.total = 10;
+        if (data != '') {
+          this.tableData = data;
+          this.paging.total = 10;
         }
 
       });
@@ -315,7 +344,7 @@ export default {
           message: '请输入内容',
           type: 'info'
         });
-      } else if(JSON.stringify(this.fromArtie.columnId) == '{}') {
+      } else if (JSON.stringify(this.fromArtie.columnId) == '{}') {
         this.$message({
           message: '请选择栏目',
           type: 'info'
@@ -368,7 +397,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        params.recycle=0;
+        params.recycle = 0;
         this.$post(this.$api.delectArtice, params).then((data) => {
           this.queryArtice(this.columnId);
         });
