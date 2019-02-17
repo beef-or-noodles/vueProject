@@ -224,4 +224,23 @@ router.post('/delectRecycle', (req, res) => {
   })
 })
 
+
+// 根据ID查询文章详情
+router.post('/articeInfo', (req, res) => {
+  var sql = $sql.artice.articeInfo;
+  var id = req.body.id;
+  conn.query(sql, [id], function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      var data = result[0];
+      let rdata = returnData(200,data,'成功',false);
+      res.send(rdata);
+    }
+  })
+})
+
 module.exports = router;

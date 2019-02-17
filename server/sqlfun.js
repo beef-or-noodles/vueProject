@@ -25,6 +25,7 @@ var sqlMap = {
     delectArtice:'DELETE FROM artice WHERE id in (?);',//删除文章
     updateArtice:'update artice set columnId=?,articeTitle=?,abstract=?,content=?,author=?,checkRoot=?,imgurl=?,columnName=?,setTime=? where id = ?',//修改文章
     searchArtice:'select * from artice where recycle=? and concat(articeTitle,author,abstract) like ?;',//根据名字模糊查询
+    articeInfo:'select * from artice where id = ?',
   },
 }
 

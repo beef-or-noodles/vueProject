@@ -8,9 +8,22 @@ Vue.use(Router)
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component:mainIndex,
+      name: 'index',
+      component:resolve => require(['@/components/view/index.vue'],resolve),
+      redirect:'/list',
       meta:{title:'首页'},
+      children:[{
+          path: '/content',
+          name: 'content',
+          component:resolve => require(['@/components/view/content.vue'],resolve),
+          meta:{title:'文章'},
+        },{
+          path: '/list',
+          name: 'list',
+          component:resolve => require(['@/components/view/list.vue'],resolve),
+          meta:{title:'列表'},
+        }
+      ]
     },{
       path:'*',
       name:'404',

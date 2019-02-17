@@ -26,4 +26,6 @@ export default{
 
   queryRecycle:baseURL + '/queryRecycle',//查询回收站文章
   delectRecycle:baseURL + '/delectRecycle',//彻底删除文章
+
+  articeInfo:baseURL+'/articeInfo',//根据id查询文章详情
 }
