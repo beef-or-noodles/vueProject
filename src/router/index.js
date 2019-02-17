@@ -2,9 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import mainIndex from '@/components/manage/mainIndex'
-import index from '@/components/view/index'
-import content from '@/components/view/content'
-import list from '@/components/view/list'
 Vue.use(Router)
 
   const router = new Router({
@@ -12,23 +9,8 @@ Vue.use(Router)
     {
       path: '/',
       name: 'HelloWorld',
-      component:index,
+      component:mainIndex,
       meta:{title:'首页'},
-    },{
-      path: '/index',
-      name: 'index',
-      component:index,
-      meta:{title:'首页'},
-    },{
-      path: '/content',
-      name: 'content',
-      component:content,
-      meta:{title:'内容页'},
-    },{
-      path: '/list',
-      name: 'list',
-      component:list,
-      meta:{title:'列表'},
     },{
       path:'*',
       name:'404',

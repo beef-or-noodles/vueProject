@@ -210,17 +210,33 @@ router.post('/delectColumn', (req, res) => {
     }
     if (results) {
       if (results.length == 0 || results == '') { //判断是否纯在子栏目   不存在
-        conn.query(sql, [list], function(err, result) {
-          if (err) {
-            console.log(err);
+
+        var articeSql = `select * from artice where columnId = ${list}`
+        conn.query(articeSql,function(Aerr,Aresult){//查询是否存在文章
+          if(Aerr){
             let Edata = returnData(500, '', '服务器错误', true);
             res.send(Edata);
           }
-          if (result) {
-            let rdata = returnData(200, '', '删除成功', true);
-            res.send(rdata);
+          if(Aresult){
+            if(Aresult.length == 0 || Aresult == ''){
+              conn.query(sql, [list], function(err, result) {//执行删除
+                if (err) {
+                  console.log(err);
+                  let Edata = returnData(500, '', '服务器错误', true);
+                  res.send(Edata);
+                }
+                if (result) {
+                  let rdata = returnData(200, '', '删除成功', true);
+                  res.send(rdata);
+                }
+              })
+            }else{//有文章给出提示
+              let rdata = returnData(500, '', '请删除所属文章,在进行删除操作', true);
+              res.send(rdata);
+            }
           }
-        })
+        });
+
       } else { //存在
         let rdata = returnData(500, '', '此栏目是顶级栏目，请确保没有子栏目再删除', true);
         res.send(rdata);

@@ -48,8 +48,11 @@
                   </p>
                 </div>
               </el-tooltip>
-              <el-col :span="14">
+              <el-col :span="9">
                 时间：{{setTime(scope.row.creatTime)}}
+              </el-col>
+              <el-col :span="5">
+                &nbsp;<span v-show="scope.row.setTime > (new Date().getTime())" style="color:green;">已置顶</span>
               </el-col>
               <el-col :span="10">
                 <span>状态：</span>
@@ -91,8 +94,9 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <br />
             <el-form-item label="创建时间:">
-              <el-date-picker v-model="fromArtie.time" type="datetime" placeholder="选择日期时间" default-time="12:00:00" style="width:100%;">
+              <el-date-picker :disabled="true" v-model="fromArtie.creatTime" type="datetime" placeholder="选择日期时间" default-time="12:00:00" style="width:100%;">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="是否审核:" style="margin-bottom:10px;">
@@ -101,6 +105,10 @@
             </el-form-item>
             <el-form-item label="作者:" style="margin-bottom:10px;">
               <el-input v-model="fromArtie.author" size="small"></el-input>
+            </el-form-item>
+            <el-form-item label="是否置顶:" style="margin-bottom:10px;">
+              <el-checkbox v-model="stick"></el-checkbox>
+              <el-input-number :disabled="!stick" v-model="stickDate" size="mini" :min="1"></el-input-number>　(天)
             </el-form-item>
             <el-form-item label="缩略图:">
               <el-col :span="24">
@@ -146,6 +154,9 @@ export default {
       imgurl: '',
       isCompress: true, //是否压缩
       imgFormData: '', //图片file对象
+      time: new Date(),
+      stick: false, //是否置顶
+      stickDate: 1, //置顶天数
       paging: {
         pageNo: 1,
         pageSize: 10,
@@ -160,6 +171,8 @@ export default {
         columnId: {},
         author: '',
         checkRoot: false,
+        setTime: new Date(),
+        creatTime: new Date(),
       },
       tableData: [],
       treeData: [],
@@ -186,8 +199,12 @@ export default {
           columnId: {},
           author: '',
           checkRoot: false,
+          setTime: new Date(),
+          creatTime: new Date(),
         }
         this.articeId = "";
+        this.stickDate = 1; //置顶天数
+        this.stick = false;
       }
     }
   },
@@ -333,7 +350,7 @@ export default {
     },
     //添加文章
     addArtice() {
-      let params = this.fromArtie;
+      var params = this.fromArtie;
       if (this.fromArtie.articeTitle == "") {
         this.$message({
           message: '请输入标题',
@@ -350,6 +367,12 @@ export default {
           type: 'info'
         });
       } else {
+        var time = new Date().getTime();
+        if (this.stick) { //置顶几天
+          params.setTime = time + (this.stickDate * 24 * 60 * 60 * 1000);
+        }else{
+          params.setTime = new Date(params.creatTime).getTime();
+        }
         if (this.articeId == '') {
           this.$post(this.$api.addArtice, params).then((data) => {
             this.dialogVisible = false;
@@ -418,6 +441,13 @@ export default {
       arr.columnId = {
         id: row.columnId + '',
         name: row.columnName,
+      }
+      var nowDate = new Date().getTime();
+      if (row.setTime > nowDate) {//是置顶
+        this.stick = true;
+        var times = arr.setTime - nowDate;
+        var day = Math.ceil(times/1000/60/60/24);//计算天数
+        this.stickDate = day;
       }
       this.fromArtie = arr;
       this.dialogVisible = true;

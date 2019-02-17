@@ -20,7 +20,8 @@ router.post('/addArtice', function(req, res) {
     params.imgurl = '/server/upload/noImg.png'
   }
   var sql = $sql.artice.addArtice;
-  conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name], function(err, result) {
+  var time = new Date(params.setTime).getTime().toString();
+  conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name,time], function(err, result) {
     if (err) {
       console.log(err);
         let Edata = returnData(500, '', '服务器错误', true);
@@ -42,7 +43,8 @@ router.post('/updateArtice', function(req, res) {
     params.checkRoot = 0;
   }
   var sql = $sql.artice.updateArtice;
-  conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name,params.id], function(err, result) {
+  var time = new Date(params.setTime).getTime().toString();
+  conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name,time,params.id], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -90,7 +92,7 @@ router.post('/queryArtice', function(req, res) {
   let pageNo = (params.pageNo - 1) * params.pageSize;
   let pageSize = params.pageSize;
 
-  var sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by creatTime DESC limit ${pageNo},${pageSize}`
+  var sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
 
   conn.query(sqls, [params.columnId], function(err, result) {
     if (err) {
