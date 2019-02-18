@@ -3,7 +3,7 @@
   <main class="r_box">
     <li v-for="item in tableData" :key="item.id">
       <router-link :to="{ path: '/content', query:{id:item.id}}">
-        <i><img :src="item.imgurl"></i>
+        <i class="img"><img :src="item.imgurl"></i>
         <h3>{{item.articeTitle}}</h3>
         <p>{{item.abstract}}</p>
       </router-link>
@@ -28,11 +28,12 @@ export default {
   },
   mounted() {
     //do something after mounting vue instance
-
+    let id = this.$route.params.id;
+    this.queryArtice(id);
   },
   watch: {
     '$route'(to, from) {
-      if (this.$route.name == "list") {
+      if (to.name == "list") {
         let id = this.$route.params.id;
         this.queryArtice(id);
       }
@@ -54,5 +55,9 @@ export default {
 }
 </script>
 <style scoped>
-
+.img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

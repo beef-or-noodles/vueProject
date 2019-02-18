@@ -10,7 +10,7 @@ Vue.use(Router)
       path: '/',
       name: 'index',
       component:resolve => require(['@/components/view/index.vue'],resolve),
-      redirect:'/list',
+      // redirect:'/list',
       meta:{title:'首页'},
       children:[{
           path: '/content',

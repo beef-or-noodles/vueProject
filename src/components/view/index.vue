@@ -97,10 +97,21 @@ export default {
     },
     // 树点击事件
     treeClick(data, index, val) {
-      let id = data.id; //当前点击栏目id
-      this.$router.push({
-        path:'/list/'+id,
-      })
+      var id = data.id; //当前点击栏目id
+      var obj = data.hasOwnProperty('children');
+      if(obj){
+        if(data.children.length == 0){
+          this.$router.push({
+            path:'/list/'+id
+          })
+        }
+      }else{
+        this.$router.push({
+          path:'/list/'+id
+        })
+      }
+
+
     },
     //得到栏目列表
     getTreeList() {
