@@ -307,6 +307,7 @@ export default {
     queryArtice(id) {
       let params = this.paging;
       params.columnId = id;
+      params.type = 0;
       this.$post(this.$api.queryArtice, params).then((data) => {
         this.tableData = data.data;
         this.paging.total = data.total;

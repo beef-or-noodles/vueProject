@@ -18,7 +18,7 @@ Vue.use(Router)
           component:resolve => require(['@/components/view/content.vue'],resolve),
           meta:{title:'文章'},
         },{
-          path: '/list',
+          path: '/list/:id',
           name: 'list',
           component:resolve => require(['@/components/view/list.vue'],resolve),
           meta:{title:'列表'},

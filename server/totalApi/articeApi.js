@@ -86,13 +86,21 @@ function sortRule(title,type){
 }
 
 // 根据栏目id查找文章
+/*
+*type:0 后台查询所有文章  1 前台查询已审核文章
+*/
 router.post('/queryArtice', function(req, res) {
   var params = req.body;
   var sql = $sql.artice.queryArtice;
   let pageNo = (params.pageNo - 1) * params.pageSize;
   let pageSize = params.pageSize;
+  var sqls = "";
+  if(params.type == 0){
+      sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
+  }else if(params.type == 1){
+      sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and checkRoot = 1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
+  }
 
-  var sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
 
   conn.query(sqls, [params.columnId], function(err, result) {
     if (err) {
@@ -238,6 +246,24 @@ router.post('/articeInfo', (req, res) => {
     if (result) {
       var data = result[0];
       let rdata = returnData(200,data,'成功',false);
+      res.send(rdata);
+    }
+  })
+})
+
+// 文章点击率
+// 根据ID查询文章详情
+router.post('/articeClickNumber', (req, res) => {
+  var sql = $sql.artice.articeClickNumber;
+  var id = req.body.id;
+  conn.query(sql, [id], function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let rdata = returnData(200,'','成功',false);
       res.send(rdata);
     }
   })

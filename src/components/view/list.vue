@@ -1,22 +1,55 @@
 <template>
-  <div>
-    <main class="r_box">
-      <li><i><a href="/"><img src="https://www.yangqq.com/d/file/news/life/2018-06-17/917d732926d79cc2ae1012831ce51d1e.jpg"></a></i>
-        <h3><a href="/">你是什么人便会遇上什么人</a></h3>
-        <p>有时就为了一句狠话，像心头一口毒钉，永远麻�着亲密感情交流。恶言，真要慎出，平日多�心爱语，乃最简易之�施。</p>
-      </li>
-    </main>
-  </div>
+<div>
+  <main class="r_box">
+    <li v-for="item in tableData" :key="item.id">
+      <router-link :to="{ path: '/content', query:{id:item.id}}">
+        <i><img :src="item.imgurl"></i>
+        <h3>{{item.articeTitle}}</h3>
+        <p>{{item.abstract}}</p>
+      </router-link>
+    </li>
+  </main>
+</div>
 </template>
 <script>
 export default {
-  data(){
-    return{
-
+  data() {
+    return {
+      paging: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+      },
+      tableData: [],
     }
   },
   created() {
 
+  },
+  mounted() {
+    //do something after mounting vue instance
+
+  },
+  watch: {
+    '$route'(to, from) {
+      if (this.$route.name == "list") {
+        let id = this.$route.params.id;
+        this.queryArtice(id);
+      }
+    }
+  },
+  methods: {
+    // 根据栏目ID查询文章列表
+    queryArtice(id) {
+      let params = this.paging;
+      params.columnId = id;
+      params.type = 1;
+      this.$post(this.$api.queryArtice, params).then((data) => {
+        this.tableData = data.data;
+        this.paging.total = data.total;
+        this.tableData = data.data;
+      });
+    },
   }
 }
 </script>

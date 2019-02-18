@@ -28,7 +28,7 @@
         <div class="fenlei">
           <h2>文章分类</h2>
           <!-- 栏目树 -->
-          <el-tree :data="treeData" :props="defaultProps" default-expand-all :filter-node-method="filterNode" @node-click="treeClick" ref="tree2"></el-tree>
+          <el-tree :data="treeData" :props="defaultProps" default-expand-all @node-click="treeClick" ref="tree2"></el-tree>
         </div>
         <div class="tuijian">
           <h2>站长推荐</h2>
@@ -71,17 +71,10 @@ export default {
     return {
       about:'',
       treeData: [],
-      tableData:[],
       defaultProps: {
         children: 'children',
         label: 'label'
       },
-      paging: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-      },
-      columnId:'',
     }
   },
   components:{
@@ -105,9 +98,9 @@ export default {
     // 树点击事件
     treeClick(data, index, val) {
       let id = data.id; //当前点击栏目id
-      this.paging.pageNo = 1;
-      this.columnId = id;
-      this.queryArtice(id);
+      this.$router.push({
+        path:'/list/'+id,
+      })
     },
     //得到栏目列表
     getTreeList() {
@@ -117,19 +110,7 @@ export default {
         this.treeData = data;
       });
     },
-    // 根据栏目ID查询文章
-    queryArtice(id) {
-      let params = this.paging;
-      params.columnId = id;
-      this.$post(this.$api.queryArtice, params).then((data) => {
-        this.tableData = data.data;
-        this.paging.total = data.total;
-      });
-    },
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.label.indexOf(value) !== -1;
-    },
+
   }
 }
 </script>

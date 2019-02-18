@@ -28,4 +28,5 @@ export default{
   delectRecycle:baseURL + '/delectRecycle',//彻底删除文章
 
   articeInfo:baseURL+'/articeInfo',//根据id查询文章详情
+  articeClickNumber:baseURL+'/articeClickNumber',//文章点击率
 }

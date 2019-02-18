@@ -19,9 +19,9 @@ export default {
   created() {
     //do something after creating vue instance
     let _this = this;
-    setTimeout(function () {
-      _this.$router.go(-1);
-    }, 3000);
+    // setTimeout(function () {
+    //   _this.$router.go(-1);
+    // }, 3000);
   }
 }
 </script>
