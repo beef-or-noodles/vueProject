@@ -25,8 +25,10 @@ var sqlMap = {
     delectArtice: 'DELETE FROM artice WHERE id in (?);', //删除文章
     updateArtice: 'update artice set columnId=?,articeTitle=?,abstract=?,content=?,author=?,checkRoot=?,imgurl=?,columnName=?,setTime=? where id = ?', //修改文章
     searchArtice: 'select * from artice where recycle=? and concat(articeTitle,author,abstract) like ?;', //根据名字模糊查询
-    articeInfo: 'select * from artice where checkRoot=1 and id = ?',
-    articeClickNumber: 'UPDATE artice SET clickNumber = clickNumber+1 WHERE id=?'
+    articeInfo: 'select * from artice where checkRoot=1 and id = ?', //前台查询
+    articeClickNumber: 'UPDATE artice SET clickNumber = clickNumber+1 WHERE id=?', //点击率
+    recommendArtice: 'update artice set recommend = ? where id = ?', //设置推荐文章
+    queryRecommend: 'select * from artice where recommend = 1 and recycle = 1 and checkRoot = 1 order by setTime DESC limit 0,8',//查询前八条数据
   },
 }
 

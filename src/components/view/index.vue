@@ -33,15 +33,11 @@
         <div class="tuijian">
           <h2>站长推荐</h2>
           <ul>
-            <li><a href="/">你是什么人便会遇上什么人</a></li>
-            <li><a href="/">帝国cms 列表页调用子栏目，没有则不显示栏目名称</a></li>
-            <li><a href="/">第二届 优秀个人博客模板比赛参选活动</a></li>
-            <li><a href="/">个人博客模板《绅士》后台管理</a></li>
-            <li><a href="/">你是什么人便会遇上什么人</a></li>
-            <li><a href="/">帝国cms 列表页调用子栏目，没有则不显示栏目名称</a></li>
-            <li><a href="/">第二届 优秀个人博客模板比赛参选活动</a></li>
-            <li><a href="/">个人博客模板《绅士》后台管理</a></li>
+            <li v-for="item in recommendData" :key="item.id"><router-link :to="{ path: '/content', query: { id: item.id}}">{{item.articeTitle}}</router-link></li>
           </ul>
+          <div v-if="recommendData == ''" style="padding-left:15px;padding-bottom:15px;">
+            这里空空如也^-^
+          </div>
         </div>
         <!-- <div class="links">
           <h2>友情链接</h2>
@@ -71,6 +67,7 @@ export default {
     return {
       about:'',
       treeData: [],
+      recommendData:[],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -88,6 +85,7 @@ export default {
     //do something after mounting vue instance
     this.getMe();
     this.getTreeList();
+    this.queryRecommend();
   },
   methods: {
     getMe() {
@@ -121,7 +119,12 @@ export default {
         this.treeData = data;
       });
     },
-
+    //查询推荐文章
+    queryRecommend(){
+      this.$post(this.$api.queryRecommend).then((data) => {
+        this.recommendData = data;
+      });
+    },
   }
 }
 </script>

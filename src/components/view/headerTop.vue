@@ -17,7 +17,7 @@
           <router-link to="/about" active-class="active">关于我</router-link>
         </li>
         <li>
-          <router-link to="/login" active-class="active">登录</router-link>
+          <router-link to="/login" active-class="active" target="_blank">登录</router-link>
         </li>
       </ul>
     </nav>

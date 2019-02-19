@@ -5,6 +5,8 @@ var mysql = require('mysql'); //引入sql驱动
 var $sql = require('../sqlfun'); //载入sql语句
 var returnData = require('../tool/returnData'); //返回封装数据
 
+var schedule = require("node-schedule");//定时任务
+
 var conn = mysql.createConnection(models.mysql); //创建连接
 conn.connect(); //连接数据库
 
@@ -21,6 +23,7 @@ router.post('/addArtice', function(req, res) {
   }
   var sql = $sql.artice.addArtice;
   var time = new Date(params.setTime).getTime().toString();
+
   conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name,time], function(err, result) {
     if (err) {
       console.log(err);
@@ -43,7 +46,27 @@ router.post('/updateArtice', function(req, res) {
     params.checkRoot = 0;
   }
   var sql = $sql.artice.updateArtice;
+  var upSql = "update artice set setTime = ? where id = ?"//取消置顶
   var time = new Date(params.setTime).getTime().toString();
+
+  //判断是否执行置顶任务 然后置顶自动失效
+  if(params.setTime > new Date().getTime()){
+    console.log("置顶");
+    var date = new Date(params.setTime);
+     schedule.scheduleJob(date, function(){
+       let id = params.id;
+       let creatTime = new Date(params.creatTime).getTime();
+       conn.query(upSql,[creatTime,id],function(err,result){
+         if(err){
+           console.log(err);
+         }
+         if(result){
+           console.log('取消置顶成功');
+         }
+       });
+    });
+  }
+
   conn.query(sql, [params.columnId.id,params.articeTitle,params.abstract,params.content,params.author,params.checkRoot,params.imgurl,params.columnId.name,time,params.id], function(err, result) {
     if (err) {
       console.log(err);
@@ -231,7 +254,23 @@ router.post('/delectRecycle', (req, res) => {
     }
   })
 })
-
+//推荐文章接口 recommendArtice
+router.post('/recommend',(req , res)=>{
+  var sql = $sql.artice.recommendArtice;
+  var type = req.body.type;
+  var id = req.body.id;
+  conn.query(sql,[type,id],function(err,result){
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let rdata = returnData(200,'','设置成功',true);
+      res.send(rdata);
+    }
+  });
+});
 
 // 根据ID查询文章详情
 router.post('/articeInfo', (req, res) => {
@@ -250,6 +289,22 @@ router.post('/articeInfo', (req, res) => {
     }
   })
 })
+
+//查询推荐文章
+router.post('/queryRecommend', (req, res) => {
+  var sql = $sql.artice.queryRecommend;
+  conn.query(sql, function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let rdata = returnData(200,result,'成功',false);
+      res.send(rdata);
+    }
+  })
+});
 
 // 文章点击率
 // 根据ID查询文章详情

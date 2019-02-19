@@ -29,6 +29,11 @@ Vue.use(Router)
       name:'404',
       component:resolve => require(['@/components/404'],resolve),
       meta:{title:'404'},
+    },{
+      path:'/login',
+      name:'login',
+      component:resolve => require(['@/components/manage/login/login.vue'],resolve),
+      meta:{title:'登陆'},
     }
   ]
 });

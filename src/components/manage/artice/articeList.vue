@@ -43,7 +43,7 @@
               </div>
               <el-tooltip class="item" effect="dark" :content="scope.row.articeTitle" placement="bottom">
                 <div class="abs">
-                  <p>
+                  <p style="margin-bottom:10px;">
                     {{scope.row.abstract}}
                   </p>
                 </div>
@@ -54,10 +54,15 @@
               <el-col :span="5">
                 &nbsp;<span v-show="scope.row.setTime > (new Date().getTime())" style="color:green;">已置顶</span>
               </el-col>
-              <el-col :span="10">
+              <el-col :span="6">
                 <span>状态：</span>
                 <span style="color:red;" v-if="scope.row.checkRoot == 0">待审核</span>
                 <span style="color:green;" v-if="scope.row.checkRoot == 1">审核通过</span>
+              </el-col>
+              <el-col :span="4">
+                <span>推荐：</span>
+                <el-button type="danger" v-if="scope.row.recommend == 0" size="mini" plain @click="setRecommend(scope.row.id,1,scope.$index)">否</el-button>
+                <el-button type="primary" v-if="scope.row.recommend == 1" size="mini" plain @click="setRecommend(scope.row.id,0,scope.$index)">是</el-button>
               </el-col>
             </template>
           </el-table-column>
@@ -453,6 +458,16 @@ export default {
       this.fromArtie = arr;
       this.dialogVisible = true;
       this.articeId = row.id;
+    },
+    //设置推荐文章
+    setRecommend(id,type,index){
+      var params = {
+        id:id,
+        type:type,
+      }
+      this.$post(this.$api.recommend,params).then((data)=>{
+        this.tableData[index].recommend = type;
+      });
     }
   },
 }

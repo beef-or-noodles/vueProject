@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     setPageRouter() {
-      pageRouter(routerData);
+      //pageRouter(routerData);
       menuRouter(routerMenuData); //进入主页创建对应路由表
 
     }
