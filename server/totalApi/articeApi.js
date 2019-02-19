@@ -10,6 +10,8 @@ var schedule = require("node-schedule");//定时任务
 var conn = mysql.createConnection(models.mysql); //创建连接
 conn.connect(); //连接数据库
 
+
+var setTimeOut={};
 //添加文章
 router.post('/addArtice', function(req, res) {
   var params = req.body;
