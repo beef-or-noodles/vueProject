@@ -4,10 +4,10 @@
   <audio controls autoplay>
     <!-- <source src="mp3/Approaching%20Nirvana%20-%20You.mp3"> -->
   </audio>
-  <div id="background" class="wall"></div>
+  <!-- <div id="background" class="wall"></div>
   <div id="midground" class="wall"></div>
   <div id="foreground" class="wall"></div>
-  <div id="top" class="wall"></div>
+  <div id="top" class="wall"></div> -->
 
   <div class="allContent">
     <el-container>
