@@ -22,6 +22,11 @@ Vue.use(Router)
           name: 'list',
           component:resolve => require(['@/components/view/list.vue'],resolve),
           meta:{title:'列表'},
+        },{
+          path: '/photo',
+          name: 'photo',
+          component:resolve => require(['@/components/view/photo.vue'],resolve),
+          meta:{title:'相册'},
         }
       ]
     },{

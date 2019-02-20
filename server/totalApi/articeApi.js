@@ -47,8 +47,8 @@ router.post('/updateArtice', function(req, res) {
   } else {
     params.checkRoot = 0;
   }
-  // var setTime = params.setTime;
-  var setTime = new Date().getTime() + 10000;
+  var setTime = params.setTime;
+  // var setTime = new Date().getTime() + 10000;
   var sql = $sql.artice.updateArtice;
   var upSql = "update artice set setTime = ? where id = ?" //取消置顶
   var time = new Date(params.setTime).getTime().toString();

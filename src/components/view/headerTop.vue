@@ -7,11 +7,11 @@
       <h2 id="mnavh"><span class="navicon"></span></h2>
       <ul id="starlist">
         <li>
-          <router-link to="/list" active-class="active">网站首页</router-link>
+          <router-link to="/list/38" active-class="active">网站首页</router-link>
         </li>
         <!-- <li><a href="share.html" :class="{active:path == '/list'}">我的相册</a></li> -->
         <li>
-          <router-link to="/pic" active-class="active">相册</router-link>
+          <router-link to="/photo" active-class="active">相册</router-link>
         </li>
         <li>
           <router-link to="/about" active-class="active">关于我</router-link>
