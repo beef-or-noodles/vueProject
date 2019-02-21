@@ -1,6 +1,5 @@
 <template>
 <div>
-  <main class="r_box">
     <li v-for="item in tableData" :key="item.id">
       <router-link :to="{ path: '/content', query:{id:item.id}}">
         <i class="img"><img :src="item.imgurl"></i>
@@ -8,7 +7,6 @@
         <p>{{item.abstract}}</p>
       </router-link>
     </li>
-  </main>
 </div>
 </template>
 <script>

@@ -10,9 +10,9 @@ a:hover { text-decoration: none; color: #000; }
 .blank { height: 20px; overflow: hidden; width: 100%; margin: auto; clear: both }
 .f_l { float: left }
 .f_r { float: right }
-article { width: 1000px; margin: 80px auto 0; overflow: hidden; zoom: 1; }
+article { width: 1000px; margin: 80px auto 0; zoom: 1; }
 aside { width: 30%; float: left; overflow: hidden; display: block; position: relative; z-index: 1 }
-main { overflow: hidden; width: 68%; float: right; display: block; }
+main { width: 68%; float: right; display: block;}
 .container { width: 1000px; margin: auto }
 nav { width: 1000px; margin: auto }
 .logo { float: left; font-size: 22px }

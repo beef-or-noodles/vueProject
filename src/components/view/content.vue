@@ -1,6 +1,6 @@
 <template>
 <div>
-  <main>
+
     <div class="infosbox">
       <div class="newsview">
         <h3 class="news_title">{{artieData.articeTitle}}</h3>
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-  </main>
+
 </div>
 </template>
 <script>
