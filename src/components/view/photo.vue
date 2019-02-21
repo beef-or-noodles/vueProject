@@ -17,6 +17,11 @@ export default {
     return {
       imgsArr: [],
       group: 1, // request param
+      paging: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+      },
     }
   },
   components: {
@@ -28,7 +33,12 @@ export default {
   },
   methods: {
     getData() {
-
+      let params = this.paging;
+      params.columnId = 18;
+      params.type = 1;
+      this.$post(this.$api.queryArtice,params).then((data)=>{
+        console.log(data);
+      });
     },
 
   },

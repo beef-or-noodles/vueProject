@@ -6,11 +6,14 @@
 </div>
 </template>
 <script>
+window.onload = function(){
+
+}
 export default {
   data() {
     return {
-      imgData: ['http://demo.htmleaf.com/1704/201704121503/img/set1/11.jpg', 'http://demo.htmleaf.com/1704/201704121503/img/set1/2.jpg', 'http://demo.htmleaf.com/1808/201808011428/images/item-1.jpg',
-        'http://demo.htmleaf.com/1808/201808011428/images/item-5.jpg','http://demo.htmleaf.com/1704/201704101508/images/4.jpg','http://demo.htmleaf.com/1704/201704101508/images/2.jpg','http://demo.htmleaf.com/1704/201704101508/images/9.jpg'
+      imgData: ['https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=86a7230b4e166d222777139476220945/5882b2b7d0a20cf4e2f15a1f7b094b36adaf9989.jpg','https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=9b698df937f33a87816d061af65d1018/8d5494eef01f3a2963a5db079425bc315d607c8d.jpg','https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=36aa51157b094b36c4921ded93cd7c00/810a19d8bc3eb13534fd1871ab1ea8d3fc1f44c5.jpg','http://demo.htmleaf.com/1704/201704121503/img/set1/11.jpg', 'http://demo.htmleaf.com/1704/201704121503/img/set1/2.jpg', 'http://demo.htmleaf.com/1808/201808011428/images/item-1.jpg',
+        'http://demo.htmleaf.com/1808/201808011428/images/item-5.jpg','http://demo.htmleaf.com/1704/201704101508/images/4.jpg','http://demo.htmleaf.com/1704/201704101508/images/2.jpg'
       ]
     }
   },
@@ -50,6 +53,10 @@ export default {
         div[i].style.left = leftA + 'px';
         div[i].style.top = arrHeight[k] + interval + 'px';
         arrHeight[k] = arrHeight[k] + div[i].offsetHeight + interval;//根新列高度
+
+        var maxHeight = Math.max(...arrHeight);
+        //设置盒子高度
+        document.getElementById("waterFall").style.height = maxHeight+'px';
 
       }
 
