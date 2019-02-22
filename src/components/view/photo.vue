@@ -5,7 +5,8 @@
     </div>
   </div> -->
   <div class="">
-      <water-fall></water-fall>
+      <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>
+        <el-button type="primary" style="" @click="addImg">加载更多</el-button>
   </div>
 </template>
 
@@ -15,13 +16,15 @@ export default {
   name: 'app',
   data() {
     return {
-      imgsArr: [],
+      imgsArr:['http://demo.htmleaf.com/1808/201808011428/images/item-2.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-3.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-4.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-5.jpg'],
       group: 1, // request param
       paging: {
         pageNo: 1,
         pageSize: 10,
         total: 0,
       },
+      colNum:3,
+      intervalN:10,
     }
   },
   components: {
@@ -40,7 +43,9 @@ export default {
         console.log(data);
       });
     },
-
+    addImg(){
+      this.imgsArr = ['http://demo.htmleaf.com/1808/201808011428/images/item-2.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-3.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-4.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-5.jpg']
+    },
   },
 
 
