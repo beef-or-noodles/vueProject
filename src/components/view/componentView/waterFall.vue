@@ -1,7 +1,18 @@
 <template>
 <div class="water-fall" id="waterFall">
   <div class="water-item" v-for="(elem,index) in imgData" :key="index">
-    <img class="img" :src="elem" alt="">
+    <img class="img" :src="elem.img" alt="">
+    <div class="msgBox">
+      <div class="zanBtn iconfont icon-zan" @click="zanBtn(index)" title="留下小星星" v-if="elem.click"></div>
+      <div class="zanBtn iconfont icon-zan" @click="zanBtn(index)" title="更多小星星" style="color:red;" v-else></div>
+      <div class="zan_num">{{elem.goodNum}}</div>
+      <div class="title">
+        {{elem.title}}
+      </div>
+    </div>
+    <div class="abs">
+      <span>{{elem.abs}}</span>
+    </div>
   </div>
 </div>
 </template>
@@ -48,6 +59,11 @@ export default {
     this.loadImg();
   },
   methods: {
+    //赞
+    zanBtn(index){
+      this.imgData[index].click = false;
+      this.imgData[index].goodNum = Number(this.imgData[index].goodNum) + 1
+    },
     loadImg() {
       var _this = this;
 
@@ -106,11 +122,48 @@ export default {
 .water-item {
   position: absolute;
   /* width:25%; */
-  background: #449d44;
+  background: white;
   transition: all .36s ease;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 1px 1px 10px #9e9e9e;
 }
 
 .water-item img {
   width: 100%;
+}
+.msgBox{
+  background: white;
+  overflow: hidden;
+  padding: 5px 0
+}
+.msgBox>div{
+  float: left;
+}
+.zanBtn{
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+.zan_num,.title{
+  line-height: 30px;
+}
+.title{
+  padding-left: 10px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.abs{
+  text-align: justify;
+  padding:0px 8px 8px 8px;
+
+  overflow : hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
 }
 </style>

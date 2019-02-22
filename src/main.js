@@ -11,6 +11,7 @@ import lrz from 'lrz';//图片压缩工具
 import store from './tool/vuex/store/store.js';
 import tool from './tool/public.js';
 import './assets/css/elementUI.css';
+import './assets/css/iconfont/iconfont.css';
 import {
   post,
   get,

@@ -1,13 +1,13 @@
 <template>
-  <!-- <div class="flex">
+<!-- <div class="flex">
     <div class="item" v-for="elem in 8">
       {{elem}}
     </div>
   </div> -->
-  <div class="">
-      <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>
-        <el-button type="primary" style="" @click="addImg">加载更多</el-button>
-  </div>
+<div class="">
+  <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>
+  <el-button type="primary" style="" @click="addImg">加载更多</el-button>
+</div>
 </template>
 
 <script>
@@ -16,15 +16,33 @@ export default {
   name: 'app',
   data() {
     return {
-      imgsArr:['http://demo.htmleaf.com/1808/201808011428/images/item-2.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-3.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-4.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-5.jpg'],
+      imgsArr: [{
+        img: 'http://demo.htmleaf.com/1808/201808011428/images/item-2.jpg',
+        title: '标题呀',
+        goodNum: '30',
+        click: true,
+        abs: '这是简介呢！！！！！'
+      }, {
+        img: 'http://demo.htmleaf.com/1808/201808011428/images/item-3.jpg',
+        title: '标题呀',
+        goodNum: '30',
+        click: true,
+        abs: '这是简介呢！！！！！',
+      }, {
+        img: 'http://demo.htmleaf.com/1808/201808011428/images/item-5.jpg',
+        title: '标题呀',
+        goodNum: '30',
+        click: true,
+        abs: '这是简介呢！！！！！',
+      }],
       group: 1, // request param
       paging: {
         pageNo: 1,
         pageSize: 10,
         total: 0,
       },
-      colNum:3,
-      intervalN:10,
+      colNum: 3,
+      intervalN: 10,
     }
   },
   components: {
@@ -39,17 +57,35 @@ export default {
       let params = this.paging;
       params.columnId = 18;
       params.type = 1;
-      this.$post(this.$api.queryArtice,params).then((data)=>{
+      this.$post(this.$api.queryArtice, params).then((data) => {
         console.log(data);
       });
     },
-    addImg(){
-      this.imgsArr = ['http://demo.htmleaf.com/1808/201808011428/images/item-2.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-3.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-4.jpg','http://demo.htmleaf.com/1808/201808011428/images/item-5.jpg']
+    addImg() {
+      this.imgsArr = [{
+        img: 'http://demo.htmleaf.com/1808/201808011428/images/item-2.jpg',
+        title: '标题呀',
+        goodNum: '30',
+        click: true,
+        abs: '这是简介呢！！！！！'
+      }, {
+        img: 'http://demo.htmleaf.com/1808/201808011428/images/item-3.jpg',
+        title: '标题呀',
+        goodNum: '30',
+        click: true,
+        abs: '这是简介呢！！！！！',
+      }, {
+        img: 'http://demo.htmleaf.com/1808/201808011428/images/item-5.jpg',
+        title: '标题呀',
+        goodNum: '30',
+        click: true,
+        abs: '这是简介呢！！！！！',
+      }]
+    }
     },
-  },
 
 
-}
+  }
 </script>
 <style scoped>
 .flex {
@@ -75,9 +111,10 @@ export default {
   font-size: 70px;
   overflow: hidden;
   /* flex-shrink:1 空间不足项目缩小 0不缩小*/
-  flex-grow:1;/*等分剩下空间*/
+  flex-grow: 1;
+  /*等分剩下空间*/
   /* order:1 数值越小越靠前*/
   /* flex-basis: <length> | auto; default auto 项目分配之前的px*/
-   /* align-self: auto | flex-start | flex-end | center | baseline | stretch; 允许元素拥有自己的对齐方式*/
+  /* align-self: auto | flex-start | flex-end | center | baseline | stretch; 允许元素拥有自己的对齐方式*/
 }
 </style>
