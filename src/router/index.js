@@ -13,7 +13,7 @@ Vue.use(Router)
       // redirect:'/list',
       meta:{title:'首页'},
       children:[{
-          path: '/content',
+          path: ':/content',
           name: 'content',
           component:resolve => require(['@/components/view/content.vue'],resolve),
           meta:{title:'文章'},

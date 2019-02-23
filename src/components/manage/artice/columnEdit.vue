@@ -88,7 +88,7 @@ export default {
       number1: 6, //排序
       options: [],
       value8: '',
-
+      userID:this.$store.state.user_info.id,
       editDialog: false,
       submitType: 1, //1：增加  2：修改
       updateID: '',
@@ -106,9 +106,6 @@ export default {
       idList: [],
       columnSort:[],
     }
-  },
-  created() {
-
   },
   watch: {
     editDialog(val) {
@@ -164,7 +161,7 @@ export default {
         this.$post(this.$api.batchSort,params).then((data) => {
           this.columnSort = [];
           this.getUserList();
-        }); 
+        });
       }else{
         this.$message({
           message: '请修改排序',
@@ -180,7 +177,7 @@ export default {
     },
     // 查询顶级栏目
     selectColumn() {
-      this.$post(this.$api.selectColumn).then((data) => {
+      this.$post(this.$api.selectColumn,{userID:this.userID}).then((data) => {
         let arr = []
         for(let i in data){
           arr.push({id:data[i].id+'',name:data[i].columnName});
@@ -218,6 +215,7 @@ export default {
     addUser(type) {
       let params = this.fromData;
       if (type === 1) {
+        params.userID = this.userID;
         if(this.fromData.columnName != ""){
           this.$post(this.$api.addColumn, params).then((data) => {
             this.editDialog = false;
@@ -240,7 +238,7 @@ export default {
     },
     //得到栏目列表
     getUserList() {
-      this.$post(this.$api.queryColumn,{type:1}).then((data) => {
+      this.$post(this.$api.queryColumn,{type:1,userID:this.userID}).then((data) => {
         var arr  = [];
         for(let i in data){
           arr.push(data[i]);
@@ -255,6 +253,7 @@ export default {
     searchUser() {
       let params = {
         userSearch: this.userSearch,
+        userID:this.userID,
       }
       if (this.userSearch == '') {
         this.getUserList();

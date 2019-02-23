@@ -82,7 +82,7 @@
   </div>
 
   <!-- 编辑弹窗 -->
-  <el-dialog title="编辑" :visible.sync="dialogVisible" width="1100px">
+  <el-dialog title="编辑" :close-on-click-modal="false" :visible.sync="dialogVisible" width="1100px">
     <div class="diaContent">
       <el-row :gutter="15">
         <el-col :span="7">
@@ -152,6 +152,7 @@ export default {
   },
   data() {
     return {
+      userID:this.$store.state.user_info.id,
       dialogVisible: false,
       searchName: '', //搜索文章
       filterText: '',
@@ -291,7 +292,7 @@ export default {
     //得到栏目列表
     getTreeList() {
       this.$post(this.$api.queryColumn, {
-        type: 1
+        type: 1,userID:this.userID
       }).then((data) => {
         this.treeData = data;
       });
@@ -321,7 +322,8 @@ export default {
     //查询所有栏目
     getColumnList() {
       this.$post(this.$api.queryColumn, {
-        type: 0
+        type: 0,
+        userID:this.userID,
       }).then((data) => {
         var arr = [];
         for (let i in data) {
@@ -346,6 +348,7 @@ export default {
       this.$post(this.$api.searchArtice, {
         searchName: this.searchName,
         recycle: 1,
+        userID:this.userID,
       }).then((data) => {
         if (data != '') {
           this.tableData = data;
@@ -386,6 +389,7 @@ export default {
           });
         } else {
           params.id = this.articeId;
+          params.userID = this.userID;
           this.$post(this.$api.updateArtice, params).then((data) => {
             this.dialogVisible = false;
             this.queryArtice(this.columnId);

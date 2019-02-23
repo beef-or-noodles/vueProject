@@ -65,6 +65,7 @@ import {
 import {
   routerMenuData
 } from '@/tool/public/routerData.js' //配置的路由表
+import { mapState, mapActions, mapGetters,mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -81,6 +82,8 @@ export default {
     this.userInfo = user;
   },
   mounted() {
+    // 存入Vuex
+    this.setUserInfo(this.userInfo.data[0]);
     this.setRouter();
     // 禁止刷新
     document.oncontextmenu = function() {
@@ -94,6 +97,8 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setUserInfo']),
+
     setRouter() {
       this.menuData = routerMenuData
     },

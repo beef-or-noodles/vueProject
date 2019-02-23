@@ -17,7 +17,8 @@ router.post('/addColumn', (req, res) => {
   } else {
     params.checkRoot = 0;
   }
-  conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name], function(err, result) {
+  var userID = req.body.userID;
+  conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name,userID], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -32,7 +33,8 @@ router.post('/addColumn', (req, res) => {
 //查找顶级栏目
 router.post('/selectColumn', (req, res) => {
   var sql = $sql.column.queryTopColumn;
-  conn.query(sql, [0], function(err, result) {
+  var userID = req.body.userID;
+  conn.query(sql, [userID,0], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -80,7 +82,8 @@ function sortRule(title,type){
 router.post('/queryColumn', (req, res) => {
   var sql = $sql.column.queryColumn;
   var type = req.body.type;
-  conn.query(sql, function(err, result) {
+  var userID = req.body.userID;
+  conn.query(sql,[userID], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -179,7 +182,8 @@ router.post('/queryColumn', (req, res) => {
 router.post('/searchColumn', (req, res) => {
   var sql = $sql.column.searchColumn;
   var value = '%' + req.body.userSearch + '%';
-  conn.query(sql, [value], function(err, result) {
+  var userID = req.body.userID;
+  conn.query(sql, [userID,value], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);

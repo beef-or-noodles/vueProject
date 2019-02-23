@@ -8,6 +8,7 @@
 </div>
 </template>
 <script>
+import { mapState, mapActions, mapGetters,mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -19,6 +20,9 @@ export default {
 
   },
   methods: {
+    // 将用户信息保存在vuex里面
+    ...mapMutations(['setUserInfo']),
+
     loginBtn() {
       let params = {
         userName: this.userName,
@@ -43,6 +47,9 @@ export default {
               message: '欢迎回来'+data.data[0].userName,
               type: 'success'
             });
+            // 存入Vuex
+            this.setUserInfo(data.data[0]);
+
             this.$router.push({
               path: '/home'
             })

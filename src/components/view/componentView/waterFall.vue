@@ -166,4 +166,18 @@ display: -webkit-box;
 -webkit-line-clamp: 2;
 -webkit-box-orient: vertical;
 }
+.water-item:hover .zanBtn{
+  animation: animat 1s linear infinite;
+}
+@keyframes animat {
+  0%{
+    transform:scale(0.9);
+  }
+  50%{
+    transform:scale(1.3);
+  }
+  100%{
+    transform:scale(1);
+  }
+}
 </style>

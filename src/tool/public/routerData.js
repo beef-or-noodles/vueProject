@@ -27,6 +27,14 @@ export const routerMenuData = [{
     name: 'columnEdit',
     icon: '',
   },{
+    rootChildName: '相册管理',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/artice/photoManger',
+    path: '/home/photoManger',
+    name: 'photoManger',
+    icon: '',
+  },{
     rootChildName: '文章列表',
     rootPower: true,
     rootLogin: true,
