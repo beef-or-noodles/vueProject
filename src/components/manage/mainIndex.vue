@@ -4,10 +4,10 @@
   <audio controls autoplay>
     <!-- <source src="mp3/Approaching%20Nirvana%20-%20You.mp3"> -->
   </audio>
-  <!-- <div id="background" class="wall"></div>
+  <div id="background" class="wall"></div>
   <div id="midground" class="wall"></div>
   <div id="foreground" class="wall"></div>
-  <div id="top" class="wall"></div> -->
+  <div id="top" class="wall"></div>
 
   <div class="allContent">
     <el-container>
@@ -65,7 +65,6 @@ import {
 import {
   routerMenuData
 } from '@/tool/public/routerData.js' //配置的路由表
-import { mapState, mapActions, mapGetters,mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -82,8 +81,6 @@ export default {
     this.userInfo = user;
   },
   mounted() {
-    // 存入Vuex
-    this.setUserInfo(this.userInfo.data[0]);
     this.setRouter();
     // 禁止刷新
     document.oncontextmenu = function() {
@@ -97,8 +94,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setUserInfo']),
-
     setRouter() {
       this.menuData = routerMenuData
     },

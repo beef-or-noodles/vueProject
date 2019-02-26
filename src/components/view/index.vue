@@ -94,7 +94,7 @@ export default {
   methods: {
     getMe() {
       this.$post(this.$api.articeInfo, {
-        id: 18
+        id: 1
       }).then((data) => {
         this.about = data;
       });

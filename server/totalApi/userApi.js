@@ -86,7 +86,7 @@ router.post('/userQuery', (req, res) => {
   let pageNo = (params.pageNo - 1) * params.pageSize;
   let pageSize = params.pageSize;
 
-  var sqls = 'select count(*) from userinfo;'+`select * from userinfo where userName != 'admin' limit ${pageNo},${pageSize};`
+  var sqls = 'select count(*) from userinfo;'+`select * from userinfo limit ${pageNo},${pageSize};`
 
   conn.query(sqls, function(err, result) {
     if (err) {
