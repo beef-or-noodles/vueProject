@@ -1,7 +1,7 @@
 <template>
 <div>
     <li v-for="item in tableData" :key="item.id">
-      <router-link :to="{ path: '/content', query:{id:item.id}}">
+      <router-link :to="{ path: `/${userID}/content`, query:{id:item.id}}">
         <i class="img"><img :src="item.imgurl"></i>
         <h3>{{item.articeTitle}}</h3>
         <p>{{item.abstract}}</p>
@@ -19,6 +19,7 @@ export default {
         total: 0,
       },
       tableData: [],
+      userID:this.$route.params.userID,
     }
   },
   created() {

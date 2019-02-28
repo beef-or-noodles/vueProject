@@ -10,20 +10,25 @@ Vue.use(Router)
       path: '/',
       name: 'index',
       component:resolve => require(['@/components/view/index.vue'],resolve),
-      // redirect:'/list',
+      redirect:'/:userID/myIndex',
       meta:{title:'首页'},
       children:[{
-          path: ':/content',
+            path: '/:userID/myIndex',
+            name: 'myIndex',
+            component:resolve => require(['@/components/view/myIndex.vue'],resolve),
+            meta:{title:'博客主页'},
+          },{
+          path: '/:userID/content',
           name: 'content',
           component:resolve => require(['@/components/view/content.vue'],resolve),
           meta:{title:'文章'},
         },{
-          path: '/list/:id',
+          path: '/:userID/list/:id',
           name: 'list',
           component:resolve => require(['@/components/view/list.vue'],resolve),
           meta:{title:'列表'},
         },{
-          path: '/photo',
+          path: '/:userID/photo',
           name: 'photo',
           component:resolve => require(['@/components/view/photo.vue'],resolve),
           meta:{title:'相册'},
@@ -35,7 +40,7 @@ Vue.use(Router)
       component:resolve => require(['@/components/404'],resolve),
       meta:{title:'404'},
     },{
-      path:'/login',
+      path:'/:userID/login',
       name:'login',
       component:resolve => require(['@/components/manage/login/login.vue'],resolve),
       meta:{title:'登陆'},

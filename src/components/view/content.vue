@@ -22,7 +22,7 @@
         <p>上一篇：<a href="/news/life/2018-03-13/804.html">作为一个设计师,如果遭到质疑你是否能恪守自己的原则?</a></p>
         <p>下一篇：<a href="/news/life/">返回列表</a></p>
       </div>
-      <div class="news_pl">
+      <!-- <div class="news_pl">
         <h2>文章评论</h2>
         <div class="gbko">
 
@@ -61,7 +61,8 @@
             </div>
           </form>
         </div>
-      </div>
+      </div> -->
+
     </div>
 
 </div>
@@ -73,8 +74,14 @@ export default {
       artieData:'',
     }
   },
+  watch:{
+    $route(to,from){
+      console.log(111111);
+       this.clickNumber(this.$route.query.id);
+    }
+  },
   mounted() {
-   this.clickNumber(this.$route.query.id);
+     this.clickNumber(this.$route.query.id);
   },
   methods: {
     setTime: function(val) {

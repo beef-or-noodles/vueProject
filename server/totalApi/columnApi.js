@@ -8,7 +8,7 @@ var returnData = require('../tool/returnData'); //返回数据封装
 var conn = mysql.createConnection(models.mysql);
 
 conn.connect();
-// 添加数据库
+// 添加栏目
 router.post('/addColumn', (req, res) => {
   var sql = $sql.column.addColumn;
   var params = req.body;
@@ -17,8 +17,11 @@ router.post('/addColumn', (req, res) => {
   } else {
     params.checkRoot = 0;
   }
+  var describe = params.describe;
+  var imgUrl = params.imgUrl;
   var userID = req.body.userID;
-  conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name,userID], function(err, result) {
+  console.log(imgUrl);
+  conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name,describe,imgUrl,userID], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -260,7 +263,9 @@ router.post('/updateColumn', (req, res) => {
   var checkRoot = req.body.checkRoot;
   var belongName = req.body.belongId.name;
   var sort = req.body.sort;
-  conn.query(sql, [columnName, belongId, checkRoot, belongName, sort, id], function(err, result) {
+  var describe = req.body.describe;
+  var imgUrl = req.body.imgUrl;
+  conn.query(sql, [columnName, belongId, checkRoot, belongName, sort,describe,imgUrl,id], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -292,10 +297,28 @@ router.post('/batchSort',(req,res)=>{
       res.send(Edata);
     }
     if (result) {
-      let rdata = returnData(200, '', '报存成功', true);
+      let rdata = returnData(200, '', '保存成功', true);
       res.send(rdata);
     }
   })
+});
+
+
+// 查找相册
+router.post('/queryPhoto',(req,res)=>{
+  var userID = req.body.userID;
+  var sql = $sql.column.queryPhoto;
+  conn.query(sql,[userID],function(err, result){
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let rdata = returnData(200, result, '查询成功', false);
+      res.send(rdata);
+    }
+  });
 });
 
 module.exports = router;

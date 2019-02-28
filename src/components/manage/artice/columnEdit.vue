@@ -263,7 +263,7 @@ export default {
         });
       }
     },
-    //删除用户
+    //删除栏目
     delect(id = "", type) {
       let params = {}
       if (type) {
@@ -281,7 +281,7 @@ export default {
         }
 
       }
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该栏目, 是否继续?', '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
         type: 'warning'

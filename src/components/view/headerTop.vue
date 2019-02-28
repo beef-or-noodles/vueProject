@@ -3,21 +3,20 @@
 <div>
   <header class="header-navigation" id="header">
     <nav>
-      <div class="logo"><router-link to="/">吴某某的个人博客</router-link></div>
+      <div class="logo">吴某某的个人博客</div>
       <h2 id="mnavh"><span class="navicon"></span></h2>
       <ul id="starlist">
         <li>
-          <router-link to="/list/38" active-class="active">网站首页</router-link>
-        </li>
-        <!-- <li><a href="share.html" :class="{active:path == '/list'}">我的相册</a></li> -->
-        <li>
-          <router-link to="/photo" active-class="active">相册</router-link>
+          <router-link :to="{ path: `/${userID}/myIndex`}" active-class="active">网站首页</router-link>
         </li>
         <li>
-          <router-link to="/about" active-class="active">关于我</router-link>
+          <router-link :to="{ path: `/${userID}/photo`}" active-class="active">相册</router-link>
         </li>
         <li>
-          <router-link to="/login" active-class="active" target="_blank">登录</router-link>
+          <router-link :to="{ path: `/${userID}/content?id=2`}">关于我</router-link>
+        </li>
+        <li>
+          <router-link :to="{ path: `/${userID}/login`}" active-class="active" target="_blank">登录</router-link>
         </li>
       </ul>
     </nav>
@@ -28,12 +27,7 @@
 export default {
   data() {
     return {
-      path: '/list',
-    }
-  },
-  watch: {
-    $route(to, from) {
-      this.path = to.path;
+      userID:this.$route.params.userID,
     }
   },
 }

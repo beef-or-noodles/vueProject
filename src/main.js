@@ -64,6 +64,7 @@ router.beforeEach((to, from, next) => {
         router.push('/login');
     }
   }
+
   if (to.meta.title != '' && to.meta.title != undefined) {
     document.title = to.meta.title;
   } else {
