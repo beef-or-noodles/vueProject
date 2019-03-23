@@ -1,6 +1,6 @@
 <template>
   <div>
-    1111
+    主页开发中
   </div>
 </template>
 <script>
