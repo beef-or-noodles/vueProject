@@ -2,7 +2,6 @@
 <div>
   <el-row>
     <el-col :span="24">
-      <el-button type="primary" size="small" @click="upPhoto" icon="el-icon-upload2">上传照片</el-button>
       <el-button type="primary" size="small" @click="creatPhoto = true" icon="el-icon-circle-plus-outline">创建相册</el-button>
       <!-- <el-button type="warning" size="small" @click="keepSort" icon="el-icon-sort">相册排序</el-button> -->
     </el-col>
