@@ -23,7 +23,7 @@ var storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         // 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
-        var time2 = new Date().Format("yyyy年MM月dd日HH时mm分ss秒");
+        var time2 = new Date().Format("yyyy-MM-dd-HH-mm:ss");
         var imgUrl = time2 + "-" + file.originalname;
         var setUrl = "";
         if(imgUrl.indexOf('.') == -1){
