@@ -1,4 +1,4 @@
-const baseURL = '/api' //设置默认基础地址 location.origin
+const baseURL = 'http://119.23.22.57:8889'+'/api' //设置默认基础地址  /api  location.origin 119.23.22.57
 export default {
   upload: baseURL + '/upload',
   getCode: baseURL + '/getCode', //取得验证码

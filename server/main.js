@@ -22,8 +22,8 @@ app.get('*', function(req, res) {
 // 后端api路由
 app.use('/api', [userApi,upload,columnApi,articeApi]);
 // 监听端口
-app.listen(8088);
-console.log('服务启动成功 服务端口:8088......');
+app.listen(8889);
+console.log('服务启动成功 服务端口:8889......');
 
 // 格式时间
 Date.prototype.Format = function (fmt) {
