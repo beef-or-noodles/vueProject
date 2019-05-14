@@ -40,7 +40,7 @@ Vue.use(Router)
       component:resolve => require(['@/components/404'],resolve),
       meta:{title:'404'},
     },{
-      path:'/:userID/login',
+      path:'/login',
       name:'login',
       component:resolve => require(['@/components/manage/login/login.vue'],resolve),
       meta:{title:'登陆'},
@@ -72,20 +72,5 @@ export function menuRouter(pageData){
       meta:{'rootLogin':true},
       children:routerList
   }]);
-}
-//page路由
-export function pageRouter(pageData){
-  let pageList = []
-  for(let item of pageData){
-    if(item.power){ //判断是否有权限
-      pageList.push({
-        path:item.path,
-        name:item.name,
-        component:(resolve) => require(['@/components'+item.routerPath+'.vue'],resolve),
-        meta:{'title':item.routerName}
-      })
-    }
-  };
-  router.addRoutes(pageList);
 }
 export default router

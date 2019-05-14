@@ -6,11 +6,9 @@
 
 <script>
 import {
-  pageRouter,
   menuRouter
 } from './router/index.js'
 import {
-  routerData,
   routerMenuData
 } from '@/tool/public/routerData.js' //配置的路由表
 export default {
@@ -25,9 +23,7 @@ export default {
   },
   methods: {
     setPageRouter() {
-      //pageRouter(routerData);
       menuRouter(routerMenuData); //进入主页创建对应路由表
-
     }
   }
 }

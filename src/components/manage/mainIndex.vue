@@ -26,9 +26,9 @@
             </el-menu-item>
           </el-submenu>
         </el-menu>
-        <!-- <div class="exit" @click="exitBtn">
+        <div class="exit" @click="exitBtn">
           <i class="el-icon-back"></i>退出
-        </div> -->
+        </div>
       </el-aside>
       <el-container>
         <el-main class="right">

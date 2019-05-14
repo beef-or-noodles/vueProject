@@ -74,20 +74,3 @@ export const routerMenuData = [{
     icon: '',
   }]
 }];
-
-
-// 单个路由配置
-/*
- *routerName  :路由名称
- *routerPath  :路由页面路径
- *path        :路由路径名字
- *name        :路由名字
- *power       :查看权限
- */
-export const routerData = [{
-  routerName: '登陆',
-  routerPath: '/manage/login/login',
-  power: true,
-  path: '/login',
-  name: 'login',
-}];
