@@ -6,8 +6,8 @@
       <div class="about_me">
         <h2>关于我</h2>
         <ul>
-          <i><img style="height:100%;" :src="about.imgurl"></i>
-          <p v-html="about.abstract"></p>
+          <!-- <i><img style="height:100%;" :src="about.imgurl"></i> -->
+          <!-- <p v-html="about.abstract"></p> -->
         </ul>
       </div>
 

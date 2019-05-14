@@ -210,7 +210,7 @@ router.post('/delectColumn', (req, res) => {
   } else {
     list = id;
   }
-  let sqls = `select * from columnList where belongId = ${list}`
+  let sqls = `select * from columnlist where belongId = ${list}`
   conn.query(sqls, function(errs, results) {
     if (errs) {
       console.log(errs);
@@ -282,7 +282,7 @@ router.post('/updateColumn', (req, res) => {
 router.post('/batchSort',(req,res)=>{
   var params = req.body;
   var idArr = [];
-  var sql = `UPDATE columnList SET sort = CASE id `;
+  var sql = `UPDATE columnlist SET sort = CASE id `;
   for(let i in params){
     sql += `WHEN ${params[i].id} THEN ${params[i].sort} `
     idArr.push(params[i].id);
