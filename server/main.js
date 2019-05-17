@@ -9,6 +9,8 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
+let http = require("http");
+let https = require("https");
 const app = express();
 
 app.use(bodyParser.json());
@@ -21,8 +23,14 @@ app.get('*', function(req, res) {
 })
 // 后端api路由
 app.use('/api', [userApi,upload,columnApi,articeApi]);
-// 监听端口
-app.listen(8889);
+
+const httpsOption = { //加入Https证书
+    key : fs.readFileSync("./https/2215442_www.smartwu.top.key"),
+    cert: fs.readFileSync("./https/2215442_www.smartwu.top.pem")
+}
+// Create service
+http.createServer(app).listen(8889);
+https.createServer(httpsOption, app).listen(443);
 console.log('服务启动成功 服务端口:8889......');
 
 // 格式时间
