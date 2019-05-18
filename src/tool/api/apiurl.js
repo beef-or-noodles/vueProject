@@ -2,6 +2,8 @@ const baseURL = ''+'/api' //设置默认基础地址  /api  location.origin http
 export default {
   upload: baseURL + '/upload',
   getCode: baseURL + '/getCode', //取得验证码
+  sendEmail: baseURL + '/sendEmail' //发送验证码
+
   login: baseURL + '/login', //登陆
   addUser: baseURL + '/addUser', //添加用户
   userQuery: baseURL + '/userQuery', //查询所有用户
@@ -32,4 +34,6 @@ export default {
   articeClickNumber: baseURL + '/articeClickNumber', //文章点击率
   recommend: baseURL + "/recommend",//设置推荐文章
   queryRecommend: baseURL + "/queryRecommend",//查询推荐文章
+
+
 }

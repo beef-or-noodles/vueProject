@@ -4,6 +4,7 @@ const userApi = require('./totalApi/userApi.js');//挂在接口
 const upload = require('./totalApi/uploadApi/upload');
 const columnApi = require('./totalApi/columnApi');
 const articeApi = require('./totalApi/articeApi');
+const sendEmailApi = require('./totalApi/sendEmailApi');
 
 const fs = require('fs');
 const path = require('path');
@@ -22,7 +23,7 @@ app.get('*', function(req, res) {
     res.send(html)
 })
 // 后端api路由
-app.use('/api', [userApi,upload,columnApi,articeApi]);
+app.use('/api', [userApi,upload,columnApi,articeApi,sendEmailApi]);
 
 const httpsOption = { //加入Https证书
     key : fs.readFileSync("./https/2215442_www.smartwu.top.key"),
