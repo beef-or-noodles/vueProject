@@ -18,8 +18,20 @@ var returnData = require('../tool/returnData'); //返回数据封装
  * @param  {[type]} contentHtml [内容html]
  * @return {[type]}             [description]
  */
-var sendEmailData = function(emailId,subject,title,contentHtml) {
-  var rdata = {};
+var sendEmailData = function(emailId, subject, title, contentHtml) {
+
+
+  return rdata;
+};
+
+
+
+router.post('/sendEmail', (req, res) => {
+  var params = req.body;
+  var emailId = params.emailId;
+  var subject = "验证码接收通知";
+  var title = '验证码';
+  var contentHtml = `<div style="color:red;">我的第一封邮件</div>`;
   var transporter = nodemailer.createTransport({
     service: 'QQ', //
     auth: {
@@ -42,23 +54,15 @@ var sendEmailData = function(emailId,subject,title,contentHtml) {
   };
 
   transporter.sendMail(mailOptions, function(error, info) {
+    var rdata = {};
     if (error) {
-      rdata = returnData(500, '', '邮件发送失败', true);
+      rdata = returnData(500, '', error, true);
     } else {
-      rdata = returnData(200, '', '发送成功请注意查收', true);
+      rdata = returnData(200, '', '', false);
     }
+    res.send(rdata); //返回数据给前台
   });
-  return rdata;
-};
 
-
-
-
-router.post('/sendEmail', (req, res) => {
-  var params = req.body;
-  var emailId = params.emailId;
-  var datas = sendEmailData(emailId,'验证码接收通知','验证码','<div style="color:red;">我的第一封邮件</div>');
-  res.send(datas); //返回数据给前台
 });
 
 

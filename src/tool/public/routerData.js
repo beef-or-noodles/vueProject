@@ -73,4 +73,18 @@ export const routerMenuData = [{
     name: 'userRoot',
     icon: '',
   }]
+}, {
+  rootMainName: '工具箱',
+  power: true,
+  rooutMainIcon: 'el-icon-s-cooperation',
+  menuIndex: '1',
+  rootMainList: [{
+    rootChildName: '邮件',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/tool/email',
+    path: '/home/email',
+    name: 'email',
+    icon: 'el-icon-message',
+  }]
 }];

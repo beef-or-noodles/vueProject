@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     send() {
-      this.$post(this.$api.sendEmail, {input:this.input}).then((data) => {
+      this.$post(this.$api.sendEmail, {emailId:this.input}).then((data) => {
 
       });
     }
