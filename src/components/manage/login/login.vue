@@ -16,6 +16,10 @@
             <p>用户名</p>
             <input type="text" v-model="userName"/>
         </div>
+        <div class="input">
+            <p>密码</p>
+            <input type="text" v-model="userName"/>
+        </div>
       </div>
 
     </div>
@@ -141,7 +145,7 @@ export default {
 
     }
 }
-@inputHeight:30px;
+@inputHeight:25px;
 .input{
     width:100%;
     margin: 15px 0;
