@@ -1,10 +1,18 @@
 <template>
 <div class="content">
-  <el-card class="box-card">
+  <!-- <el-card class="box-card">
     <el-input v-model="userName" placeholder="请输入用户名"></el-input>
     <el-input v-model="password" type="password" placeholder="请输入密码" @keyup.enter.native="loginBtn()"></el-input>
     <el-button type="primary" @click="loginBtn">登录</el-button>
-  </el-card>
+  </el-card> -->
+  <div class="card">
+      <div class="">
+
+      </div>
+      <div class="">
+          
+      </div>
+  </div>
 </div>
 </template>
 <script>
@@ -67,21 +75,57 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .content{
   display: flex;
   justify-content:center;
   align-items:Center;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  position: fixed;
+  width: 100vw;
+  height: 100vh;
   background: url('../../../../static/images/loginBg.jpg');
   background-size: cover;
+  position: relative;
 }
+.content::after{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: inherit;
+    filter: blur(8px);
+
+}
+
+.card{
+    background: url('../../../../static/images/loginBg.jpg');
+    background-size: cover;
+    width: 1000px;
+    height: 600px;
+    background-color: white;
+    box-shadow: 0 0 40px black;
+    z-index: 15;
+    &>div{
+        float: left;
+        height: 600px;
+    }
+    &>div:nth-child(1){
+        width: 600px;
+    }
+    &>div:nth-child(2){
+        width: 400px;
+        background: rgba(0,0,0,0.5);
+
+    }
+}
+
+
 .box-card{
   width: 300px;
   margin: 0 auto;
+  z-index: 9;
 }
 .box-card .el-input{
   margin-top: 15px;
