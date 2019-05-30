@@ -6,17 +6,29 @@
     <el-button type="primary" @click="loginBtn">登录</el-button>
   </el-card> -->
   <div class="card">
-      <div class="">
+    <div>
 
+    </div>
+    <div>
+      <div>
+        <h3>Sign Up</h3>
+        <div class="input">
+            <p>用户名</p>
+            <input type="text" v-model="userName"/>
+        </div>
       </div>
-      <div class="">
-          
-      </div>
+
+    </div>
   </div>
 </div>
 </template>
 <script>
-import { mapState, mapActions, mapGetters,mapMutations } from 'vuex'
+import {
+  mapState,
+  mapActions,
+  mapGetters,
+  mapMutations
+} from 'vuex'
 export default {
   data() {
     return {
@@ -52,7 +64,7 @@ export default {
           sessionStorage.setItem('userInfo', user);
           if (data.isLogin) {
             this.$message({
-              message: '欢迎回来'+data.data[0].userName,
+              message: '欢迎回来' + data.data[0].userName,
               type: 'success'
             });
             // 存入Vuex
@@ -76,18 +88,18 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.content{
-  display: flex;
-  justify-content:center;
-  align-items:Center;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  background: url('../../../../static/images/loginBg.jpg');
-  background-size: cover;
-  position: relative;
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: Center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: url("../../../../static/images/loginBg.jpg");
+    background-size: cover;
+    position: relative;
 }
-.content::after{
+.content::after {
     content: "";
     position: absolute;
     width: 100%;
@@ -99,39 +111,56 @@ export default {
 
 }
 
-.card{
-    background: url('../../../../static/images/loginBg.jpg');
+.card {
+    background: url("../../../../static/images/loginBg.jpg");
     background-size: cover;
     width: 1000px;
     height: 600px;
     background-color: white;
     box-shadow: 0 0 40px black;
     z-index: 15;
-    &>div{
+    & > div {
         float: left;
         height: 600px;
     }
-    &>div:nth-child(1){
+    & > div:nth-child(1) {
         width: 600px;
     }
-    &>div:nth-child(2){
+    & > div:nth-child(2) {
         width: 400px;
         background: rgba(0,0,0,0.5);
+        & > div {
+            margin-top: 150px;
+            padding: 0 60px;
+            font-family: "Times New Roman";
+            h3 {
+                color: white;
+                font-size: 22px;
+            }
+        }
 
     }
 }
-
-
-.box-card{
-  width: 300px;
-  margin: 0 auto;
-  z-index: 9;
-}
-.box-card .el-input{
-  margin-top: 15px;
-}
-.box-card .el-button{
-  margin-top: 15px;
-  width: 100%;
+@inputHeight:30px;
+.input{
+    width:100%;
+    margin: 15px 0;
+    font-family: "Times New Roman";
+    border-bottom: 1px solid #9a9a9a;
+    p{
+        color: white;
+    }
+    input {
+        width: 100%;
+        background: none;
+        border: none;
+        color: #dddddd;
+        line-height: @inputHeight;
+        height: @inputHeight;
+        font-size: 18px;
+        &:focus{
+            outline: none;
+        }
+    }
 }
 </style>
