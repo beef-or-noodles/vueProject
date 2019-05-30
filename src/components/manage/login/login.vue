@@ -1,10 +1,5 @@
 <template>
 <div class="content">
-  <!-- <el-card class="box-card">
-    <el-input v-model="userName" placeholder="请输入用户名"></el-input>
-    <el-input v-model="password" type="password" placeholder="请输入密码" @keyup.enter.native="loginBtn()"></el-input>
-    <el-button type="primary" @click="loginBtn">登录</el-button>
-  </el-card> -->
   <div class="card">
     <div>
 
@@ -12,13 +7,23 @@
     <div>
       <div>
         <h3>Sign Up</h3>
-        <div class="input">
+        <div class="input" :class="{inputActive:active}">
             <p>用户名</p>
-            <input type="text" v-model="userName"/>
+            <!-- <div class="clear" @click.native="clearA(1)">
+                <i class="el-icon-error" v-show="active"></i>
+            </div> -->
+            <input type="text"  ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" v-model="userName"/>
+
         </div>
-        <div class="input">
+        <div class="input" :class="{inputActive:active1}">
             <p>密码</p>
-            <input type="text" v-model="userName"/>
+            <!-- <div class="clear" @click.native="clearA(2)">
+                <i class="el-icon-error" v-show="active1"></i>
+            </div> -->
+            <input type="password"  ref="pass" @keyup.enter.native="loginBtn()" @focus="()=>{active1 = true}" @blur="()=>{active1 = false}" v-model="password"/>
+        </div>
+        <div class="btn" @click="loginBtn">
+          登 录
         </div>
       </div>
 
@@ -37,7 +42,9 @@ export default {
   data() {
     return {
       userName: '',
-      password: ''
+      password: '',
+      active:false,
+      active1:false,
     }
   },
   created() {
@@ -46,7 +53,16 @@ export default {
   methods: {
     // 将用户信息保存在vuex里面
     ...mapMutations(['setUserInfo']),
-
+    clearA(type){
+      console.log(type);
+      if(type == 1){
+        this.userName = "";
+        this.$refs.user.focus();
+      }else{
+        this.password = "";
+        this.$refs.pass.focus();
+      }
+    },
     loginBtn() {
       let params = {
         userName: this.userName,
@@ -147,13 +163,17 @@ export default {
 }
 @inputHeight:25px;
 .input{
+    &.inputActive{
+      color:white !important;
+      border-bottom: 1px solid white !important;
+    }
+    position: relative;
+    color: #9a9a9a;
     width:100%;
-    margin: 15px 0;
+    margin: 20px 0;
     font-family: "Times New Roman";
     border-bottom: 1px solid #9a9a9a;
-    p{
-        color: white;
-    }
+    transition: all .36s ease;
     input {
         width: 100%;
         background: none;
@@ -161,10 +181,33 @@ export default {
         color: #dddddd;
         line-height: @inputHeight;
         height: @inputHeight;
-        font-size: 18px;
+        font-size: 16px;
+        margin-top: 5px;
         &:focus{
             outline: none;
         }
     }
+    .clear{
+      position: absolute;
+      z-index: 10;
+      right: 0;
+    }
+    .clear:hover{
+      cursor: pointer;
+    }
+}
+.btn{
+  font-size: 12px;
+    width: 100px;
+    line-height: 30px;
+    text-align: center;
+    color: #9a9a9a;
+    border: 1px solid #9a9a9a;
+    transition: all .36s ease;
+}
+.btn:hover{
+  color: white;
+  border-color: white;
+  cursor: pointer;
 }
 </style>
