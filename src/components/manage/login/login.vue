@@ -4,29 +4,50 @@
     <div>
 
     </div>
-    <div>
-      <div>
+    <div class="rightBox">
+      <div class="loginBox" :class="{left:activeMove}">
         <h3>Sign Up</h3>
         <div class="input" :class="{inputActive:active}">
             <p>用户名</p>
-            <!-- <div class="clear" @click.native="clearA(1)">
-                <i class="el-icon-error" v-show="active"></i>
-            </div> -->
             <input type="text"  ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" v-model="userName"/>
-
         </div>
         <div class="input" :class="{inputActive:active1}">
             <p>密码</p>
-            <!-- <div class="clear" @click.native="clearA(2)">
-                <i class="el-icon-error" v-show="active1"></i>
-            </div> -->
-            <input type="password"  ref="pass" @keyup.enter.native="loginBtn()" @focus="()=>{active1 = true}" @blur="()=>{active1 = false}" v-model="password"/>
+            <input type="password"  ref="pass" @keyup.enter.stop="loginBtn()" @focus="()=>{active1 = true}" @blur="()=>{active1 = false}" v-model="password"/>
         </div>
-        <div class="btn" @click="loginBtn">
-          登 录
+        <div>
+            <div class="zc" @click="activeMove = true">
+                没有账号？立即注册
+            </div>
+            <div class="btn" @click="loginBtn">
+              登 录
+            </div>
         </div>
       </div>
+      <div class="zcBox" :class="{right:activeMove}">
+          <h3>Sign Up</h3>
+          <div class="input" :class="{inputActive:active}">
+              <p>用户名</p>
+              <input type="text"  ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" v-model="userName"/>
 
+          </div>
+          <div class="input" :class="{inputActive:active1}">
+              <p>密码</p>
+              <input type="password"  ref="pass" @keyup.enter.stop="loginBtn()" @focus="()=>{active1 = true}" @blur="()=>{active1 = false}" v-model="password"/>
+          </div>
+          <div class="input" :class="{inputActive:active2}">
+              <p>确认密码</p>
+              <input type="password"  ref="pass" @keyup.enter.stop="loginBtn()" @focus="()=>{active2 = true}" @blur="()=>{active2 = false}" v-model="password"/>
+          </div>
+          <div>
+              <div class="zc" @click="activeMove = false">
+                  去登录
+              </div>
+              <div class="btn" @click="loginBtn">
+                立即注册
+              </div>
+          </div>
+      </div>
     </div>
   </div>
 </div>
@@ -45,6 +66,10 @@ export default {
       password: '',
       active:false,
       active1:false,
+      active2:false,
+      zc:false,
+      login:false,
+      activeMove:false,
     }
   },
   created() {
@@ -53,16 +78,6 @@ export default {
   methods: {
     // 将用户信息保存在vuex里面
     ...mapMutations(['setUserInfo']),
-    clearA(type){
-      console.log(type);
-      if(type == 1){
-        this.userName = "";
-        this.$refs.user.focus();
-      }else{
-        this.password = "";
-        this.$refs.pass.focus();
-      }
-    },
     loginBtn() {
       let params = {
         userName: this.userName,
@@ -134,8 +149,6 @@ export default {
 .card {
     background: url("../../../../static/images/loginBg.jpg");
     background-size: cover;
-    width: 1000px;
-    height: 600px;
     background-color: white;
     box-shadow: 0 0 40px black;
     z-index: 15;
@@ -145,9 +158,10 @@ export default {
     }
     & > div:nth-child(1) {
         width: 600px;
+        transition: all .36s ease;
     }
     & > div:nth-child(2) {
-        width: 400px;
+        width: 370px;
         background: rgba(0,0,0,0.5);
         & > div {
             margin-top: 150px;
@@ -161,18 +175,24 @@ export default {
 
     }
 }
-@inputHeight:25px;
+@media screen and (max-width: 1005px) {
+    .card > div:nth-child(1){
+        width: 0;
+    }
+}
+
+@inputHeight:25px;@inputColor:#b1b1b1;
 .input{
     &.inputActive{
       color:white !important;
       border-bottom: 1px solid white !important;
     }
     position: relative;
-    color: #9a9a9a;
+    color: @inputColor;
     width:100%;
     margin: 20px 0;
     font-family: "Times New Roman";
-    border-bottom: 1px solid #9a9a9a;
+    border-bottom: 1px solid @inputColor;
     transition: all .36s ease;
     input {
         width: 100%;
@@ -187,13 +207,14 @@ export default {
             outline: none;
         }
     }
-    .clear{
-      position: absolute;
-      z-index: 10;
-      right: 0;
-    }
-    .clear:hover{
-      cursor: pointer;
+}
+.zc{
+    float: right;
+    font-size: 12px;
+    color: @inputColor;
+    &:hover{
+        cursor: pointer;
+        color: white;
     }
 }
 .btn{
@@ -201,13 +222,39 @@ export default {
     width: 100px;
     line-height: 30px;
     text-align: center;
-    color: #9a9a9a;
-    border: 1px solid #9a9a9a;
-    transition: all .36s ease;
+    color: @inputColor;
+    border: 1px solid @inputColor;
+    transition: all .46s ease;
 }
 .btn:hover{
   color: white;
   border-color: white;
   cursor: pointer;
 }
+
+
+.rightBox{
+    position: relative;
+    overflow: hidden;
+    .loginBox{
+        position: absolute;
+        width: 250px;
+        left: 0;
+        transition: all .36s ease;
+        &.left{
+            left: -370px;
+        }
+    }
+    .zcBox{
+        position: absolute;
+        width: 250px;
+        left: 370px;
+        transition: all .46s ease;
+        &.right{
+            left: 0px;
+        }
+    }
+}
+
+
 </style>
