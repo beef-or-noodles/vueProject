@@ -7,15 +7,9 @@
     <div class="rightBox">
       <div class="loginBox" :class="{left:activeMove}">
         <h3>Sign Up</h3>
-        <div class="input" :class="{inputActive:active}">
-            <p>用户名</p>
-            <input type="text"  ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" v-model="userName"/>
-        </div>
-        <div class="input" :class="{inputActive:active1}">
-            <p>密码</p>
-            <input type="password"  ref="pass" @keyup.enter.stop="loginBtn()" @focus="()=>{active1 = true}" @blur="()=>{active1 = false}" v-model="password"/>
-        </div>
-        <div>
+        <w-input title="用户名" v-model="userName"></w-input>
+        <w-input title="密码" v-model="password"></w-input>
+        <div style="margin-top:20px;">
             <div class="zc" @click="activeMove = true">
                 没有账号？立即注册
             </div>
@@ -26,20 +20,20 @@
       </div>
       <div class="zcBox" :class="{right:activeMove}">
           <h3>Sign Up</h3>
-          <div class="input" :class="{inputActive:active}">
-              <p>用户名</p>
-              <input type="text"  ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" v-model="userName"/>
-
-          </div>
-          <div class="input" :class="{inputActive:active1}">
-              <p>密码</p>
-              <input type="password"  ref="pass" @keyup.enter.stop="loginBtn()" @focus="()=>{active1 = true}" @blur="()=>{active1 = false}" v-model="password"/>
-          </div>
-          <div class="input" :class="{inputActive:active2}">
-              <p>确认密码</p>
-              <input type="password"  ref="pass" @keyup.enter.stop="loginBtn()" @focus="()=>{active2 = true}" @blur="()=>{active2 = false}" v-model="password"/>
-          </div>
+          <w-input title="用户名" v-model="userName1"></w-input>
+          <w-input title="密码" v-model="password1"></w-input>
+          <w-input title="确认密码" v-model="password2"></w-input>
+          <w-input title="QQ邮箱" v-model="password2"></w-input>
           <div>
+            <div class="btn codebtn">
+              邮箱验证码
+            </div>
+            <div class="code" >
+              <w-input v-model="code" placeholder="验证码"></w-input>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
               <div class="zc" @click="activeMove = false">
                   去登录
               </div>
@@ -59,11 +53,22 @@ import {
   mapGetters,
   mapMutations
 } from 'vuex'
+import wInput from '../components/wInput'
 export default {
+  components: {
+    wInput
+  },
   data() {
     return {
       userName: '',
       password: '',
+
+      userName1: '',
+      password1: '',
+      password2: '',
+
+      code:'',
+
       active:false,
       active1:false,
       active2:false,
@@ -181,33 +186,8 @@ export default {
     }
 }
 
-@inputHeight:25px;@inputColor:#b1b1b1;
-.input{
-    &.inputActive{
-      color:white !important;
-      border-bottom: 1px solid white !important;
-    }
-    position: relative;
-    color: @inputColor;
-    width:100%;
-    margin: 20px 0;
-    font-family: "Times New Roman";
-    border-bottom: 1px solid @inputColor;
-    transition: all .36s ease;
-    input {
-        width: 100%;
-        background: none;
-        border: none;
-        color: #dddddd;
-        line-height: @inputHeight;
-        height: @inputHeight;
-        font-size: 16px;
-        margin-top: 5px;
-        &:focus{
-            outline: none;
-        }
-    }
-}
+@inputColor:#b1b1b1;
+
 .zc{
     float: right;
     font-size: 12px;
@@ -232,7 +212,15 @@ export default {
   cursor: pointer;
 }
 
-
+.code{
+  width: 140px;
+}
+.codebtn{
+  float:right;
+  line-height: 25px;
+  width: 80px;
+  margin-top: 5px;
+}
 .rightBox{
     position: relative;
     overflow: hidden;
@@ -249,6 +237,7 @@ export default {
         position: absolute;
         width: 250px;
         left: 370px;
+        top:-80px;
         transition: all .46s ease;
         &.right{
             left: 0px;
