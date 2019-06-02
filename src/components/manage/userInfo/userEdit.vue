@@ -31,6 +31,8 @@
       </el-table-column>
       <el-table-column prop="passWord" label="密码" show-overflow-tooltip>
       </el-table-column>
+      <el-table-column prop="Email" label="邮箱" show-overflow-tooltip>
+      </el-table-column>
       <el-table-column prop="creatTime" width="140px" label="注册时间" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{setTime(scope.row.creatTime)}}</span>
@@ -61,6 +63,9 @@
         </el-form-item>
         <el-form-item label="确认密码:" prop="relPassword">
           <el-input type="password" v-model="fromData.relPassword"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱:" prop="relPassword">
+          <el-input type="email" v-model="fromData.Email"></el-input>
         </el-form-item>
         <el-form-item label="上传头像:" prop="imgurl">
           <el-col :span="12">
@@ -103,6 +108,7 @@ export default {
         password: '',
         relPassword: '',
         imgurl: '',
+        Email:'',
       },
       tableData: [],
       idList: [],
@@ -125,6 +131,7 @@ export default {
           password: '',
           relPassword: '',
           imgurl: '',
+          Email:'',
         };
       };
     },
@@ -220,6 +227,7 @@ export default {
         password: val.passWord,
         relPassword: val.passWord,
         imgurl: val.image,
+        Email:val.Email,
       };
       this.imgurl = val.image;
     },
@@ -257,6 +265,7 @@ export default {
           userName: this.fromData.username,
           passWord: this.fromData.password,
           imgurl: this.fromData.imgurl,
+          Email:this.fromData.Email,
         }
         if (type === 1) {
           this.$post(this.$api.addUser, params).then((data) => {

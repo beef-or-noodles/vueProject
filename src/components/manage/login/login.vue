@@ -10,37 +10,37 @@
         <w-input title="用户名" v-model="userName"></w-input>
         <w-input type="password" title="密码" v-model="password"></w-input>
         <div style="margin-top:20px;">
-            <div class="zc" @click="activeMove = true">
-                没有账号？立即注册
-            </div>
-            <div class="btn" @click="loginBtn">
-              登 录
-            </div>
+          <div class="zc" @click="activeMove = true">
+            没有账号？立即注册
+          </div>
+          <div class="btn" @click="loginBtn">
+            登 录
+          </div>
         </div>
       </div>
       <div class="zcBox" :class="{right:activeMove}">
-          <h3>Sign Up</h3>
-          <w-input title="用户名" v-model="userName1"></w-input>
-          <w-input type="password" title="密码" v-model="password1"></w-input>
-          <w-input type="password" title="确认密码" v-model="password2"></w-input>
-          <w-input title="QQ邮箱" v-model="password2"></w-input>
-          <div>
-            <div class="btn codebtn">
-              邮箱验证码
-            </div>
-            <div class="code" >
-              <w-input v-model="code" placeholder="验证码"></w-input>
-            </div>
+        <h3>Sign Up</h3>
+        <w-input title="用户名" v-model="userName1"></w-input>
+        <w-input type="password" title="密码" v-model="password1"></w-input>
+        <w-input type="password" title="确认密码" v-model="password2"></w-input>
+        <w-input title="QQ邮箱" v-model="email"></w-input>
+        <div>
+          <div class="btn codebtn" @click="getCode">
+            邮箱验证码
           </div>
+          <div class="code">
+            <w-input v-model="code" placeholder="验证码"></w-input>
+          </div>
+        </div>
 
-          <div style="margin-top:20px;">
-              <div class="zc" @click="activeMove = false">
-                  去登录
-              </div>
-              <div class="btn" @click="loginBtn">
-                立即注册
-              </div>
+        <div style="margin-top:20px;">
+          <div class="zc" @click="activeMove = false">
+            去登录
           </div>
+          <div class="btn" @click="addNewUser">
+            立即注册
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -66,15 +66,15 @@ export default {
       userName1: '',
       password1: '',
       password2: '',
+      email: '',
+      code: '',
 
-      code:'',
-
-      active:false,
-      active1:false,
-      active2:false,
-      zc:false,
-      login:false,
-      activeMove:false,
+      active: false,
+      active1: false,
+      active2: false,
+      zc: false,
+      login: false,
+      activeMove: false,
     }
   },
   created() {
@@ -83,6 +83,52 @@ export default {
   methods: {
     // 将用户信息保存在vuex里面
     ...mapMutations(['setUserInfo']),
+
+    getCode() {
+      let params = {
+        emailId: this.email
+      }
+      if (this.email == '') {
+        this.$message({
+          type: 'error',
+          message: '请输入验证码'
+        })
+        return;
+      }
+      this.$post(this.$api.getCode, params).then((data) => {
+        console.log(data);
+      });
+    },
+
+    //注册用户
+    addNewUser() {
+      if (this.password1 != this.password2) {
+        this.$message({
+          type: 'error',
+          message: '两次密码不一致',
+        });
+        return;
+      }
+      let params = {
+        userName: this.userName1,
+        passWord: this.password1,
+        Email: this.email,
+        code: this.code,
+      }
+      this.$post(this.$api.addNewUser, params).then((data) => {
+        this.userName =  this.userName1;
+        this.password = this.password1
+        this.$confirm('注册成功立即登录', '提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'success'
+        }).then(() => {
+          this.loginBtn();
+        }).catch(() => {});
+      });
+    },
+
+
     loginBtn() {
       let params = {
         userName: this.userName,
@@ -163,7 +209,7 @@ export default {
     }
     & > div:nth-child(1) {
         width: 600px;
-        transition: all .36s ease;
+        transition: all 0.36s ease;
     }
     & > div:nth-child(2) {
         width: 370px;
@@ -181,69 +227,67 @@ export default {
     }
 }
 @media screen and (max-width: 1005px) {
-    .card > div:nth-child(1){
+    .card > div:nth-child(1) {
         width: 0;
     }
 }
 
-@inputColor:#b1b1b1;
+@inputColor: #b1b1b1;
 
-.zc{
+.zc {
     float: right;
     font-size: 12px;
     color: @inputColor;
-    &:hover{
+    &:hover {
         cursor: pointer;
         color: white;
     }
 }
-.btn{
-  font-size: 12px;
+.btn {
+    font-size: 12px;
     width: 100px;
     line-height: 30px;
     text-align: center;
     color: @inputColor;
     border: 1px solid @inputColor;
-    transition: all .46s ease;
+    transition: all 0.46s ease;
 }
-.btn:hover{
-  color: white;
-  border-color: white;
-  cursor: pointer;
+.btn:hover {
+    color: white;
+    border-color: white;
+    cursor: pointer;
 }
 
-.code{
-  width: 140px;
+.code {
+    width: 140px;
 }
-.codebtn{
-  float:right;
-  line-height: 25px;
-  width: 80px;
-  margin-top: 5px;
+.codebtn {
+    float: right;
+    line-height: 25px;
+    width: 80px;
+    margin-top: 5px;
 }
-.rightBox{
+.rightBox {
     position: relative;
     overflow: hidden;
-    .loginBox{
+    .loginBox {
         position: absolute;
         width: 250px;
         left: 0;
-        transition: all .36s ease;
-        &.left{
+        transition: all 0.36s ease;
+        &.left {
             left: -370px;
         }
     }
-    .zcBox{
+    .zcBox {
         position: absolute;
         width: 250px;
         left: 370px;
-        top:-80px;
-        transition: all .46s ease;
-        &.right{
-            left: 0px;
+        top: -80px;
+        transition: all 0.46s ease;
+        &.right {
+            left: 0;
         }
     }
 }
-
-
 </style>

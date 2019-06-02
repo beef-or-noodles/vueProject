@@ -10,10 +10,19 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
+const session = require('express-session');
 let http = require("http");
 let https = require("https");
 const app = express();
-
+// 使用 session 中间件
+app.use(session({
+    secret :  'secret', // 对session id 相关的cookie 进行签名
+    resave : true,
+    saveUninitialized: false, // 是否保存未初始化的会话
+    cookie : {
+        maxAge : 1000 * 60 * 2, // 设置 session 的有效时间，单位毫秒
+    },
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 // 服务开启后访问指定编译好的dist文件下的数据

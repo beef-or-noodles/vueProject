@@ -11,6 +11,7 @@ conn.connect();
 
 // 登录用户接口
 router.post('/login', (req, res) => {
+  console.log(req.session.code);
   var sql = $sql.user.UserLogin;
   var params = req.body;
   conn.query(sql, [params.userName], function(err, result) {
@@ -45,7 +46,7 @@ router.post('/login', (req, res) => {
 router.post('/addUser', (req, res) => {
   var sql = $sql.user.UserAdd;
   var params = req.body;
-  conn.query(sql, [params.userName, params.passWord,params.imgurl], function(err, result) {
+  conn.query(sql, [params.userName, params.passWord,params.imgurl,params.Email], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -56,6 +57,34 @@ router.post('/addUser', (req, res) => {
       res.send(data);
     }
   })
+});
+
+//注册用户
+router.post('/addNewUser', (req, res) => {
+  var sql = $sql.user.UserAdd;
+  var params = req.body;
+  var code = params.code;
+  var codeA = req.session.code;
+
+  if(code != codeA){
+    let data = returnData(500,'','验证码错误',true);
+    res.send(data);
+    return;
+  }
+
+  conn.query(sql, [params.userName, params.passWord,params.imgurl,params.Email], function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let data = returnData(200,'','添加成功',true);
+      req.session.code = null;
+      res.send(data);
+    }
+  })
+
 });
 //判断用户名是否以存在
 router.post('/judegeUserName',(req,res)=>{
@@ -115,8 +144,9 @@ router.post('/updateUser',(req,res)=>{
   var id = req.body.id;
   var userName = req.body.userName;
   var passWord = req.body.passWord;
-  var imgurl = req.body.imgurl
-  conn.query(sql,[userName,passWord,imgurl,id],function(err,result){
+  var imgurl = req.body.imgurl;
+  var Email = req.body.Email;
+  conn.query(sql,[userName,passWord,imgurl,Email,id],function(err,result){
     if(err){
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);

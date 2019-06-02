@@ -1,14 +1,14 @@
 <template>
 <div class="input" :class="{inputActive:active}">
   <p>{{title}}</p>
-  <input :type="type" :placeholder="placeholder" @input="changeTxt(name)" ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" v-model="name" />
+  <input :type="type" :placeholder="placeholder" @input="changeTxt($event.target.value)" ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" />
 </div>
 </template>
 <script>
 export default {
   model: {
     prop: 'name',
-    event:"change"
+    event: "change"
   },
   data() {
     return {
@@ -19,27 +19,32 @@ export default {
     title: {
       type: [String],
       default: '',
-    },//标题名字
+    }, //标题名字
     name: {
       type: [String, Number],
       default: '',
-    },//值得名字
+    }, //值得名字
     placeholder: {
       type: [String],
       default: '',
-    },//提示文字
-    type:{
-      type:[String],
-      default:'text'
-    }//输入框原生type
+    }, //提示文字
+    type: {
+      type: [String],
+      default: 'text'
+    } //输入框原生type
   },
   created() {
 
   },
+  computed: {
+    rename() {
+      return this.name
+    }
+  },
   methods: {
-  changeTxt(val){
-    this.$emit('change',val);
-  }
+    changeTxt(val) {
+      this.$emit('change', val);
+    }
   }
 }
 </script>
@@ -65,7 +70,7 @@ export default {
         color: #dddddd;
         line-height: @inputHeight;
         height: @inputHeight;
-        font-size: 16px;
+        font-size: 14px;
         margin-top: 5px;
         &:focus {
             outline: none;
