@@ -1,13 +1,14 @@
 <template>
 <div class="input" :class="{inputActive:active}">
   <p>{{title}}</p>
-  <input type="text" :placeholder="placeholder" ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" v-model="name" />
+  <input :type="type" :placeholder="placeholder" @input="changeTxt(name)" ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" v-model="name" />
 </div>
 </template>
 <script>
 export default {
   model: {
     prop: 'name',
+    event:"change"
   },
   data() {
     return {
@@ -18,21 +19,27 @@ export default {
     title: {
       type: [String],
       default: '',
-    },
+    },//标题名字
     name: {
       type: [String, Number],
       default: '',
-    },
+    },//值得名字
     placeholder: {
       type: [String],
       default: '',
-    }
+    },//提示文字
+    type:{
+      type:[String],
+      default:'text'
+    }//输入框原生type
   },
   created() {
 
   },
   methods: {
-
+  changeTxt(val){
+    this.$emit('change',val);
+  }
   }
 }
 </script>
