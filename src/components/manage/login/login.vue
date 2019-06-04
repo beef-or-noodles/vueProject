@@ -6,7 +6,7 @@
     </div>
     <div class="rightBox">
       <div class="loginBox" :class="{left:activeMove}">
-        <h3>Sign Up</h3>
+        <h3>Sign In</h3>
         <w-input title="用户名" v-model="userName"></w-input>
         <w-input type="password" title="密码" v-model="password"></w-input>
         <div style="margin-top:20px;">
@@ -96,6 +96,7 @@ export default {
         console.log(data);
       });
     },
+
 
     //注册用户
     addNewUser() {
