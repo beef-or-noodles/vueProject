@@ -48,9 +48,6 @@
 </template>
 <script>
 import {
-  mapState,
-  mapActions,
-  mapGetters,
   mapMutations
 } from 'vuex'
 import wInput from '../components/wInput'
@@ -87,12 +84,12 @@ export default {
     getCode() {
       let params = {
         emailId: this.email
-      }
-      if (this.email == '') {
+      };
+      if (this.email === '') {
         this.$message({
           type: 'error',
           message: '请输入验证码'
-        })
+        });
         return;
       }
       this.$post(this.$api.getCode, params).then((data) => {
@@ -102,7 +99,7 @@ export default {
 
     //注册用户
     addNewUser() {
-      if (this.password1 != this.password2) {
+      if (this.password1 !== this.password2) {
         this.$message({
           type: 'error',
           message: '两次密码不一致',
@@ -114,10 +111,10 @@ export default {
         passWord: this.password1,
         Email: this.email,
         code: this.code,
-      }
-      this.$post(this.$api.addNewUser, params).then((data) => {
+      };
+      this.$post(this.$api.addNewUser, params).then(() => {
         this.userName =  this.userName1;
-        this.password = this.password1
+        this.password = this.password1;
         this.$confirm('注册成功立即登录', '提示', {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
@@ -133,20 +130,20 @@ export default {
       let params = {
         userName: this.userName,
         passWord: this.password
-      }
-      if (this.userName == "") {
+      };
+      if (this.userName === "") {
         this.$message({
           message: '请输入用户名',
           type: 'error'
         });
-      } else if (this.password == "") {
+      } else if (this.password === "") {
         this.$message({
           message: '请输入密码',
           type: 'error'
         });
       } else {
         this.$post(this.$api.login, params).then((data) => {
-          let user = JSON.stringify(data)
+          let user = JSON.stringify(data);
           sessionStorage.setItem('userInfo', user);
           if (data.isLogin) {
             this.$message({
@@ -196,7 +193,6 @@ export default {
     filter: blur(8px);
 
 }
-
 .card {
     background: url("../../../../static/images/loginBg.jpg");
     background-size: cover;
