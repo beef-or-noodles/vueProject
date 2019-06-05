@@ -6,7 +6,7 @@ import {
 import api from '../api/apiurl.js'
 // axios.defaults.withCredentials = true; //是否携带cookie
 axios.defaults.baseURL = api.baseURL; //默认请求地址
-
+axios.defaults.timeout =  6000;
 let loading;
 // 设置拦截器
 axios.interceptors.request.use(function(config) {
@@ -14,7 +14,6 @@ axios.interceptors.request.use(function(config) {
   config => {
       const token = localStorage.getItem('TOKEN'); //得到存入浏览器的token
       config.data = JSON.stringify(config.data);
-      config.timeout = 3000;
       config.headers = {
         'Content-Type': 'application/json'
       }
@@ -88,11 +87,16 @@ export function post(url, data = {}) {
           messageBox('error', response.data.msg, 1500);
         }
       }, err => {
-        let status = err.response.status;
-        if (status === 404) {
-          messageBox('error', '没找到请求地址' + status, 1500);
-        } else if (status === 500 || status === 504) {
-          messageBox('error', '服务器错误' + status, 1500);
+        console.log(err)
+        try {
+          let status = err.response.status;
+          if (status === 404) {
+            messageBox('error', '没找到请求地址' + status, 1500);
+          } else if (status === 500 || status === 504) {
+            messageBox('error', '服务器错误' + status, 1500);
+          }
+        }catch (e) {
+          messageBox('error', ' 请求超时' + status, 1500);
         }
         endLoading();
         reject(err)

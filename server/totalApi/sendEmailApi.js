@@ -44,10 +44,10 @@ function sendEmailData(emailId = '', subject = '', title = '', contentHtml = '')
     transporter.sendMail(mailOptions, function(error, info) {
       var rdata = {};
       if (error) {
-        rdata = returnData(500, '', error, true);
+        rdata = returnData(500, '', error, false);
         reject(rdata)
       } else {
-        rdata = returnData(200, '', '', true);
+        rdata = returnData(200, '', '发送成功', false);
         resolve(rdata)
       }
 

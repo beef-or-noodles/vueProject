@@ -25,7 +25,7 @@
                     <w-input type="password" title="确认密码" v-model="password2"></w-input>
                     <w-input title="QQ邮箱" v-model="email"></w-input>
                     <div>
-                        <div class="btn codebtn" @click="getCode">
+                        <div class="btn codebtn" @click="getCode" :class="{disbled:codeTxt!='获取证码'?true:false}">
                             {{codeTxt}}
                         </div>
                         <div class="code">
@@ -77,6 +77,7 @@
                 login: false,
                 activeMove: false,
                 codeTxt: '获取证码',
+                setTime:'',
             }
         },
         created() {
@@ -87,6 +88,7 @@
             ...mapMutations(['setUserInfo']),
 
             getCode() {
+                if(this.codeTxt !== "获取证码") return;
                 let params = {
                     emailId: this.email
                 }
@@ -97,8 +99,21 @@
                     })
                     return;
                 }
+                let i = 120;
+                this.setTime = setInterval(()=>{
+                    i--;
+                    if(i >= 1){
+                        this.codeTxt = `${i} 秒`
+                    }else{
+                        window.clearInterval(this.setTime);
+                        this.codeTxt = "获取证码"
+                    }
+                },1000)
                 this.$post(this.$api.getCode, params).then((data) => {
-                    console.log(data);
+
+                }).catch(()=>{
+                    this.codeTxt = "获取证码"
+                    window.clearInterval(this.setTime);
                 });
             },
 
@@ -270,7 +285,9 @@
         border-color: white;
         cursor: pointer;
     }
-
+    .disbled{
+        cursor: not-allowed !important;
+    }
     .code {
         width: 140px;
     }
@@ -280,6 +297,7 @@
         line-height: 25px;
         width: 80px;
         margin-top: 5px;
+
     }
 
     .rightBox {
