@@ -1,4 +1,4 @@
-<template>
+<template xmlns:a="http://www.w3.org/1999/html">
 <div class="content">
   <div class="card">
     <div>
@@ -32,7 +32,6 @@
             <w-input v-model="code" placeholder="验证码"></w-input>
           </div>
         </div>
-
         <div style="margin-top:20px;">
           <div class="zc" @click="activeMove = false">
             去登录
@@ -81,6 +80,16 @@ export default {
     // 将用户信息保存在vuex里面
     ...mapMutations(['setUserInfo']),
 
+    setTime(){
+      setTimeout(()=>{
+
+      },120000);
+      let arr = [];
+    },
+
+    /*
+    * 得到邮箱验证码
+    */
     getCode() {
       let params = {
         emailId: this.email
