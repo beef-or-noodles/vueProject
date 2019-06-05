@@ -79,14 +79,6 @@ export default {
   methods: {
     // 将用户信息保存在vuex里面
     ...mapMutations(['setUserInfo']),
-
-    setTime(){
-      setTimeout(()=>{
-
-      },120000);
-      let arr = [];
-    },
-
     /*
     * 得到邮箱验证码
     */
