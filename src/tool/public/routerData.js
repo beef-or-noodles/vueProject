@@ -18,6 +18,7 @@ export const routerMenuData = [{
   power: true,
   rooutMainIcon: 'el-icon-tickets',
   menuIndex: '1',
+  rootPath: '/manage/artice',
   rootMainList: [{
     rootChildName: '栏目编辑',
     rootPower: true,
@@ -56,6 +57,7 @@ export const routerMenuData = [{
   power: true,
   rooutMainIcon: 'el-icon-news',
   menuIndex: '1',
+    rootPath: '/manage/userInfo',
   rootMainList: [{
     rootChildName: '账号管理',
     rootPower: true,
@@ -78,6 +80,7 @@ export const routerMenuData = [{
   power: true,
   rooutMainIcon: 'el-icon-s-cooperation',
   menuIndex: '1',
+  rootPath: '/manage/tool',
   rootMainList: [{
     rootChildName: '邮件',
     rootPower: true,

@@ -9,6 +9,7 @@ var sqlMap = {
     delectUser: 'DELETE FROM userinfo WHERE id in (?);', //删除用户
     searchUser: "select * from userinfo where concat(userName,passWord,id,creatTime) like ?;", //模糊查询用户
     updateUser: "UPDATE userinfo SET userName = ? ,passWord = ? ,image = ? ,Email=? WHERE id = ?", //修改用户名和密码
+    updateUserType: "UPDATE userinfo SET user_type = ?  WHERE id = ?", //修改用户状态
   },
   //栏目
   column: {

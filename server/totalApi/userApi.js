@@ -181,6 +181,25 @@ router.post('/delectUser', (req, res) => {
     }
   })
 })
+
+//禁用启用用户
+router.post('/stopUser', (req, res) => {
+  var sql = $sql.user.updateUserType;
+  var userId = req.body.userId;
+  var userType = req.body.userType;
+  console.log(userId,userType)
+  conn.query(sql, [userType,userId], function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let rdata = returnData(200,'','修改成功',true);
+      res.send(rdata);
+    }
+  })
+})
 //模糊查询
 router.post('/searchUser', (req, res) => {
   var sql = $sql.user.searchUser;
