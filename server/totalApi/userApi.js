@@ -11,7 +11,6 @@ conn.connect();
 
 // 登录用户接口
 router.post('/login', (req, res) => {
-  console.log(req.session.code);
   var sql = $sql.user.UserLogin;
   var params = req.body;
   conn.query(sql, [params.userName], function(err, result) {
@@ -26,17 +25,22 @@ router.post('/login', (req, res) => {
         data.isLogin = false;
         data.msg = '用户名不存在';
       }
-
-      for (var i = 0; i < result.length; i++) {
-        if (result[i].passWord == params.passWord) {
-          data.isLogin = true;
-          data.msg = '登陆成功';
-          data.data = result;
-        } else {
+      if(result[0].user_type == 0){
           data.isLogin = false;
-          data.msg = '密码错误';
-        }
+          data.msg = '该用户已被禁用请联系管理员';
+      }else{
+          for (var i = 0; i < result.length; i++) {
+              if (result[i].passWord == params.passWord) {
+                  data.isLogin = true;
+                  data.msg = '登陆成功';
+                  data.data = result;
+              } else {
+                  data.isLogin = false;
+                  data.msg = '密码错误';
+              }
+          }
       }
+
       let rdata = returnData(200,data,'登陆成功',false);
       res.send(rdata); //返回数据给前台
     }
@@ -187,7 +191,6 @@ router.post('/stopUser', (req, res) => {
   var sql = $sql.user.updateUserType;
   var userId = req.body.userId;
   var userType = req.body.userType;
-  console.log(userId,userType)
   conn.query(sql, [userType,userId], function(err, result) {
     if (err) {
       console.log(err);
@@ -215,5 +218,72 @@ router.post('/searchUser', (req, res) => {
       res.send(rdata);
     }
   })
+});
+//查询用户权限
+router.post('/queryRoot', (req, res) => {
+    var sql = $sql.root.queryRoot;
+    var id = req.body.userId
+    conn.query(sql, [id], function(err, result) {
+        if (err) {
+            console.log(err);
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
+        }
+        if (result) {
+            let oneData = [];
+            let twoData = [];
+            result.forEach(item=>{
+                if(item.menu_grade == 0){
+                    oneData.push(item);
+                }else{
+                    twoData.push(item);
+                }
+            });
+            oneData.forEach(item =>{
+                let arr = [];
+                twoData.forEach(elem=>{
+                    if(item.menu_id == elem.main_id){
+                        arr.push(elem);
+                    }
+                })
+                item["twoData"] = arr;
+            })
+            let rdata = returnData(200,oneData,'',false);
+            res.send(rdata);
+        }
+    })
+});
+//查询所有权限
+router.post('/queryRootList', (req, res) => {
+    var sql = $sql.root.queryRootList;
+    conn.query(sql, [], function(err, result) {
+        if (err) {
+            console.log(err);
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
+        }
+        if (result) {
+            let oneData = [];
+            let twoData = [];
+            result.forEach(item=>{
+                if(item.menu_grade == 0){
+                    oneData.push(item);
+                }else{
+                    twoData.push(item);
+                }
+            });
+            oneData.forEach(item =>{
+                let arr = [];
+                twoData.forEach(elem=>{
+                    if(item.menu_id == elem.main_id){
+                     arr.push(elem);
+                    }
+                })
+                item["twoData"] = arr;
+            })
+            let rdata = returnData(200,oneData,'',false);
+            res.send(rdata);
+        }
+    })
 });
 module.exports = router;

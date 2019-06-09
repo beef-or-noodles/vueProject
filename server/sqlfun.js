@@ -32,6 +32,21 @@ var sqlMap = {
     recommendArtice: 'update artice set recommend = ? where id = ?', //设置推荐文章
     queryRecommend: 'select * from artice where recommend = 1 and recycle = 1 and checkRoot = 1 order by setTime DESC limit 0,8', //查询前八条数据
   },
+  //权限
+  root:{
+    queryRoot:`SELECT
+                \tuserinfo.id,
+                \troot_menu.menu_id,
+                \troot_menu.menu_name,
+                \troot_menu.rootPath,
+                \troot_menu.menu_grade,
+                \troot_menu.main_id 
+                FROM
+                \tuserinfo
+                \tINNER JOIN root_center ON userinfo.id = root_center.user_id
+                \tINNER JOIN root_menu ON root_center.menu_id = root_menu.menu_id WHERE id = ?;`,
+    queryRootList:`select * from root_menu;`,
+  },
 }
 
 module.exports = sqlMap;

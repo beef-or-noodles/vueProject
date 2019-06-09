@@ -45,10 +45,13 @@
                         <span v-else style="color: green;">启用</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" fixed="right" width="150">
+                <el-table-column label="操作" fixed="right" width="250">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" @click="update(scope.row,2)">修改</el-button>
-                        <el-button v-if="scope.row.user_type == 0" type="primary" @click='stopUser(scope.row.id,1)' size="mini">启用</el-button>
+                        <el-button type="primary" size="mini" @click="updateRoot(scope.row.id)">修改权限</el-button>
+                        <el-button v-if="scope.row.user_type == 0" type="primary" @click='stopUser(scope.row.id,1)'
+                                   size="mini">启用
+                        </el-button>
                         <el-button v-else type="danger" @click='stopUser(scope.row.id,0)' size="mini">禁用</el-button>
                     </template>
                 </el-table-column>
@@ -101,12 +104,37 @@
       <el-button type="primary" @click="addUser(submitType)" size="small">确 定</el-button>
     </span>
         </el-dialog>
+
+
+        <!-- 增加弹窗 -->
+        <el-dialog title="修改权限" :visible.sync="rootDialog" :close-on-click-modal="false">
+            <div class="box">
+                <div v-for="item in rootMenuList" :key="item.menu_id" class="rootBox">
+                    <div class="rootTitle">
+                        <el-checkbox v-model="item.oneRoot">{{item.menu_name}}</el-checkbox>
+                    </div>
+                    <div class="rootcont">
+                        <el-checkbox-group v-model="item.twoRoot">
+                            <el-checkbox v-for="elem in item.twoData" :key="elem.menu_id" :label="elem.menu_id">
+                                {{elem.menu_name}}
+                            </el-checkbox>
+                        </el-checkbox-group>
+                    </div>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="rootDialog = false" size="small">取 消</el-button>
+              <el-button type="primary" @click="addUser(submitType)" size="small">确 定</el-button>
+            </span>
+        </el-dialog>
+
     </div>
 </template>
 <script>
     export default {
         data() {
             return {
+                rootDialog: false,
                 editDialog: false,
                 submitType: 1, //1：增加  2：修改
                 isCompress: true, //是否压缩
@@ -129,6 +157,19 @@
                     pageSize: 10,
                     total: 1,
                 },
+                rootMenuList: [{
+                    id: 1,
+                    name: '文章管理',
+                    oneRoot: true,
+                    twoRoot: [2],
+                    twoData: [{
+                        id: 2,
+                        name: '栏目管理'
+                    }, {
+                        id: 3,
+                        name: '相册管理'
+                    }]
+                }],
             }
         },
         created() {
@@ -324,6 +365,48 @@
                 this.$post(this.$api.stopUser, params).then((data) => {
                     this.getUserList();
                 });
+            },
+            //修改用户权限
+            updateRoot(id) {
+                let params = {
+                    userId: id,
+                }
+
+                // rootMenuList:[{
+                //     id:1,
+                //     name:'文章管理',
+                //     oneRoot:true,
+                //     twoRoot:[2],
+                //     twoData:[{
+                //         id:2,
+                //         name:'栏目管理'
+                //     },{
+                //         id:3,
+                //         name:'相册管理'
+                //     }]
+                // }],
+
+                this.$post(this.$api.queryRootList, {}).then((data) => {
+                    this.$post(this.$api.queryRoot, params).then((data1) => {
+                        this.rootDialog = true;
+                        data.forEach(item => {
+                            let arr = [];
+                            data1.forEach(elem => {
+                                if (item.main_id === elem.main_id) {
+                                    item['oneRoot'] = true;
+                                } else {
+                                    item['oneRoot'] = false;
+                                }
+                                elem.twoData.forEach(list => {
+                                    arr.push(list.menu_id);
+                                })
+                            });
+                            item['twoRoot'] = arr;
+                        });
+                        this.rootMenuList = data;
+                    });
+                });
+
             }
         }
     }
@@ -359,6 +442,19 @@
 <style scoped>
     .search {
         overflow: hidden;
+    }
+    .rootBox{
+        margin-top: 10px;
+        box-shadow: 0px 0px 5px #c0ccda;
+    }
+    .rootTitle {
+        background: #fafafa;
+        padding: 10px;
+        border-top: 8px solid #3a8ee6;
+    }
+
+    .rootcont {
+        padding: 15px;
     }
 
     .content {
