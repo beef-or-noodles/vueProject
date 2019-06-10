@@ -46,6 +46,8 @@ var sqlMap = {
                 \tINNER JOIN root_center ON userinfo.id = root_center.user_id
                 \tINNER JOIN root_menu ON root_center.menu_id = root_menu.menu_id WHERE id = ?;`,
     queryRootList:`select * from root_menu;`,
+    removeEoot_menu:`DELETE FROM root_center WHERE user_id = ?;`,//删除权限中间表数据
+    insertRootMenu:``,//添加数据
   },
 }
 

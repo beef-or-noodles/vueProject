@@ -276,7 +276,7 @@ router.post('/queryRootList', (req, res) => {
                 let arr = [];
                 twoData.forEach(elem=>{
                     if(item.menu_id == elem.main_id){
-                     arr.push(elem);
+                        arr.push(elem);
                     }
                 })
                 item["twoData"] = arr;
@@ -286,4 +286,38 @@ router.post('/queryRootList', (req, res) => {
         }
     })
 });
+
+
+/**
+ * 保存权限
+ */
+router.post('/saveRoot', (req, res) => {
+    var userID = req.body.userID;
+    let values = req.body.values;
+    var remove = $sql.root.removeEoot_menu;
+    var insert = `insert into root_center(user_id,menu_id) values${values};`
+    conn.query(remove, [userID], function(err, result) {
+        if (err) {
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
+        }
+        if (result) {
+
+            conn.query(insert, [values], function(err1, result1) {
+                if(err1){
+                    console.log(err1)
+                    let Edata = returnData(500, '', '服务器错误', true);
+                    res.send(Edata);
+                }
+                if(result1){
+                    let rdata = returnData(200,[],'修改成功',true);
+                    res.send(rdata);
+                }
+
+            });
+
+        }
+    })
+});
+
 module.exports = router;

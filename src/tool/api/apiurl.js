@@ -15,7 +15,7 @@ export default {
   stopUser:baseURL + '/stopUser', //禁用启用
   queryRoot:baseURL + '/queryRoot', //查询用户权限
   queryRootList:baseURL + '/queryRootList', //查询所有权限
-
+  saveRoot:baseURL + '/saveRoot', //保存权限修改
 
   addColumn: baseURL + '/addColumn', //修改用户信息
   selectColumn: baseURL + '/selectColumn', //查询顶级栏目

@@ -124,7 +124,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
               <el-button @click="rootDialog = false" size="small">取 消</el-button>
-              <el-button type="primary" @click="addUser(submitType)" size="small">确 定</el-button>
+              <el-button type="primary" @click="saveRoot" size="small">确 定</el-button>
             </span>
         </el-dialog>
 
@@ -157,19 +157,7 @@
                     pageSize: 10,
                     total: 1,
                 },
-                rootMenuList: [{
-                    id: 1,
-                    name: '文章管理',
-                    oneRoot: true,
-                    twoRoot: [2],
-                    twoData: [{
-                        id: 2,
-                        name: '栏目管理'
-                    }, {
-                        id: 3,
-                        name: '相册管理'
-                    }]
-                }],
+                rootMenuList: [],
             }
         },
         created() {
@@ -366,44 +354,62 @@
                     this.getUserList();
                 });
             },
+            /**
+             * 保存权限
+             */
+            saveRoot(){
+                //(id,value),
+                let id = this.updateID
+                let data = this.rootMenuList;
+                console.log(data)
+                let arr = "";
+                data.forEach(item=>{
+                    if(item.oneRoot){
+                        arr += `(${id},${item.menu_id}),`
+                        item.twoRoot.forEach(lis=>{
+                            arr += `(${id},${lis}),`
+                        })
+                    }
+                });
+                let params = {
+                    userID:id,
+                    values:arr.substr(0,arr.length-1),
+                }
+                this.$post(this.$api.saveRoot, params).then((data) => {
+                    this.rootDialog = false;
+                })
+            },
             //修改用户权限
             updateRoot(id) {
                 let params = {
                     userId: id,
                 }
-
-                // rootMenuList:[{
-                //     id:1,
-                //     name:'文章管理',
-                //     oneRoot:true,
-                //     twoRoot:[2],
-                //     twoData:[{
-                //         id:2,
-                //         name:'栏目管理'
-                //     },{
-                //         id:3,
-                //         name:'相册管理'
-                //     }]
-                // }],
-
+                this.updateID = id;
                 this.$post(this.$api.queryRootList, {}).then((data) => {
                     this.$post(this.$api.queryRoot, params).then((data1) => {
                         this.rootDialog = true;
-                        data.forEach(item => {
-                            let arr = [];
-                            data1.forEach(elem => {
-                                if (item.main_id === elem.main_id) {
-                                    item['oneRoot'] = true;
-                                } else {
-                                    item['oneRoot'] = false;
-                                }
-                                elem.twoData.forEach(list => {
-                                    arr.push(list.menu_id);
-                                })
-                            });
-                            item['twoRoot'] = arr;
+                        data1.forEach(item => {
+                            if(data1.length>0){
+                                data.forEach(elem => {
+                                    let arr = [];
+                                    if (item.main_id === elem.main_id) {
+                                        item['oneRoot'] = true;
+                                        elem.twoData.forEach(list => {
+                                            arr.push(list.menu_id);
+                                        })
+                                        item['twoRoot'] = arr;
+                                    } else {
+                                        item['oneRoot'] = false;
+                                        item['twoRoot'] = [];
+                                    }
+                                });
+                            }else{
+                                item['oneRoot'] = false;
+                                item['twoRoot'] = [];
+                            }
                         });
                         this.rootMenuList = data;
+                        console.log(data);
                     });
                 });
 
