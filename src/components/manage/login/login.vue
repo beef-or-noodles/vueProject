@@ -53,6 +53,12 @@
         mapGetters,
         mapMutations
     } from 'vuex'
+    // import {
+    //     menuRouter
+    // } from './router/index.js'
+    // import {
+    //     routerMenuData
+    // } from '@/tool/public/routerData.js' //配置的路由表
     import wInput from '../components/wInput'
 
     export default {
@@ -77,7 +83,7 @@
                 login: false,
                 activeMove: false,
                 codeTxt: '获取证码',
-                setTime:'',
+                setTime: '',
             }
         },
         created() {
@@ -88,7 +94,7 @@
             ...mapMutations(['setUserInfo']),
 
             getCode() {
-                if(this.codeTxt !== "获取证码") return;
+                if (this.codeTxt !== "获取证码") return;
                 let params = {
                     emailId: this.email
                 }
@@ -100,18 +106,18 @@
                     return;
                 }
                 let i = 120;
-                this.setTime = setInterval(()=>{
+                this.setTime = setInterval(() => {
                     i--;
-                    if(i >= 1){
+                    if (i >= 1) {
                         this.codeTxt = `${i} 秒`
-                    }else{
+                    } else {
                         window.clearInterval(this.setTime);
                         this.codeTxt = "获取证码"
                     }
-                },1000)
+                }, 1000)
                 this.$post(this.$api.getCode, params).then((data) => {
 
-                }).catch(()=>{
+                }).catch(() => {
                     this.codeTxt = "获取证码"
                     window.clearInterval(this.setTime);
                 });
@@ -145,8 +151,10 @@
                     });
                 });
             },
-
-
+            // //设置路由
+            // setPageRouter() {
+            //     menuRouter(routerMenuData); //进入主页创建对应路由表
+            // },
             loginBtn() {
                 let params = {
                     userName: this.userName,
@@ -285,9 +293,11 @@
         border-color: white;
         cursor: pointer;
     }
-    .disbled{
+
+    .disbled {
         cursor: not-allowed !important;
     }
+
     .code {
         width: 140px;
     }

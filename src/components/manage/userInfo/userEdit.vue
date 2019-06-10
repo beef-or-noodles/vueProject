@@ -349,7 +349,6 @@
                 let params = {}
                 params.userId = id;
                 params.userType = type;
-                console.log(params)
                 this.$post(this.$api.stopUser, params).then((data) => {
                     this.getUserList();
                 });
@@ -357,23 +356,22 @@
             /**
              * 保存权限
              */
-            saveRoot(){
+            saveRoot() {
                 //(id,value),
                 let id = this.updateID
                 let data = this.rootMenuList;
-                console.log(data)
                 let arr = "";
-                data.forEach(item=>{
-                    if(item.oneRoot){
+                data.forEach(item => {
+                    if (item.oneRoot) {
                         arr += `(${id},${item.menu_id}),`
-                        item.twoRoot.forEach(lis=>{
+                        item.twoRoot.forEach(lis => {
                             arr += `(${id},${lis}),`
                         })
                     }
                 });
                 let params = {
-                    userID:id,
-                    values:arr.substr(0,arr.length-1),
+                    userID: id,
+                    values: arr.substr(0, arr.length - 1),
                 }
                 this.$post(this.$api.saveRoot, params).then((data) => {
                     this.rootDialog = false;
@@ -386,30 +384,27 @@
                 }
                 this.updateID = id;
                 this.$post(this.$api.queryRootList, {}).then((data) => {
+                    data.forEach(item => {
+                        item['oneRoot'] = false;
+                        item['twoRoot'] = [];
+                    })
                     this.$post(this.$api.queryRoot, params).then((data1) => {
                         this.rootDialog = true;
-                        data1.forEach(item => {
-                            if(data1.length>0){
-                                data.forEach(elem => {
-                                    let arr = [];
-                                    if (item.main_id === elem.main_id) {
-                                        item['oneRoot'] = true;
-                                        elem.twoData.forEach(list => {
-                                            arr.push(list.menu_id);
+                        if (data1.length > 0) {
+                            data1.forEach(item => {
+                                data.forEach(lis => {
+                                    if (item.menu_id == lis.menu_id) {
+                                        lis['oneRoot'] = true;
+                                        let arr = [];
+                                        item.twoData.forEach(elem => {
+                                            arr.push(elem.menu_id);
                                         })
-                                        item['twoRoot'] = arr;
-                                    } else {
-                                        item['oneRoot'] = false;
-                                        item['twoRoot'] = [];
+                                        lis['twoRoot'] = arr;
                                     }
                                 });
-                            }else{
-                                item['oneRoot'] = false;
-                                item['twoRoot'] = [];
-                            }
-                        });
+                            });
+                        }
                         this.rootMenuList = data;
-                        console.log(data);
                     });
                 });
 
@@ -449,10 +444,12 @@
     .search {
         overflow: hidden;
     }
-    .rootBox{
+
+    .rootBox {
         margin-top: 10px;
         box-shadow: 0px 0px 5px #c0ccda;
     }
+
     .rootTitle {
         background: #fafafa;
         padding: 10px;

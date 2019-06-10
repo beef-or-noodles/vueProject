@@ -302,19 +302,24 @@ router.post('/saveRoot', (req, res) => {
             res.send(Edata);
         }
         if (result) {
+            if(values === ""){
+                let rdata1 = returnData(200,[],'修改成功',true);
+                res.send(rdata1);
+            }else{
+                conn.query(insert, [values], function(err1, result1) {
+                    if(err1){
+                        console.log(err1)
+                        let Edata = returnData(500, '', '服务器错误', true);
+                        res.send(Edata);
+                    }
+                    if(result1){
+                        let rdata = returnData(200,[],'修改成功',true);
+                        res.send(rdata);
+                    }
 
-            conn.query(insert, [values], function(err1, result1) {
-                if(err1){
-                    console.log(err1)
-                    let Edata = returnData(500, '', '服务器错误', true);
-                    res.send(Edata);
-                }
-                if(result1){
-                    let rdata = returnData(200,[],'修改成功',true);
-                    res.send(rdata);
-                }
+                });
+            }
 
-            });
 
         }
     })
