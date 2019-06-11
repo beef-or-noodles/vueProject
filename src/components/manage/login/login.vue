@@ -53,12 +53,12 @@
         mapGetters,
         mapMutations
     } from 'vuex'
-    // import {
-    //     menuRouter
-    // } from './router/index.js'
-    // import {
-    //     routerMenuData
-    // } from '@/tool/public/routerData.js' //配置的路由表
+    import {
+        menuRouter
+    } from '../../../router/index.js'
+    import {
+        routerMenuData
+    } from '@/tool/public/routerData.js' //配置的路由表
     import wInput from '../components/wInput'
 
     export default {
@@ -175,17 +175,18 @@
                         let user = JSON.stringify(data)
                         sessionStorage.setItem('userInfo', user);
                         if (data.isLogin) {
-                            this.$message({
-                                message: '欢迎回来' + data.data[0].userName,
-                                type: 'success'
-                            });
-                            // 存入Vuex
                             this.setUserInfo(data.data[0]);
-
-                            this.$router.push({
-                                path: '/home'
+                            //取得用户权限
+                            this.$post(this.$api.queryRoot, {userId:data.data[0].id}).then((data1) => {
+                                this.setPageRouter(data1);
+                                this.$message({
+                                    message: '欢迎回来' + data.data[0].userName,
+                                    type: 'success'
+                                });
+                                this.$router.push({
+                                    path: '/home'
+                                })
                             })
-
                         } else {
                             this.$message({
                                 message: data.msg,
@@ -195,7 +196,36 @@
                     });
                 }
 
-            }
+            },
+
+            //过滤权限
+            setPageRouter(data) {
+                let userRoot = routerMenuData;
+                userRoot.forEach(item=>{
+                   item.power = false;
+                    item.rootMainList.forEach(elem=>{
+                        elem.rootPower = false;
+                    })
+                });
+                userRoot.forEach(item=>{
+                    data.forEach(elem=>{
+                        if(item.rootPath === elem.rootPath){
+                            item.power = true;
+                            if(elem.twoData.length>0){
+                                elem.twoData.forEach(lis=>{
+                                    item.rootMainList.forEach(chird=>{
+                                        if(lis.rootPath === chird.rootPath){
+                                            chird.rootPower = true;
+                                        }
+                                    })
+                                });
+                            }
+                        }
+                    })
+                });
+                console.log(userRoot);
+                menuRouter(userRoot); //进入主页创建对应路由表
+            },
         }
     }
 </script>

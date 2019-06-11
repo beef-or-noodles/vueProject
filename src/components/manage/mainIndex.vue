@@ -16,12 +16,12 @@
           {{textName}}
         </div>
         <el-menu active-text-color="#f56c6c" router unique-opened text-color="#808281">
-          <el-submenu v-for="(item,index) in menuData" :index="(index+1) + ''" :key="index">
+          <el-submenu v-for="(item,index) in menuData" :index="(index+1) + ''" :key="index" v-if="item.power">
             <template slot="title">
               <i :class="item.rooutMainIcon"></i>
               <span slot="title">{{item.rootMainName}}</span>
             </template>
-            <el-menu-item v-for="(chird,ind) in item.rootMainList" @click="textName = chird.rootChildName" :index="`${index+1}-${ind+1}`" :key="chird.rootChildName" :route="chird.path">
+            <el-menu-item v-for="(chird,ind) in item.rootMainList" v-if="chird.rootPower" @click="textName = chird.rootChildName" :index="`${index+1}-${ind+1}`" :key="ind" :route="chird.path">
               {{chird.rootChildName}}
             </el-menu-item>
           </el-submenu>
@@ -82,16 +82,6 @@ export default {
   },
   mounted() {
     this.setRouter();
-    // 禁止刷新
-    document.oncontextmenu = function() {
-      return false;
-    }
-    document.onkeydown = function(event) {
-      var e = event || window.event || arguments.callee.caller.arguments[0];
-      if (e && e.keyCode == 116) {
-        return false;
-      }
-    }
   },
   methods: {
     setRouter() {

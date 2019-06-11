@@ -19,12 +19,12 @@ export default {
     }
   },
   created() {
-    this.setPageRouter();
+    // this.setPageRouter();
   },
   methods: {
-    setPageRouter() {
-      menuRouter(routerMenuData); //进入主页创建对应路由表
-    }
+      // setPageRouter() {
+      //     menuRouter(routerMenuData); //进入主页创建对应路由表
+      // }
   }
 }
 </script>

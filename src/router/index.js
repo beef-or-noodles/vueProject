@@ -58,7 +58,7 @@ export function menuRouter(pageData){
         if(f.rootPower){
           routerList.push({
             path:f.path,
-            name:f.name,
+            //name:f.name,
             component:(resolve) => require(['@/components'+f.rootPath+'.vue'],resolve),
             meta:{'title':f.rootChildName,'rootLogin':f.rootLogin}
           })
