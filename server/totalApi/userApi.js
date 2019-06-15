@@ -24,8 +24,7 @@ router.post('/login', (req, res) => {
       if (result.length == 0) {
         data.isLogin = false;
         data.msg = '用户名不存在';
-      }
-      if(result[0].user_type == 0){
+      }else if(result[0].user_type == 0){
           data.isLogin = false;
           data.msg = '该用户已被禁用请联系管理员';
       }else{
@@ -39,6 +38,7 @@ router.post('/login', (req, res) => {
                   data.msg = '密码错误';
               }
           }
+          delete data.passWord;
       }
 
       let rdata = returnData(200,data,'登陆成功',false);

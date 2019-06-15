@@ -5,8 +5,12 @@ const mutations = {
     state.bookList.push(book);
     return true
   },
-  setUserInfo(state,userInfo){
-    state.user_info = userInfo;
+  setUserInfo(state,userInfo={}){
+    state.userData.user_info = userInfo;
+    return true
+  },
+  setRootMenu(state,rootMenu=[]){
+    state.userData.rootMenu = rootMenu;
     return true
   },
 }

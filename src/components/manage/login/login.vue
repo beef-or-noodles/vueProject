@@ -48,10 +48,7 @@
 </template>
 <script>
     import {
-        mapState,
-        mapActions,
-        mapGetters,
-        mapMutations
+        mapMutations,mapGetters
     } from 'vuex'
     import {
         menuRouter
@@ -86,12 +83,9 @@
                 setTime: '',
             }
         },
-        created() {
-
-        },
         methods: {
             // 将用户信息保存在vuex里面
-            ...mapMutations(['setUserInfo']),
+            ...mapMutations(["setUserInfo","setRootMenu"]),
 
             getCode() {
                 if (this.codeTxt !== "获取证码") return;
@@ -172,8 +166,6 @@
                     });
                 } else {
                     this.$post(this.$api.login, params).then((data) => {
-                        let user = JSON.stringify(data)
-                        sessionStorage.setItem('userInfo', user);
                         if (data.isLogin) {
                             this.setUserInfo(data.data[0]);
                             //取得用户权限
@@ -197,12 +189,11 @@
                 }
 
             },
-
             //过滤权限
             setPageRouter(data) {
                 let userRoot = routerMenuData;
                 userRoot.forEach(item=>{
-                   item.power = false;
+                    item.power = false;
                     item.rootMainList.forEach(elem=>{
                         elem.rootPower = false;
                     })
@@ -223,7 +214,7 @@
                         }
                     })
                 });
-                console.log(userRoot);
+                this.setRootMenu(userRoot);
                 menuRouter(userRoot); //进入主页创建对应路由表
             },
         }

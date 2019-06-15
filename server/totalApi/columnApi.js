@@ -19,7 +19,7 @@ router.post('/addColumn', (req, res) => {
   }
   var describe = params.describe;
   var imgUrl = params.imgUrl;
-  var userID = req.body.userID;
+  var userID = req.headers.token;
   console.log(imgUrl);
   conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name,describe,imgUrl,userID], function(err, result) {
     if (err) {
@@ -36,7 +36,7 @@ router.post('/addColumn', (req, res) => {
 //查找顶级栏目
 router.post('/selectColumn', (req, res) => {
   var sql = $sql.column.queryTopColumn;
-  var userID = req.body.userID;
+  var userID = req.headers.token;
   conn.query(sql, [userID,0], function(err, result) {
     if (err) {
       console.log(err);
@@ -85,7 +85,7 @@ function sortRule(title,type){
 router.post('/queryColumn', (req, res) => {
   var sql = $sql.column.queryColumn;
   var type = req.body.type;
-  var userID = req.body.userID;
+  var userID = req.headers.token;
   conn.query(sql,[userID], function(err, result) {
     if (err) {
       console.log(err);
@@ -185,7 +185,7 @@ router.post('/queryColumn', (req, res) => {
 router.post('/searchColumn', (req, res) => {
   var sql = $sql.column.searchColumn;
   var value = '%' + req.body.userSearch + '%';
-  var userID = req.body.userID;
+  var userID = req.headers.token;
   conn.query(sql, [userID,value], function(err, result) {
     if (err) {
       console.log(err);
@@ -202,7 +202,7 @@ router.post('/searchColumn', (req, res) => {
 //删除栏目
 router.post('/delectColumn', (req, res) => {
   var sql = $sql.column.delectColumn;
-  var id = req.body.id;
+  var id = req.headers.token;
   var idList = req.body.idList;
   var list = "";
   if (id == "" || id == undefined) {
@@ -306,7 +306,7 @@ router.post('/batchSort',(req,res)=>{
 
 // 查找相册
 router.post('/queryPhoto',(req,res)=>{
-  var userID = req.body.userID;
+  var userID = req.headers.token;
   var sql = $sql.column.queryPhoto;
   conn.query(sql,[userID],function(err, result){
     if (err) {

@@ -95,7 +95,6 @@ export default {
   data() {
     return {
       creatPhoto: false,
-      userID: this.$store.state.user_info.id,
       isCompress: true, //是否压缩
       imgFormData: '', //图片file对象
       imgUrl: '',
@@ -139,9 +138,7 @@ export default {
   },
   methods: {
     queryPhoto() {
-      this.$post(this.$api.queryPhoto, {
-        userID: this.userID
-      }).then((data) => {
+      this.$post(this.$api.queryPhoto).then((data) => {
         this.listData = data;
       });
     },
@@ -151,7 +148,6 @@ export default {
     addPhoto(type) {
       let params = this.fromData;
       if (type === 1) {
-        params.userID = this.userID;
         if (this.fromData.columnName != "") {
           this.$post(this.$api.addColumn, params).then((data) => {
             this.creatPhoto = false;

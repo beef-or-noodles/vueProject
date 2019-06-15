@@ -35,7 +35,7 @@
           <div>
             <div class="contentTop">
               <div class="icon">
-                <img :src="userInfo.data[0].image" alt="">
+                <img :src="getUserInfo.image" alt="">
               </div>
               <div class="message">
                 <el-badge :value="200" :max="99">
@@ -65,32 +65,33 @@ import {
 import {
   routerMenuData
 } from '@/tool/public/routerData.js' //配置的路由表
+import {mapMutations,mapGetters} from 'vuex'
 export default {
   data() {
     return {
       isCollapse: true,
       menuData: '', //菜单数据
       textName: "C_CMS",
-      userInfo: '',
     }
   },
   created() {
-    //得到登陆信息
-    var login = sessionStorage.getItem('userInfo');
-    var user = JSON.parse(login);
-    this.userInfo = user;
+    this.getUserEoot();
   },
-  mounted() {
-    this.setRouter();
+
+  computed:{
+    ...mapGetters(["getUserInfo","getRootMenu"])
   },
   methods: {
-    setRouter() {
-      this.menuData = routerMenuData
-    },
+    ...mapMutations(['setUserInfo',"setRootMenu"]),
     exitBtn() {
-      sessionStorage.removeItem('userInfo');
+      this.setUserInfo();//清空用户信息
+      this.setRootMenu();
       this.$router.push('/login');
-    }
+    },
+    getUserEoot(){
+      //取得用户权限
+      this.menuData = this.getRootMenu;
+    },
   }
 }
 </script>

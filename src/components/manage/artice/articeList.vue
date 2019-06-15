@@ -152,7 +152,6 @@ export default {
   },
   data() {
     return {
-      userID:this.$store.state.user_info.id,
       dialogVisible: false,
       searchName: '', //搜索文章
       filterText: '',
@@ -292,7 +291,7 @@ export default {
     //得到栏目列表
     getTreeList() {
       this.$post(this.$api.queryColumn, {
-        type: 1,userID:this.userID
+        type: 1
       }).then((data) => {
         this.treeData = data;
       });
@@ -323,7 +322,6 @@ export default {
     getColumnList() {
       this.$post(this.$api.queryColumn, {
         type: 0,
-        userID:this.userID,
       }).then((data) => {
         var arr = [];
         for (let i in data) {
@@ -348,7 +346,6 @@ export default {
       this.$post(this.$api.searchArtice, {
         searchName: this.searchName,
         recycle: 1,
-        userID:this.userID,
       }).then((data) => {
         if (data != '') {
           this.tableData = data;
@@ -389,7 +386,6 @@ export default {
           });
         } else {
           params.id = this.articeId;
-          params.userID = this.userID;
           this.$post(this.$api.updateArtice, params).then((data) => {
             this.dialogVisible = false;
             this.queryArtice(this.columnId);

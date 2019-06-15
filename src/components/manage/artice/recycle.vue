@@ -44,7 +44,6 @@ export default {
   data() {
     return {
       userSearch: '',
-      userID:this.$store.state.user_info.id,
       tableData: [],
       paging: {
         pageNo: 1,
@@ -96,7 +95,6 @@ export default {
     //查询回收站文章
     queryRecycle() {
       let params = this.paging;
-      params.userID = this.userID;
       this.$post(this.$api.queryRecycle, params).then((data) => {
         this.paging.total = data.total;
         this.tableData = data.data;
@@ -159,7 +157,6 @@ export default {
       if (this.userSearch == '') {
         this.queryRecycle();
       } else {
-        params.userID = this.userID;
         this.$post(this.$api.searchArtice, params).then((data) => {
           this.tableData = data;
         });

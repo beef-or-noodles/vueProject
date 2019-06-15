@@ -88,7 +88,6 @@ export default {
       number1: 6, //排序
       options: [],
       value8: '',
-      userID:this.$store.state.user_info.id,
       editDialog: false,
       submitType: 1, //1：增加  2：修改
       updateID: '',
@@ -177,7 +176,7 @@ export default {
     },
     // 查询顶级栏目
     selectColumn() {
-      this.$post(this.$api.selectColumn,{userID:this.userID}).then((data) => {
+      this.$post(this.$api.selectColumn).then((data) => {
         let arr = []
         for(let i in data){
           arr.push({id:data[i].id+'',name:data[i].columnName});
@@ -215,7 +214,6 @@ export default {
     addUser(type) {
       let params = this.fromData;
       if (type === 1) {
-        params.userID = this.userID;
         if(this.fromData.columnName != ""){
           this.$post(this.$api.addColumn, params).then((data) => {
             this.editDialog = false;
@@ -238,13 +236,14 @@ export default {
     },
     //得到栏目列表
     getUserList() {
-      this.$post(this.$api.queryColumn,{type:1,userID:this.userID}).then((data) => {
+      this.$post(this.$api.queryColumn,{type:1}).then((data) => {
         var arr  = [];
         for(let i in data){
           arr.push(data[i]);
           for(let f in data[i].children){
             arr.push(data[i].children[f]);
           }
+          delete data[i].children;
         }
         this.tableData = arr;
       });
@@ -253,7 +252,6 @@ export default {
     searchUser() {
       let params = {
         userSearch: this.userSearch,
-        userID:this.userID,
       }
       if (this.userSearch == '') {
         this.getUserList();

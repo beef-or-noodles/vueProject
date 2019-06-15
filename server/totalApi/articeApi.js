@@ -20,7 +20,7 @@ router.post('/addArtice', function(req, res) {
   } else {
     params.checkRoot = 0;
   }
-  var userID = params.userID;
+  var userID = req.headers.token;
   if (params.imgurl == '') {
     params.imgurl = '/server/upload/noImg.png'
   }
@@ -214,7 +214,7 @@ router.post('/searchArtice', (req, res) => {
   var sql = $sql.artice.searchArtice;
   var value = '%' + req.body.searchName + '%';
   var type = req.body.recycle; //type 1 文章  0 回收站
-  var userID = req.body.userID
+  var userID = req.headers.token
   conn.query(sql, [userID,type, value ], function(err, result) {
     if (err) {
       console.log(err);
@@ -234,7 +234,7 @@ router.post('/queryRecycle', function(req, res) {
   var sql = $sql.artice.queryArtice;
   let pageNo = (params.pageNo - 1) * params.pageSize;
   let pageSize = params.pageSize;
-var userID = req.body.userID
+  var userID = req.headers.token
   var sqls = `select count(*) from artice where userID = ${userID} and recycle = 0 ; select * from artice where recycle=0 order by creatTime DESC limit ${pageNo},${pageSize}`
 
   conn.query(sqls, function(err, result) {

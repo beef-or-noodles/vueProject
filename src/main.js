@@ -4,6 +4,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router/index';
+import {menuRouter} from './router/index';
 import ElementUi from 'element-ui'; //引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'; //手动引入element-ui 的css
 import Qs from 'qs';
@@ -26,8 +27,6 @@ Vue.prototype.$api = api;
 Vue.prototype.$tool = tool;//工具类
 Vue.config.productionTip = false;
 Vue.use(ElementUi); //调用element-ui
-/* eslint-disable no-new */
-// router.push('/')
 new Vue({
   el: '#app',
   router,
@@ -38,6 +37,11 @@ new Vue({
   template: '<App/>'
 });
 
+let rootMenu = store.state.userData.rootMenu;
+if(rootMenu.length>0){
+    console.log("进入");
+    menuRouter(rootMenu);
+}
 // 格式时间
 Date.prototype.Format = function (fmt) {
     var o = {
@@ -64,7 +68,6 @@ router.beforeEach((to, from, next) => {
         router.push('/login');
     }
   }
-
   if (to.meta.title != '' && to.meta.title != undefined) {
     document.title = to.meta.title;
   } else {
