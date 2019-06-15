@@ -10,25 +10,22 @@ axios.defaults.baseURL = api.baseURL; //默认请求地址
 axios.defaults.timeout = 6000;
 let loading;
 // 设置拦截器
-axios.interceptors.request.use(function (config) {
-    let userData = store.state.userData.user_info;
-    //发送请求前做些什么
-    config.data = JSON.stringify(config.data);
-    config.headers = {
-        'Content-Type': 'application/json'
-    }
-    if (userData) {
-        config.headers.token = userData.id;
+axios.interceptors.request.use( function(config) {
+   let userData = store.state.userData
+    if (userData.user_info.hasOwnProperty('data') && userData) {
+        let token = userData.user_info.data[0].id
+        config.headers.token = token;
     }
     setloading(); //加载动画
     return config;
 }, function (error) {
+    console.log('进入请求拦截器');
     endLoading();
     // 对请求错误做些什么
     return Promise.reject(error);
 });
 // 添加响应拦截器
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(function(response){
     // 对响应数据做点什么
     endLoading();
     return response;

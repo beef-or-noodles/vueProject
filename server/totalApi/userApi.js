@@ -33,12 +33,12 @@ router.post('/login', (req, res) => {
                   data.isLogin = true;
                   data.msg = '登陆成功';
                   data.data = result;
+                  delete data.data[0].passWord;
               } else {
                   data.isLogin = false;
                   data.msg = '密码错误';
               }
           }
-          delete data.passWord;
       }
 
       let rdata = returnData(200,data,'登陆成功',false);

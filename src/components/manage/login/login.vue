@@ -64,8 +64,8 @@
         },
         data() {
             return {
-                userName: '',
-                password: '',
+                userName: 'admin',
+                password: 'admin',
 
                 userName1: '',
                 password1: '',
@@ -167,7 +167,8 @@
                 } else {
                     this.$post(this.$api.login, params).then((data) => {
                         if (data.isLogin) {
-                            this.setUserInfo(data.data[0]);
+                            console.log(data);
+                            this.setUserInfo(data);
                             //取得用户权限
                             this.$post(this.$api.queryRoot, {userId:data.data[0].id}).then((data1) => {
                                 this.setPageRouter(data1);

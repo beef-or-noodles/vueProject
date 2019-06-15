@@ -39,7 +39,6 @@ new Vue({
 
 let rootMenu = store.state.userData.rootMenu;
 if(rootMenu.length>0){
-    console.log("进入");
     menuRouter(rootMenu);
 }
 // 格式时间
@@ -60,10 +59,9 @@ Date.prototype.Format = function (fmt) {
 }
 //路由守卫
 router.beforeEach((to, from, next) => {
-  var login = sessionStorage.getItem('userInfo');
-  var user = JSON.parse(login);
+  var login = store.state.userData.user_info;
   if(to.meta.rootLogin){
-    if(!user.isLogin){
+    if(!login.isLogin){
         ElementUi.Message.error("请登陆")
         router.push('/login');
     }
