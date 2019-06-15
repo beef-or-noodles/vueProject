@@ -202,7 +202,7 @@ router.post('/searchColumn', (req, res) => {
 //删除栏目
 router.post('/delectColumn', (req, res) => {
   var sql = $sql.column.delectColumn;
-  var id = req.headers.token;
+  var id = req.body.id;
   var idList = req.body.idList;
   var list = "";
   if (id == "" || id == undefined) {

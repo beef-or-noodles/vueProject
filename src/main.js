@@ -37,10 +37,14 @@ new Vue({
   template: '<App/>'
 });
 
-let rootMenu = store.state.userData.rootMenu;
-if(rootMenu.length>0){
-    menuRouter(rootMenu);
+if(store.state.userData){
+    let rootMenu = store.state.userData;
+    if(rootMenu.rootMenu.length>0 &&　rootMenu){
+        console.log("刷新写入路由");
+        menuRouter(rootMenu.rootMenu);
+    }
 }
+
 // 格式时间
 Date.prototype.Format = function (fmt) {
     var o = {
