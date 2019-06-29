@@ -59,12 +59,6 @@
 </template>
 <script>
 import "@/assets/css/style.css";
-import {
-  menuRouter
-} from '@/router/index.js'
-import {
-  routerMenuData
-} from '@/tool/public/routerData.js' //配置的路由表
 import {mapMutations,mapGetters} from 'vuex'
 export default {
   data() {

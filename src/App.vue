@@ -5,12 +5,6 @@
 </template>
 
 <script>
-import {
-  menuRouter
-} from './router/index.js'
-import {
-  routerMenuData
-} from '@/tool/public/routerData.js' //配置的路由表
 export default {
   name: 'app',
   data() {
@@ -19,12 +13,9 @@ export default {
     }
   },
   created() {
-    // this.setPageRouter();
   },
   methods: {
-      // setPageRouter() {
-      //     menuRouter(routerMenuData); //进入主页创建对应路由表
-      // }
+
   }
 }
 </script>

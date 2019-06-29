@@ -4,7 +4,6 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router/index';
-import {menuRouter} from './router/index';
 import ElementUi from 'element-ui'; //引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'; //手动引入element-ui 的css
 import Qs from 'qs';
@@ -36,14 +35,6 @@ new Vue({
   },
   template: '<App/>'
 });
-
-if(store.state.userData){
-    let rootMenu = store.state.userData;
-    if(rootMenu.rootMenu.length>0 &&　rootMenu){
-        console.log("刷新写入路由");
-        menuRouter(rootMenu.rootMenu);
-    }
-}
 
 // 格式时间
 Date.prototype.Format = function (fmt) {

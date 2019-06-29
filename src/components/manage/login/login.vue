@@ -51,9 +51,6 @@
         mapMutations,mapGetters
     } from 'vuex'
     import {
-        menuRouter
-    } from '../../../router/index.js'
-    import {
         routerMenuData
     } from '@/tool/public/routerData.js' //配置的路由表
     import wInput from '../components/wInput'
@@ -167,7 +164,6 @@
                 } else {
                     this.$post(this.$api.login, params).then((data) => {
                         if (data.isLogin) {
-                            console.log(data);
                             this.setUserInfo(data);
                             //取得用户权限
                             this.$post(this.$api.queryRoot, {userId:data.data[0].id}).then((data1) => {
@@ -216,7 +212,6 @@
                     })
                 });
                 this.setRootMenu(userRoot);
-                menuRouter(userRoot); //进入主页创建对应路由表
             },
         }
     }
