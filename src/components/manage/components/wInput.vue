@@ -1,7 +1,7 @@
 <template>
 <div class="input" :class="{inputActive:active}">
   <p>{{title}}</p>
-  <input :type="type" :placeholder="placeholder" @input="changeTxt($event.target.value)" ref="user" @focus="()=>{active = true}" @blur="()=>{active = false}" />
+  <input :type="type" ref="input" :placeholder="placeholder" @input="changeTxt($event.target.value)" @focus="()=>{active = true}" @blur="()=>{active = false}" />
 </div>
 </template>
 <script>
@@ -33,8 +33,8 @@ export default {
       default: 'text'
     } //输入框原生type
   },
-  created() {
-
+  mounted() {
+    this.$refs["input"].value = this.name;
   },
   computed: {
     rename() {

@@ -35,7 +35,7 @@
           <div>
             <div class="contentTop">
               <div class="icon">
-                <img :src="getUserInfo.image" alt="">
+                <img :src="getUserInfo.data[0].image" alt="">
               </div>
               <div class="message">
                 <el-badge :value="200" :max="99">

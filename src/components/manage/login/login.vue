@@ -13,9 +13,9 @@
                         <div class="zc" @click="activeMove = true">
                             没有账号？立即注册
                         </div>
-                        <div class="btn" @click="loginBtn">
+                        <button class="btn" @click="loginBtn">
                             登 录
-                        </div>
+                        </button>
                     </div>
                 </div>
                 <div class="zcBox" :class="{right:activeMove}">
@@ -25,9 +25,9 @@
                     <w-input type="password" title="确认密码" v-model="password2"></w-input>
                     <w-input title="QQ邮箱" v-model="email"></w-input>
                     <div>
-                        <div class="btn codebtn" @click="getCode" :class="{disbled:codeTxt!='获取证码'?true:false}">
+                        <button class="btn codebtn" @click="getCode" :class="{disbled:codeTxt!='获取证码'?true:false}">
                             {{codeTxt}}
-                        </div>
+                        </button>
                         <div class="code">
                             <w-input v-model="code" placeholder="验证码"></w-input>
                         </div>
@@ -37,9 +37,9 @@
                         <div class="zc" @click="activeMove = false">
                             去登录
                         </div>
-                        <div class="btn" @click="addNewUser">
+                        <button class="btn" @click="addNewUser">
                             立即注册
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -303,6 +303,7 @@
         color: @inputColor;
         border: 1px solid @inputColor;
         transition: all 0.46s ease;
+        background: none;
     }
 
     .btn:hover {
