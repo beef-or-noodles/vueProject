@@ -61,10 +61,10 @@ function sendEmailData(emailId = '', subject = '', title = '', contentHtml = '')
 router.post('/sendEmail', (req, res) => {
   var params = req.body;
   var emailId = params.emailId;
-  var subject = "验证码接收通知";
-  var title = '验证码';
-  var contentHtml = `<div style="color:red;">我的第一封邮件</div>`;
-  sendEmailData(emailId, subject, subject, title, contentHtml).then((data) => {
+  var subject = params.subtxt;
+  var title = '';
+  var contentHtml =  params.content;;
+  sendEmailData(emailId, subject, title, contentHtml).then((data) => {
     res.send(data); //返回数据给前台
   });
 });
@@ -79,7 +79,7 @@ router.post('/getCode', (req, res) => {
    return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
   }
   let code = randomFrom(10000,99999);
-  var title = `<div>您的邮箱验证码是　<span style="color:green;">${code}</span>　，请不要告诉他人</div>`;
+  var title = `<div>您的邮箱验证码是　<span style="color:green;">${code}</span>　，请不要告诉他人哦</div>`;
   req.session.code = code;
   sendEmailData(emailId, subject, subject, title).then((data) => {
     res.send(data); //返回数据给前台

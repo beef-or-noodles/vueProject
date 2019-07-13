@@ -61,8 +61,8 @@
         },
         data() {
             return {
-                userName: 'admin',
-                password: 'admin',
+                userName: '',
+                password: '',
 
                 userName1: '',
                 password1: '',

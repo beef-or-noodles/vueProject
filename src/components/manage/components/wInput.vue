@@ -1,5 +1,5 @@
 <template>
-<div class="input" :class="{inputActive:active}">
+<div class="input" :class="{inputActive:active&&isActive,isActive:!isActive}">
   <p>{{title}}</p>
   <input :type="type" ref="input" :placeholder="placeholder" @input="changeTxt($event.target.value)" @focus="()=>{active = true}" @blur="()=>{active = false}" />
 </div>
@@ -31,14 +31,18 @@ export default {
     type: {
       type: [String],
       default: 'text'
-    } //输入框原生type
+    }, //输入框原生type
+    isActive:{ //是否显示选中状态
+      type: [Boolean],
+      default: true
+    }
   },
   mounted() {
     this.$refs["input"].value = this.name;
   },
-  computed: {
-    rename() {
-      return this.name
+  watch:{
+    name(val){
+      this.$refs["input"].value = this.name;
     }
   },
   methods: {
@@ -55,6 +59,12 @@ export default {
     &.inputActive {
         color: white !important;
         border-bottom: 1px solid white !important;
+    }
+    &.isActive{
+      color: #444444 !important;
+      input{
+        color: #000 !important;
+      }
     }
     position: relative;
     color: @inputColor;

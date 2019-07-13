@@ -138,7 +138,7 @@ export default {
   height: 800px;
   background: rgba(255, 255, 255, 0.7);
   box-shadow: 0px 0px 4px white;
-  overflow: auto;
+  overflow: hidden;
   z-index: 6;
 }
 
@@ -182,6 +182,7 @@ export default {
 
 .content {
   padding: 20px;
+  max-height: 800px;
   overflow: auto;
 }
 
