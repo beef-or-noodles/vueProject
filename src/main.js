@@ -26,6 +26,9 @@ Vue.prototype.$api = api;
 Vue.prototype.$tool = tool;//工具类
 Vue.config.productionTip = false;
 Vue.use(ElementUi); //调用element-ui
+
+import VueSocketIO from 'vue-socket.io';//socket
+
 new Vue({
   el: '#app',
   router,
@@ -36,6 +39,13 @@ new Vue({
   template: '<App/>'
 });
 
+
+
+Vue.use(new VueSocketIO({
+    debug: true,
+    connection: 'http://localhost:8889',  //
+}))
+this.$socket.emit('submit', "你好");
 // 格式时间
 Date.prototype.Format = function (fmt) {
     var o = {

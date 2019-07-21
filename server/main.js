@@ -14,6 +14,22 @@ const session = require('express-session');
 let http = require("http");
 let https = require("https");
 const app = express();
+
+
+// // 具体参数我们在后面进行解释
+app.all('*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By",' 3.2.1')
+    res.header("Content-Type", "application/json;charset=utf-8");
+    next();
+});
+
+
+
+
 // 使用 session 中间件
 app.use(session({
     secret :  'secret', // 对session id 相关的cookie 进行签名
@@ -38,10 +54,30 @@ const httpsOption = { //加入Https证书
     key : fs.readFileSync("./https/2215442_www.smartwu.top.key"),
     cert: fs.readFileSync("./https/2215442_www.smartwu.top.pem")
 }
+
 // Create service
-http.createServer(app).listen(8889);
+// http.createServer(app).listen(server);
 https.createServer(httpsOption, app).listen(443);
 console.log('服务启动成功 服务端口:8889......');
+
+
+// at the top of app.js
+var server  = require('http').createServer(app);
+var io      = require('socket.io').listen(server);
+
+// at the bottom of app.js
+server.listen('8889', () => {
+    console.log('Server listening on Port 8889');
+})
+
+// your code
+io.on('connect', (socket) => {
+    io.on("submit",(val)=>{
+       console.log("接收",val);
+    });
+    console.log("scoket链接成功");
+});
+
 
 // 格式时间
 Date.prototype.Format = function (fmt) {
