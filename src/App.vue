@@ -37,7 +37,7 @@ export default {
 ::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 10px;
-  background: #409EFF;
+  background:#b8b8b8;
 }
 
 ::-webkit-scrollbar-track {

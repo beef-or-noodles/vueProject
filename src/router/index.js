@@ -85,6 +85,11 @@ const router = new Router({
                 name: 'email',
                 component: resolve => require(['@/components/manage/tool/email.vue'], resolve),
                 meta: {title: '邮件'},
+            },{
+                path: '/home/scoket',
+                name: 'scoket',
+                component: resolve => require(['@/components/manage/tool/scoket.vue'], resolve),
+                meta: {title: 'scoket'},
             }]
         }
     ]

@@ -89,5 +89,13 @@ export const routerMenuData = [{
     path: '/home/email',
     name: 'email',
     icon: 'el-icon-message',
+  },{
+    rootChildName: 'scoket',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/tool/scoket',
+    path: '/home/scoket',
+    name: 'scoket',
+    icon: 'el-icon-message',
   }]
 }];
