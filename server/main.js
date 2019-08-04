@@ -58,7 +58,6 @@ const httpsOption = { //加入Https证书
 // Create service
 // http.createServer(app).listen(server);
 https.createServer(httpsOption, app).listen(443);
-console.log('服务启动成功 服务端口:8889......');
 
 
 // at the top of app.js
@@ -70,13 +69,66 @@ server.listen('8889', () => {
     console.log('Server listening on Port 8889');
 })
 
-// your code
-io.on('connect', (socket) => {
-    io.on("submit",(val)=>{
-       console.log("接收",val);
+/*-------------scoketio  start---------------*/
+
+// socket.emit('message',"this is a test");//发送给对应的客户端
+//
+// io.sockets.emit('message',"this is a test");//发送给所有客户端
+//
+// socket.broadcast.emit('message',"this is a test");//发送给除了发送者之外的所有客户端
+//
+// socket.broadcast.to('game').emit('message','nice game');//发送给房间game中除了发送者的所有客户端
+//
+// io.sockets.in('game').emit('message','cool game');//发送给房间game中的所有客户端，包括发送者
+//
+// io.sockets.socket(socketid).emit('message','for your eyes only');//发送给指定socketId的客户端
+
+
+var getColor=function(){
+    var colors = ['aliceblue','antiquewhite','aqua','aquamarine','pink','red','green',
+        'orange','blue','blueviolet','brown','burlywood','cadetblue'];
+    return colors[Math.round(Math.random() * 10000 % colors.length)];
+}
+
+//WebSocket连接监听
+io.on('connection', function (socket) {
+    socket.emit('open');//通知客户端已连接
+    console.log('一个客户已连接');
+    // 打印握手信息
+    // console.log(socket.handshake);
+
+    // 构造客户端对象
+    var client = {
+        socket:socket,
+        name:false,
+        color:getColor()
+    }
+
+    socket.on('login', function(msg){
+        console.log('接收消息: ' + msg);
     });
-    console.log("scoket链接成功");
+    socket.on('sendX', function(msg,fn){
+        console.log('接收消息: ' + msg);
+        socket.broadcast.emit('message',"发送给除了发送者之外的所有客户端");
+    });
+
+    //监听出退事件
+    socket.on('disconnect', function () {
+        var obj = {
+            color:client.color,
+            author:'System',
+            text:client.name,
+            type:'disconnect'
+        };
+
+        // 广播用户已退出
+        socket.broadcast.emit('system',obj);
+        console.log(client.name + 'Disconnect');
+    });
+
 });
+
+/*-------------end---------------*/
 
 
 // 格式时间

@@ -66,7 +66,21 @@
                     name:"迷路的猪猪侠",
                     active:false,
                 }],
-                messageList:[]
+                messageList:[],
+
+                id: '',
+
+            }
+        },
+        sockets:{
+            connect() {
+                this.id = this.$socket.id;
+                this.$socket.emit('login', "我登录了");      //监听connect事件
+            },
+            message(data) {                                 //监听message事件，方法是后台定义和提供的
+
+                console.log(data);
+
             }
         },
         methods: {
@@ -84,29 +98,19 @@
                     })
                     return false;
                 }
+                let message={
+                    name:'小明',
+                    message:this.input
+                }
+                this.$socket.emit('sendX', JSON.stringify(message),(data)=>{
+                    console.log("接收后台数据",data);
+                });
                 this.messageList.push({
                     imgUrl:"http://img4.imgtn.bdimg.com/it/u=4228113134,2313429504&fm=26&gp=0.jpg",
                     userID:1,
                     message:this.input
                 })
-                let str = ""
-                let txt = ""
-                str=this.input;
-                str=str.replace("吗", "");
-                str=str.replace("谁", "小可爱");
-                str=str.replace("你", "我");
-                str=str.replace("？", "!");
-                str=str.replace("?", "!");
-                txt = str;
-
-
-                this.messageList.push({
-                    imgUrl:"http://img4.imgtn.bdimg.com/it/u=4228113134,2313429504&fm=26&gp=0.jpg",
-                    userID:2,
-                    message:txt
-                })
                 this.input = "";
-
                 setTimeout(()=>{
                     let box =  this.$refs.box
                     box.scrollTop = box.scrollHeight;

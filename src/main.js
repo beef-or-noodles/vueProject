@@ -45,7 +45,7 @@ Vue.use(new VueSocketIO({
     debug: true,
     connection: 'http://localhost:8889',  //
 }))
-this.$socket.emit('submit', "你好");
+
 // 格式时间
 Date.prototype.Format = function (fmt) {
     var o = {
