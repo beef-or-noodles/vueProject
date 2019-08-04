@@ -43,7 +43,7 @@ new Vue({
 
 Vue.use(new VueSocketIO({
     debug: true,
-    connection: 'http://localhost:8889',  //
+    connection: location.origin,  //
 }))
 
 // 格式时间

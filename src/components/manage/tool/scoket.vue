@@ -77,10 +77,14 @@
                 this.id = this.$socket.id;
                 this.$socket.emit('login', "我登录了");      //监听connect事件
             },
-            message(data) {                                 //监听message事件，方法是后台定义和提供的
-
-                console.log(data);
-
+            message(data) {
+                 //监听message事件，方法是后台定义和提供的
+                let messag = JSON.parse(data);
+                this.messageList.push({
+                    imgUrl:"http://img4.imgtn.bdimg.com/it/u=4228113134,2313429504&fm=26&gp=0.jpg",
+                    userID:2,
+                    message:messag.message
+                })
             }
         },
         methods: {

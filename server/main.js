@@ -57,9 +57,11 @@ const httpsOption = { //加入Https证书
 
 // Create service
 // http.createServer(app).listen(server);
-https.createServer(httpsOption, app).listen(443);
-
-
+// var servers =  https.createServer(httpsOption, app)
+// var io      = require('socket.io').listen(servers);
+// servers.listen('443', () => {
+//     console.log('Server listening on Port 8889');
+// })
 // at the top of app.js
 var server  = require('http').createServer(app);
 var io      = require('socket.io').listen(server);
@@ -84,43 +86,21 @@ server.listen('8889', () => {
 // io.sockets.socket(socketid).emit('message','for your eyes only');//发送给指定socketId的客户端
 
 
-var getColor=function(){
-    var colors = ['aliceblue','antiquewhite','aqua','aquamarine','pink','red','green',
-        'orange','blue','blueviolet','brown','burlywood','cadetblue'];
-    return colors[Math.round(Math.random() * 10000 % colors.length)];
-}
-
 //WebSocket连接监听
 io.on('connection', function (socket) {
     socket.emit('open');//通知客户端已连接
     console.log('一个客户已连接');
     // 打印握手信息
-    // console.log(socket.handshake);
-
-    // 构造客户端对象
-    var client = {
-        socket:socket,
-        name:false,
-        color:getColor()
-    }
-
     socket.on('login', function(msg){
         console.log('接收消息: ' + msg);
     });
     socket.on('sendX', function(msg,fn){
         console.log('接收消息: ' + msg);
-        socket.broadcast.emit('message',"发送给除了发送者之外的所有客户端");
+        socket.broadcast.emit('message',msg);
     });
 
     //监听出退事件
     socket.on('disconnect', function () {
-        var obj = {
-            color:client.color,
-            author:'System',
-            text:client.name,
-            type:'disconnect'
-        };
-
         // 广播用户已退出
         socket.broadcast.emit('system',obj);
         console.log(client.name + 'Disconnect');
