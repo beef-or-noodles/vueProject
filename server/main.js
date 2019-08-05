@@ -60,7 +60,7 @@ const httpsOption = { //加入Https证书
 // var servers =  https.createServer(httpsOption, app)
 // var io      = require('socket.io').listen(servers);
 // servers.listen('443', () => {
-//     console.log('Server listening on Port 8889');
+//     console.log('Server listening on Port 443');
 // })
 // at the top of app.js
 var server  = require('http').createServer(app);
@@ -103,7 +103,7 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         // 广播用户已退出
         socket.broadcast.emit('system',obj);
-        console.log(client.name + 'Disconnect');
+        console.log('广播用户已退出');
     });
 
 });
