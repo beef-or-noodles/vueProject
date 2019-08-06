@@ -95,14 +95,16 @@
                 if (type === 'blob') {
                     this.$refs.cropper.getCropBlob((data) => {
                         this.downImg = window.URL.createObjectURL(data)
-                        aLink.href = window.URL.createObjectURL(data)
-                        aLink.click()
+                        this.$emit("saveImg",this.downImg);
+                        // aLink.href = window.URL.createObjectURL(data) //下载到本地
+                        // aLink.click()
                     })
                 } else {
                     this.$refs.cropper.getCropData((data) => {
                         this.downImg = data;
-                        aLink.href = data;
-                        aLink.click()
+                        this.$emit("saveImg",this.downImg);
+                        // aLink.href = data;
+                        // aLink.click()
                     })
                 }
             },
@@ -111,6 +113,9 @@
 </script>
 
 <style lang="less" scoped>
+    .box{
+        overflow: hidden;
+    }
     .copper {
         width: 240px;
         height: 240px;
@@ -132,10 +137,10 @@
     }
 
     .btnBox {
+        text-align: center;
         & > div {
             float: left;
-            margin-right: 5px;
-            margin-top: 10px;
+            margin-right: 5px
         }
     }
 

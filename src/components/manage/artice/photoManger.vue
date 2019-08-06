@@ -62,6 +62,7 @@
             <img v-if="imgUrl" :src="imgUrl" ref="imgUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+          <fileupload @change="fileChange" :autoUp="false" :copper="false"></fileupload>
         </el-col>
         <el-col :span="12">
           <br />
@@ -91,7 +92,11 @@
 </div>
 </template>
 <script>
+  import fileupload from "../components/uploade";
 export default {
+  components:{
+    fileupload
+  },
   data() {
     return {
       creatPhoto: false,
@@ -221,44 +226,9 @@ export default {
     photoList(id){
       console.log(id);
     },
-
-    // 选择图片
-    uploadChange(file, fileList) {
-      this.imgUrl = URL.createObjectURL(file.raw);
-      this.imgFormData = file.raw;
+    fileChange(val){
+      this.fromData.imgUrl = val;
     },
-    //手动上传图片
-    submitUpload() {
-      var _this = this;
-      if (this.imgUrl != "") {
-        if (this.isCompress) {
-          lrz(_this.imgUrl)
-            .then(function(rst) {
-              //成功时执行
-              console.log("压缩图片");
-              _this.$post(_this.$api.upload, rst.formData).then((data) => {
-                _this.fromData.imgUrl = data.path;
-              })
-            }).catch(function(error) {
-              //失败时执行
-            }).always(function() {
-              //不管成功或失败，都会执行
-            })
-        } else {
-          console.log("不压缩");
-          this.$uploadImg(this.$api.upload, this.imgFormData).then((data) => {
-            this.fromData.imgUrl = data.path;
-          })
-        }
-      } else {
-        this.$message({
-          message: '请选择图片',
-          type: 'info'
-        });
-      }
-
-    },
-
   }
 }
 </script>

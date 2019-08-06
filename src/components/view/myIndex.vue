@@ -1,14 +1,14 @@
 <template>
   <div>
-    <uploadImgEdit></uploadImgEdit>
+    <fileupload></fileupload>
   </div>
 </template>
 <script>
-  import uploadImgEdit from "../manage/components/uploadImgEdit";
+  import fileupload from "../manage/components/uploade";
 export default {
   name: "",
   components:{
-    uploadImgEdit
+    fileupload
   },
   data(){
     return{
