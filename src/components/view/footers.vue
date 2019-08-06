@@ -2,7 +2,7 @@
 <template>
   <div>
     <footer>
-      <p>Design by吴某人的个人博客蜀ICP备11002373号-1</p>
+      <p></p>
     </footer>
   </div>
 </template>

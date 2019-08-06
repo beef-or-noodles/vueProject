@@ -3,7 +3,7 @@
 <div>
   <header class="header-navigation" id="header">
     <nav>
-      <div class="logo">吴某某的个人博客</div>
+      <div class="logo"></div>
       <h2 id="mnavh"><span class="navicon"></span></h2>
       <ul id="starlist">
         <li>
