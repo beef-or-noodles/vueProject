@@ -59,11 +59,23 @@
         methods: {
             // 选择图片
             uploadChange(file, fileList) {
-                this.imgurl = URL.createObjectURL(file.raw);
-                this.imgFormData = file.raw;
-                if (this.autoUp) {
-                    this.submitUpload();
+                console.log(file.raw.type);
+                const type = file.raw.type;
+                let typeArr = ["image/jpeg","image/png","image/jpg"]
+                console.log(typeArr.indexOf(type) != -1);
+                if(typeArr.indexOf(type) != -1){
+                    this.imgurl = URL.createObjectURL(file.raw);
+                    this.imgFormData = file.raw;
+                    if (this.autoUp) {
+                        this.submitUpload();
+                    }
+                }else{
+                    this.$message({
+                        message: '请选择正确格式的图片',
+                        type: 'error'
+                    });
                 }
+
             },
 
             //剪辑图片返回数据
@@ -71,7 +83,6 @@
                 this.imgurl = val;
                 this.edit = false;
             },
-
             //手动上传图片
             submitUpload() {
                 var _this = this;
