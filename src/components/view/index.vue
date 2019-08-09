@@ -35,11 +35,13 @@
     </div>
   </article>
   <footers></footers>
+  <lion></lion>
 </div>
 </template>
 <script>
 import headerTop from './headerTop.vue'
 import footers from './footers.vue'
+import Lion from "./lion/lion";
 export default {
   data() {
     return {
@@ -54,6 +56,7 @@ export default {
     }
   },
   components: {
+    Lion,
     headerTop,
     footers
   },
