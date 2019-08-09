@@ -1,14 +1,6 @@
 <template>
 <div class="home">
 
-  <audio controls autoplay>
-    <!-- <source src="mp3/Approaching%20Nirvana%20-%20You.mp3"> -->
-  </audio>
-  <div id="background" class="wall"></div>
-  <div id="midground" class="wall"></div>
-  <div id="foreground" class="wall"></div>
-  <div id="top" class="wall"></div>
-
   <div class="allContent">
     <el-container>
       <el-aside width="200px" class="leftNav" :class="{active:isCollapse}">
@@ -58,7 +50,6 @@
 </div>
 </template>
 <script>
-import "@/assets/css/style.css";
 import {mapMutations,mapGetters} from 'vuex'
 export default {
   data() {
@@ -139,7 +130,7 @@ export default {
   background: rgba(255, 255, 255, 0.7);
   box-shadow: 0px 0px 4px white;
   overflow: hidden;
-  z-index: 6;
+
 }
 
 .leftNav {
