@@ -56,25 +56,11 @@
       <el-form-item label="相册描述：">
         <el-input v-model="fromData.describe" placeholder="相册描述" type="textarea" rows="5" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="封面图:" prop="imgUrl">
-        <el-col :span="12">
-          <el-upload class="avatar-uploader" :action="$api.upload" ref="upload" :show-file-list="false" :on-change="uploadChange" :auto-upload="false">
-            <img v-if="imgUrl" :src="imgUrl" ref="imgUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-          <fileupload @change="fileChange" :autoUp="false" :copper="false"></fileupload>
-        </el-col>
-        <el-col :span="12">
-          <br />
-          <span>压缩：</span>
-          <el-switch v-model="isCompress" active-text="是" inactive-text="否">
-          </el-switch>
-          <br />
-          <el-button type="primary" size="mini" @click="submitUpload">上传</el-button>
-        </el-col>
+      <el-form-item label="封面图：" prop="imgUrl">
+        <fileupload @change="fileChange" :autoUp="false" :copper="true"></fileupload>
       </el-form-item>
       <el-col :span="10">
-        <el-form-item label="是否显示:">
+        <el-form-item label="是否显示：">
           <el-switch v-model="fromData.checkRoot" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
       </el-col>
@@ -297,7 +283,7 @@ export default {
   right: 8px;
 }
 
-.box {
+.photoBox .box {
   position: absolute;
   top: 5px;
   right: 5px;

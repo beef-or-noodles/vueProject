@@ -115,8 +115,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 100vh;
-  /* background: url('../../../static/images/mainBg.jpg'); */
-  /* background: radial-gradient(ellipse at top left, rgba(181, 197, 216, 1) 0%, rgba(105, 155, 200, 1) 57%); */
+  background: radial-gradient(ellipse at top left, rgba(181, 197, 216, 1) 0%, rgba(105, 155, 200, 1) 57%);
   background-size: 100% 100%;
   display: flex;
   justify-content: center;
