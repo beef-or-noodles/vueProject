@@ -14,13 +14,14 @@
                 <img v-if="imgurl" :src="imgurl" ref="imgUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </div>
-            <el-dialog :visible.sync="edit" width="284px" :close-on-click-modal="false" :show-close="false">
-               <img-edit @saveImg="saveImg"></img-edit>
-            </el-dialog>
         </div>
         <div v-if="!autoUp">
             <el-button type="primary" style="width:120px ;" size="mini" @click="submitUpload">上传</el-button>
         </div>
+
+        <el-dialog :visible.sync="edit" width="284px" :close-on-click-modal="true" :show-close="false">
+            <img-edit @saveImg="saveImg"></img-edit>
+        </el-dialog>
     </div>
 </template>
 
@@ -33,7 +34,6 @@
         },
         data() {
             return {
-                imgurl: '',
                 isCompress: true,
                 fromData: {
                     imgurl: "",
@@ -54,6 +54,10 @@
             copper: {//是否剪裁
                 type: Boolean,
                 default: false
+            },
+            img:{
+                type:String,
+                default:"",
             }
         },
         methods: {
@@ -94,7 +98,7 @@
                                 console.log("压缩图片");
                                 _this.$post(_this.$api.upload, rst.formData).then((data) => {
                                     _this.fromData.imgurl = data.path;
-                                    this.$emit("change",data.path)
+                                    _this.$emit("change",data.path)
                                 })
                             }).catch(function (error) {
                             //失败时执行
