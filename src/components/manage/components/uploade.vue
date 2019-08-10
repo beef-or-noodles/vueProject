@@ -19,7 +19,7 @@
             <el-button type="primary" style="width:120px ;" size="mini" @click="submitUpload">上传</el-button>
         </div>
 
-        <el-dialog :visible.sync="edit" width="284px" :close-on-click-modal="true" :show-close="false">
+        <el-dialog append-to-body :visible.sync="edit" width="284px" :close-on-click-modal="true">
             <img-edit @saveImg="saveImg"></img-edit>
         </el-dialog>
     </div>
