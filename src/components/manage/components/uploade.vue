@@ -35,6 +35,7 @@
         data() {
             return {
                 isCompress: true,
+                imgurl:'',
                 fromData: {
                     imgurl: "",
                 },
@@ -59,6 +60,11 @@
                 type:String,
                 default:"",
             }
+        },
+        watch:{
+          img(val){
+              this.imgurl = val
+          }
         },
         methods: {
             // 选择图片
