@@ -42,12 +42,12 @@ function init(){
     aspectRatio,
     nearPlane,
     farPlane);
-  camera.position.z = 800;  
+  camera.position.z = 1500;
   camera.position.y = 0;
-  camera.lookAt(new THREE.Vector3(0,0,0));    
+  camera.lookAt(new THREE.Vector3(0,700,0));
   renderer = new THREE.WebGLRenderer({alpha: true, antialias: true });
   renderer.setSize(WIDTH, HEIGHT);
-  renderer.shadowMapEnabled = true;
+  renderer.shadowMapEnabled = false;
   container = document.getElementById('world');
   container.appendChild(renderer.domElement);
   windowHalfX = WIDTH / 2;
