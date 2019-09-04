@@ -11,7 +11,7 @@
             <el-col :span="20">
                 <el-button type="primary" size="small" @click="searchUser" icon="el-icon-search">搜索</el-button>
                 <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加用户</el-button>
-                <el-button type="danger" size="small" @click="delect('',false)" icon="el-icon-delete">批量删除</el-button>
+                <el-button type="danger" size="small" @click="delect" icon="el-icon-delete">批量删除</el-button>
             </el-col>
         </el-row>
         <div class="content">
@@ -281,6 +281,17 @@
 
                 }
 
+            },
+            //批量删除
+            delect(){
+              let idList = this.idList;
+              if(idList.length == 0){
+                  this.$message({type:'error',message:"请选择需要删除的用户"})
+                  return false;
+              }
+              this.$post(this.$api.delectUser,idList).then(data=>{
+
+              });
             },
             //得到用户列表
             getUserList() {
