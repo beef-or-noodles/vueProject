@@ -57,19 +57,25 @@ const httpsOption = { //加入Https证书
 
 // Create service
 // http.createServer(app).listen(server);
-// var servers =  https.createServer(httpsOption, app)
-// var io      = require('socket.io').listen(servers);
-// servers.listen('443', () => {
-//     console.log('Server listening on Port 443');
-// })
-// at the top of app.js
-var server  = require('http').createServer(app);
-var io      = require('socket.io').listen(server);
+if (process.env.NODE_ENV === 'production') {
+    //生产环境
+    var server =  https.createServer(httpsOption, app)
+    var io      = require('socket.io').listen(server);
+    servers.listen('443', () => {
+        console.log('Server listening on Port 443');
+    })
+}else{
+    //开发环境
+    var server  = require('http').createServer(app);
+    var io      = require('socket.io').listen(server);
+    server.listen('8889', () => {
+        console.log('Server listening on Port 8889');
+    })
+}
 
-// at the bottom of app.js
-server.listen('8889', () => {
-    console.log('Server listening on Port 8889');
-})
+
+
+
 
 /*-------------scoketio  start---------------*/
 

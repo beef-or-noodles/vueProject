@@ -39,11 +39,13 @@ new Vue({
   template: '<App/>'
 });
 
-
-
+let httpUrl = 'http://localhost:8889';
+if (process.env.NODE_ENV === 'production') { //生产环境使用
+    httpUrl = location.host
+}
 Vue.use(new VueSocketIO({
     debug: true,
-    connection:"http://localhost:8889",  //
+    connection:httpUrl,  //location.host;http://localhost:8889
 }))
 
 // 格式时间
