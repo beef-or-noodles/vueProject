@@ -85,6 +85,10 @@
                     userID:2,
                     message:messag.message
                 })
+                setTimeout(()=>{
+                    let box =  this.$refs.box
+                    box.scrollTop = box.scrollHeight;
+                },20)
             }
         },
         methods: {
