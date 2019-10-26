@@ -42,7 +42,8 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 // 服务开启后访问指定编译好的dist文件下的数据
-app.use(express.static(path.resolve(__dirname, '../dist')))
+app.use(express.static(path.resolve(__dirname, './dist')))
+app.use(express.static(path.resolve(__dirname, './upload')))
 app.get('*', function(req, res) {
     const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
     res.send(html)
@@ -108,7 +109,7 @@ io.on('connection', function (socket) {
     //监听出退事件
     socket.on('disconnect', function () {
         // 广播用户已退出
-        socket.broadcast.emit('system',obj);
+        socket.broadcast.emit('system');
         console.log('广播用户已退出');
     });
 

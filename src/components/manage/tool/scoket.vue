@@ -43,6 +43,8 @@
 </template>
 
 <script>
+    import Vue from "vue"
+    import VueSocketIO from 'vue-socket.io';//socket
     export default {
         name: "scoket",
         data() {
@@ -53,24 +55,22 @@
                     imgUrl:"",
                     name:"迷路的猪猪侠",
                     active:false,
-                },{
-                    imgUrl:"",
-                    name:"迷路的猪猪侠",
-                    active:false,
-                },{
-                    imgUrl:"",
-                    name:"迷路的猪猪侠",
-                    active:false,
-                },{
-                    imgUrl:"",
-                    name:"迷路的猪猪侠",
-                    active:false,
                 }],
                 messageList:[],
 
                 id: '',
 
             }
+        },
+        created(){
+            let httpUrl = 'http://localhost:8889';
+            if (process.env.NODE_ENV === 'production') { //生产环境使用
+                httpUrl = location.host
+            }
+            Vue.use(new VueSocketIO({
+                debug: true,
+                connection:httpUrl,  //location.host;http://localhost:8889
+            }))
         },
         sockets:{
             connect() {
