@@ -284,13 +284,13 @@
             },
             //批量删除
             delect(){
-              let idList = this.idList;
+              let idList = {idList:this.idList};
               if(idList.length == 0){
                   this.$message({type:'error',message:"请选择需要删除的用户"})
                   return false;
               }
               this.$post(this.$api.delectUser,idList).then(data=>{
-
+                    this.getUserList();
               });
             },
             //得到用户列表

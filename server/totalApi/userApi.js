@@ -165,15 +165,9 @@ router.post('/updateUser',(req,res)=>{
 //删除用户
 router.post('/delectUser', (req, res) => {
   var sql = $sql.user.delectUser;
-  var id = req.body.id;
   var idList = req.body.idList;
-  let list = "";
-  if (id == "" || id == undefined) {
-    list = idList
-  } else {
-    list = id;
-  }
-  conn.query(sql, [list], function(err, result) {
+
+  conn.query(sql, idList, function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
