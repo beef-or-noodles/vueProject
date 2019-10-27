@@ -12,9 +12,9 @@
         <li>
           <router-link :to="{ path: `/photo`}" active-class="active">相册</router-link>
         </li>
-        <li>
-          <router-link :to="{ path: `/content?id=2`}">关于我</router-link>
-        </li>
+        <!--<li>
+          &lt;!&ndash;<router-link :to="{ path: `/content?id=2`}">关于我</router-link>&ndash;&gt;
+        </li>-->
         <li>
           <router-link :to="{ path: `/login`}" active-class="active" target="_blank">登录</router-link>
         </li>

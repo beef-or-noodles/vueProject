@@ -20,7 +20,7 @@
         <h2>站长推荐</h2>
         <ul>
           <li v-for="item in recommendData" :key="item.id">
-            <router-link :to="{ path: `/${userID}/content`, query: { id: item.id}}">{{item.articeTitle}}</router-link>
+            <router-link :to="{ path: `/content`, query: { id: item.id}}">{{item.articeTitle}}</router-link>
           </li>
         </ul>
         <div v-if="recommendData == ''" style="padding-left:15px;padding-bottom:15px;">
@@ -85,12 +85,12 @@ export default {
       if (obj) {
         if (data.children.length == 0) {
           this.$router.push({
-            path: `/${this.userID}/list/${id}`,
+            path: `/list/${id}`,
           })
         }
       } else {
         this.$router.push({
-          path: `/${this.userID}/list/${id}`,
+          path: `/list/${id}`,
         })
       }
 
