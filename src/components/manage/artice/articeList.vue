@@ -166,7 +166,7 @@ export default {
         content: '',
         columnId: {},
         author: '',
-        checkRoot: false,
+        checkRoot: true,
         setTime: new Date(),
         creatTime: new Date(),
       },

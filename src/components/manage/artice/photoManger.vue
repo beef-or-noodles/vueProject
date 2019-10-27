@@ -10,7 +10,7 @@
   <div class="content">
     <el-row :gutter="20">
       <el-col :span="6" v-for="elem in listData" :key="elem.id">
-        <div class="photoBox" @click.stop="photoList(elem.id)">
+        <div class="photoBox" @click.stop="photoBox(elem)">
           <div class="img">
             <img :src="elem.imgUrl" alt="">
           </div>
@@ -57,7 +57,7 @@
         <el-input v-model="fromData.describe" placeholder="相册描述" type="textarea" rows="5" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="封面图：" prop="imgUrl">
-        <fileupload @change="fileChange" :autoUp="false" :copper="true"></fileupload>
+        <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" :copper="false"></fileupload>
       </el-form-item>
       <el-col :span="10">
         <el-form-item label="是否显示：">
@@ -71,10 +71,31 @@
       </el-col>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="creatPhoto = false">取 消</el-button>
-      <el-button type="primary" @click="addPhoto(submitType)">确 定</el-button>
+      <el-button @click="creatPhoto = false" size="mini">取 消</el-button>
+      <el-button type="primary" @click="addPhoto(submitType)" size="mini">确 定</el-button>
     </div>
   </el-dialog>
+
+
+  <el-dialog title="添加照片" :close-on-click-modal="false" width="80%" :visible.sync="addPhotoDia">
+    <div class="photoList">
+      <el-row :gutter="10">
+        <el-col :span="3" class="list" v-for="(item,index) in photoList" :key="index">
+          <div class="boxP">
+            <div class="close">
+              <el-button type="danger" @click="delectPhoto(item.id,index)" icon="el-icon-delete" size="mini" circle></el-button>
+            </div>
+            <img :src="item.imgurl" alt="">
+          </div>
+        </el-col>
+        <el-col :span="3">
+          <fileupload :multiple="true" @change="photoChange" :autoUp="true" :copper="false"></fileupload>
+        </el-col>
+      </el-row>
+    </div>
+  </el-dialog>
+
+
 </div>
 </template>
 <script>
@@ -85,6 +106,7 @@ export default {
   },
   data() {
     return {
+      addPhotoDia:false,
       creatPhoto: false,
       isCompress: true, //是否压缩
       imgFormData: '', //图片file对象
@@ -97,12 +119,21 @@ export default {
         describe: '',
         checkRoot: true,
         sort: '',
+        isPhoto:1,
         belongId: {
           id: '0',
           name: '顶级栏目'
         },
         imgUrl: '',
-      }
+      },
+      photoList:[],
+      selectRow:{},
+      paging: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        type:0
+      },
     }
   },
   watch:{
@@ -113,6 +144,7 @@ export default {
           describe: '',
           checkRoot: true,
           sort: '',
+          isPhoto:1,
           belongId: {
             id: '0',
             name: '顶级栏目'
@@ -209,16 +241,66 @@ export default {
       this.updateID= val.id;
     },
 
-    photoList(id){
-      console.log(id);
+    photoBox(row){
+      this.selectRow["id"] = row.id;
+      this.selectRow["name"] = row.columnName;
+      this.addPhotoDia = true;
+      this.queryArtice(row.id)
     },
     fileChange(val){
       this.fromData.imgUrl = val;
     },
+    photoChange(val){
+      this.saverPhoto(val)
+    },
+    queryArtice(id) {
+      let params = this.paging;
+      params.columnId = id;
+      this.$post(this.$api.queryArtice, params).then((data) => {
+        this.photoList = data.data;
+        this.paging.total = data.total;
+      });
+    },
+
+    saverPhoto(url){
+      let params = {
+          articeTitle: '',
+          abstract: '',
+          imgurl: url,
+          content: '',
+          columnId: this.selectRow,
+          author: '',
+          checkRoot: false,
+          setTime: new Date(),
+          creatTime: new Date(),
+      }
+      this.$post(this.$api.addArtice, params).then((data) => {
+        this.photoList.push(params)
+      });
+    },
+
+
+
+    delectPhoto(id,index) {
+      let params = {
+        idList:[id]
+      }
+      this.$confirm('此操作将永久删除照片, 是否继续?', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$post(this.$api.delectRecycle, params).then((data) => {
+          this.photoList.splice(index,1);
+        });
+      }).catch(() => {});
+
+    },
+
   }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
 .content {
   padding: 20px;
 }
@@ -306,4 +388,37 @@ export default {
   right: 5px;
   transition: all .36s ease;
 }
+  .photoList{
+    height: 600px;
+    overflow: auto;
+    box-sizing: content-box;
+    margin-top: 10px;
+    .list{
+      margin-bottom: 10px;
+    }
+     .boxP{
+        width: 100%;
+        height: 120px;
+        overflow: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       position: relative;
+       .close{
+         position: absolute;
+         top: -30px;
+         right: 10px;
+         transition: all .36s ease;
+       }
+       &:hover{
+         cursor: pointer;
+         .close{
+           top: 10px;
+         }
+       }
+       img{
+         width: 100%;
+       }
+    }
+  }
 </style>

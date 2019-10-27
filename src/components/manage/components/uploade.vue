@@ -2,9 +2,9 @@
     <div class="box">
         <div v-if="!copper">
             <div>
-                <el-upload class="avatar-uploader" :action="$api.upload" ref="upload"
+                <el-upload :multiple="multiple" class="avatar-uploader" :action="$api.upload" ref="upload"
                            :show-file-list="false" :on-change="uploadChange" :auto-upload="false">
-                    <img v-if="imgurl" :src="imgurl" ref="imgUrl" class="avatar">
+                    <img v-if="imgurl && !multiple" :src="imgurl" ref="imgUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </div>
@@ -53,6 +53,10 @@
                 default: false
             },
             copper: {//是否剪裁
+                type: Boolean,
+                default: false
+            },
+            multiple:{/*多个上传*/
                 type: Boolean,
                 default: false
             },

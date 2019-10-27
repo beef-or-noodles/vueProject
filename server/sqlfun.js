@@ -13,7 +13,7 @@ var sqlMap = {
   },
   //栏目
   column: {
-    addColumn: 'insert into columnlist(columnName, belongId, sort, checkRoot, belongName,`describe`,imgUrl, userID) values ( ?, ?, ?, ?,?,?,?,?);', //增加栏目
+    addColumn: 'insert into columnlist(columnName, belongId, sort, checkRoot, belongName,`describe`,imgUrl, userID,isPhoto) values ( ?, ?, ?, ?,?,?,?,?,?);', //增加栏目
     queryColumn: 'select * from columnlist where userID=? AND isPhoto = 0;', //查询栏目表
     queryTopColumn: 'select * from columnlist where userID=? and belongId = ?;', //查询栏目表
     queryPhoto: 'SELECT * FROM columnlist WHERE isPhoto = 1 AND userID = ?; ',

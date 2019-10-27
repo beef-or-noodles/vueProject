@@ -17,11 +17,14 @@ router.post('/addColumn', (req, res) => {
   } else {
     params.checkRoot = 0;
   }
+  if(!params.hasOwnProperty("isPhoto")){
+    params["isPhoto"] = 0;
+  }
   var describe = params.describe;
   var imgUrl = params.imgUrl;
   var userID = req.headers.token;
   console.log(imgUrl);
-  conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name,describe,imgUrl,userID], function(err, result) {
+  conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name,describe,imgUrl,userID,params.isPhoto], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
