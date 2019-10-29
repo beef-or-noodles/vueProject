@@ -27,7 +27,7 @@
           <div>
             <div class="contentTop">
               <div class="icon">
-                <img :src="getUserInfo.data[0].image" alt="">
+                <img :src="getUserInfo.image" alt="">
               </div>
               <div class="message">
                 <el-badge :value="200" :max="99">
@@ -104,8 +104,14 @@ export default {
   line-height: 40px;
   height: 40px;
 }
+  .pagesize{
+    text-align: right;
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+  }
 </style>
-<style scoped>
+<style lang="less" scoped>
 .home .el-menu {
   background: none;
   color: #808281 !important;
@@ -124,18 +130,18 @@ export default {
 }
 
 .allContent {
-  width: 1300px;
-  height: 800px;
+  width: 90%;
+  height: 90%;
   background: rgba(255, 255, 255, 0.7);
   box-shadow: 0px 0px 4px white;
-  overflow: hidden;
-
+  overflow: auto;
+  .el-container{
+     height: 100%;
+  }
 }
 
 .leftNav {
-  height: 800px;
   position: relative;
-  padding-bottom: 20px
 }
 
 .right {
@@ -172,7 +178,7 @@ export default {
 
 .content {
   padding: 20px;
-  max-height: 800px;
+  height: 100%;
   overflow: auto;
 }
 

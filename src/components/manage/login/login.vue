@@ -164,7 +164,7 @@
                 } else {
                     this.$post(this.$api.login, params).then((data) => {
                         if (data.isLogin) {
-                            this.setUserInfo(data);
+                            this.setUserInfo(data.data[0]);
                             //取得用户权限
                             this.$post(this.$api.queryRoot, {userId:data.data[0].id}).then((data1) => {
                                 this.setPageRouter(data1);

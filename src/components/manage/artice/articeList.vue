@@ -26,7 +26,7 @@
     </el-col>
     <el-col :span="19">
       <div>
-        <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="613" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection">
           </el-table-column>
           <el-table-column label="" width='80'>
@@ -73,9 +73,8 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="block">
-          <el-pagination @size-change="changePagesize" @current-change="currentChange" @prev-click="prevClick" @next-click='nextClick' :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="sizes, prev, pager, next" :total="paging.total">
-          </el-pagination>
+        <div class="pagesize">
+          <wPage @pageSize="pageSize" @pageNo="pageNo" :total="paging.total"></wPage>
         </div>
       </div>
     </el-col>
@@ -215,23 +214,11 @@ export default {
       let settime = this.$tool.formatTime(time / 1000, true);
       return settime
     },
-    // 改变每页条数
-    changePagesize(value) {
-      this.paging.pageSize = value;
+    pageSize(val){
+      this.paging.pageSize = val;
       this.queryArtice(this.columnId);
     },
-    // 当前页改变
-    currentChange(val) {
-      this.paging.pageNo = val;
-      this.queryArtice(this.columnId);
-    },
-    // 上一页
-    prevClick(val) {
-      this.paging.pageNo = val;
-      this.queryArtice(this.columnId);
-    },
-    // 下一页
-    nextClick(val) {
+    pageNo(val){
       this.paging.pageNo = val;
       this.queryArtice(this.columnId);
     },
@@ -439,12 +426,12 @@ export default {
 .content {
   margin: 20px 0;
   margin-bottom: 0;
-  height: 645px;
+  height: 100%;
   overflow: auto;
 }
 
 .columnLeft {
-  height: 645px;
+  height: 100%;
   overflow: auto;
   background: rgba(255, 255, 255, 0.5);
 }

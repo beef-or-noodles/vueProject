@@ -66,14 +66,6 @@ export const routerMenuData = [{
     path: '/home/userEdit',
     name: 'userEdit',
     icon: '',
-  },{
-    rootChildName: '用户权限设置',
-    rootPower: true,
-    rootLogin: true,
-    rootPath: '/manage/userInfo/userRoot',
-    path: '/home/userRoot',
-    name: 'userRoot',
-    icon: '',
   }]
 }, {
   rootMainName: '工具箱',

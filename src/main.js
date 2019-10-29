@@ -28,6 +28,10 @@ Vue.config.productionTip = false;
 Vue.use(ElementUi); //调用element-ui
 
 
+//全局组件
+Vue.component('wPage', resolve=>(require(["@/components/manage/components/wPage"],resolve)))
+
+
 new Vue({
   el: '#app',
   router,
@@ -38,29 +42,13 @@ new Vue({
   template: '<App/>'
 });
 
-// 格式时间
-Date.prototype.Format = function (fmt) {
-    var o = {
-        "M+": this.getMonth() + 1, //月份
-        "d+": this.getDate(), //日
-        "H+": this.getHours(), //小时
-        "m+": this.getMinutes(), //分
-        "s+": this.getSeconds(), //秒
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        "S": this.getMilliseconds() //毫秒
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
 //路由守卫
 router.beforeEach((to, from, next) => {
   var login = store.state.userData.user_info;
   if(to.meta.rootLogin){
     if(!login.isLogin){
-        ElementUi.Message.error("请登陆")
-        router.push('/login');
+      ElementUi.Message.error("请登陆")
+      router.push('/login');
     }
   }
   if (to.meta.title != '' && to.meta.title != undefined) {

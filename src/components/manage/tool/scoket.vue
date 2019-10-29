@@ -131,15 +131,12 @@
 
 <style lang="less" scoped>
 .scoketBox{
-    width: 1060px;
     overflow: auto;
     background: #fafafa;
     &>div{
         float: left;
     }
     .left{
-        width: 250px;
-        height: 700px;
         overflow: auto;
     }
     .listBox{

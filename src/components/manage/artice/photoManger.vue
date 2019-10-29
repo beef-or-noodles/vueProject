@@ -35,11 +35,6 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-
-          <div class="num">
-            14
-          </div>
-
         </div>
       </el-col>
     </el-row>
@@ -85,13 +80,18 @@
             <div class="close">
               <el-button type="danger" @click="delectPhoto(item.id,index)" icon="el-icon-delete" size="mini" circle></el-button>
             </div>
-            <img :src="item.imgurl" alt="">
+            <img :src="item.imgurl" alt="有误">
           </div>
         </el-col>
         <el-col :span="3">
           <fileupload :multiple="true" @change="photoChange" :autoUp="true" :copper="false"></fileupload>
         </el-col>
       </el-row>
+
+      <div class="block">
+        <wPage @pageSize="pageSize" @pageNo="pageNo" :total="paging.total"></wPage>
+      </div>
+
     </div>
   </el-dialog>
 
@@ -245,7 +245,8 @@ export default {
       this.selectRow["id"] = row.id;
       this.selectRow["name"] = row.columnName;
       this.addPhotoDia = true;
-      this.queryArtice(row.id)
+      this.paging["columnId"] = row.id
+      this.queryArtice()
     },
     fileChange(val){
       this.fromData.imgUrl = val;
@@ -253,9 +254,17 @@ export default {
     photoChange(val){
       this.saverPhoto(val)
     },
-    queryArtice(id) {
+    pageSize(val){
+      this.paging.pageSize = val;
+      this.queryArtice();
+    },
+    pageNo(val){
+      this.paging.pageNo = val;
+      this.queryArtice();
+    },
+
+    queryArtice() {
       let params = this.paging;
-      params.columnId = id;
       this.$post(this.$api.queryArtice, params).then((data) => {
         this.photoList = data.data;
         this.paging.total = data.total;
@@ -327,7 +336,7 @@ export default {
 }
 
 .img img {
-  width: 100%;
+  height: 100%;
 }
 
 .title {
@@ -390,16 +399,24 @@ export default {
 }
   .photoList{
     height: 600px;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     box-sizing: content-box;
     margin-top: 10px;
+    position: relative;
+    .block{
+      position: absolute;
+      text-align: right;
+      bottom: 0;
+      width: 100%;
+    }
     .list{
       margin-bottom: 10px;
     }
      .boxP{
         width: 100%;
         height: 120px;
-        overflow: auto;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -417,7 +434,7 @@ export default {
          }
        }
        img{
-         width: 100%;
+         height: 100%;
        }
     }
   }

@@ -15,7 +15,7 @@
     </el-col>
   </el-row>
   <div class="content">
-    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="590" style="width: 100%">
+    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
       <el-table-column label="栏目ID" prop="id" width="80px" show-overflow-tooltip>
       </el-table-column>
       <el-table-column label="父栏目名" show-overflow-tooltip>

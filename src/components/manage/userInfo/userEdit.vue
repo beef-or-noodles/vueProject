@@ -15,7 +15,7 @@
             </el-col>
         </el-row>
         <div class="content">
-            <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" height="590" style="width: 100%"
+            <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%"
                       @selection-change="handleSelectionChange">
                 <el-table-column type="selection">
                 </el-table-column>
@@ -56,12 +56,8 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="block">
-
-                <el-pagination @size-change="changePagesize" @current-change="currentChange" @prev-click="prevClick"
-                               @next-click='nextClick' :page-sizes="[10, 20, 30, 40]" :page-size="10"
-                               layout="sizes, prev, pager, next" :total="paging.total">
-                </el-pagination>
+            <div class="pagesize">
+                <wPage @pageSize="pageSize" @pageNo="pageNo" :total="paging.total"></wPage>
             </div>
         </div>
         <!-- 增加弹窗 -->
@@ -178,23 +174,11 @@
                 let settime = this.$tool.formatTime(time / 1000, true);
                 return settime
             },
-            // 改变每页条数
-            changePagesize(value) {
-                this.paging.pageSize = value;
+            pageSize(val){
+                this.paging.pageSize = val;
                 this.getUserList();
             },
-            // 当前页改变
-            currentChange(val) {
-                this.paging.pageNo = val;
-                this.getUserList();
-            },
-            // 上一页
-            prevClick(val) {
-                this.paging.pageNo = val;
-                this.getUserList();
-            },
-            // 下一页
-            nextClick(val) {
+            pageNo(val){
                 this.paging.pageNo = val;
                 this.getUserList();
             },

@@ -76,11 +76,6 @@ const router = new Router({
                 component: resolve => require(['@/components/manage/userInfo/userEdit.vue'], resolve),
                 meta: {title: '账号管理'},
             },{
-                path: '/home/userRoot',
-                name: 'userRoot',
-                component: resolve => require(['@/components/manage/userInfo/userRoot.vue'], resolve),
-                meta: {title: '用户权限设置'},
-            },{
                 path: '/home/email',
                 name: 'email',
                 component: resolve => require(['@/components/manage/tool/email.vue'], resolve),

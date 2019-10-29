@@ -12,8 +12,8 @@ let loading;
 // 设置拦截器
 axios.interceptors.request.use( function(config) {
    let userData = store.state.userData
-    if (userData.user_info.hasOwnProperty('data') && userData) {
-        let token = userData.user_info.data[0].id
+    if (userData.user_info.hasOwnProperty('id') && userData) {
+        let token = userData.user_info.id
         config.headers.token = token;
     }
     setloading(); //加载动画
