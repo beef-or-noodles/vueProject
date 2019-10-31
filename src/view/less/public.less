@@ -1,6 +1,20 @@
 @color:#e64f2a;
+a{
+  font-size: 14px;
+  &:hover{
+    color: @color;
+    cursor: pointer;
+  }
+}
 .centerBox{
     width: 1200px;
     margin: 0 auto;
-  overflow: hidden;
+    overflow: hidden;
+   transition: all .36s ease;
+}
+
+@media (max-width: 1250px) {
+  .centerBox{
+    width: 960px;
+  }
 }

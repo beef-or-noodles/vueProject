@@ -34,11 +34,11 @@
             position: absolute;
         }
         .left{
-            width: 300px;
+            width: 280px;
             left: 0;
         }
         .right{
-            width: calc(100% - 320px);
+            width: calc(100% - 300px);
             right: 0;
         }
     }
