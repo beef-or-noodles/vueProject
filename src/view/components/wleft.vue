@@ -4,11 +4,14 @@
             <div class="top">
                 文章导航
             </div>
-            <div class="tjBox box">
-                <ul>
-                    <li><a>文章标题</a></li>
-                    <li><a>文章标题</a></li>
-                    <li><a>文章标题</a></li>
+            <div class="box navBox">
+                <ul class="first">
+                    <li :class="{active:item.id == active.first}" v-for="item in list">
+                        <a @click.stop="firstClick(item.id)">{{item.name}}</a>
+                        <ul class="child">
+                            <li @click.stop="childClick(chi.id)" :class="{active:chi.id == active.child}" v-for="chi in item.child"><a>{{chi.name}}</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -29,7 +32,54 @@
 
 <script>
     export default {
-        name: "wleft"
+        name: "wleft",
+        data() {
+            return {
+                active:{
+                    first:1,
+                    child:1,
+                },
+                list: [{
+                    id:1,
+                    name:"新闻速递",
+                    child:[{
+                        id:4,
+                        name:"国内新闻",
+                    },{
+                        id:5,
+                        name:"教育新闻",
+                    }]
+                },{
+                    id:2,
+                    name:"新闻速递",
+                    child:[{
+                        id:6,
+                        name:"国内新闻",
+                    },{
+                        id:7,
+                        name:"教育新闻",
+                    }]
+                },{
+                    id:3,
+                    name:"新闻速递",
+                    child:[{
+                        id:8,
+                        name:"国内新闻",
+                    },{
+                        id:9,
+                        name:"教育新闻",
+                    }]
+                }]
+            }
+        },
+        methods: {
+            firstClick(id) {
+                this.active.first = id
+            },
+            childClick(id){
+                this.active.child = id
+            }
+        },
     }
 </script>
 
@@ -44,6 +94,7 @@
             font-weight: 500;
             padding: 5px 10px;
             font-size: 16px;
+            background:@color2;
         }
         .tjBox{
             padding: 2px 0;
@@ -64,6 +115,59 @@
                     }
                 }
             }
+        }
+        .navBox{
+            padding: 5px 0;
+            padding-left: 10px;
+            .first{
+                &>li{
+                    margin-bottom: 5px;
+                    ul{
+                        height: 0;
+                        transition: all .36s ease;
+                        overflow: hidden;
+                    }
+                }
+                &>li>a{
+                    padding-left:  10px;
+                    border-left: 3px solid @color3;
+                }
+                &>li.active>a{
+                    border-left: 3px solid @color;
+                    color: @color;
+                }
+                &>li.active>ul{
+                    height: auto;
+                }
+            }
+            .child{
+                padding-left: 25px;
+                font-size: 12px;
+                li{
+                    padding-top: 5px;
+                    position: relative;
+                    &::after{
+                        content: "";
+                        position: absolute;
+                        width: 5px;
+                        height: 5px;
+                        background: @color3;
+                        left: -15px;
+                        top: calc(50%);
+                    }
+                    &.active{
+                        &>a{
+                            color: @color;
+                        }
+                        &::after{
+                            background: @color;
+                        }
+                    }
+                }
+            }
+              ul li{
+
+              }
         }
     }
 }

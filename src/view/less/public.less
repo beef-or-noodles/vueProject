@@ -1,6 +1,8 @@
 @color:#e64f2a;
+@color2: #f9f9f9;
+@color3:#555;
+@color4:#adadad;
 a{
-  font-size: 14px;
   &:hover{
     color: @color;
     cursor: pointer;
@@ -13,6 +15,13 @@ a{
    transition: all .36s ease;
 }
 
+.overHidden(@val:1){
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display:-webkit-box; //作为弹性伸缩盒子模型显示。
+  -webkit-box-orient:vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+  -webkit-line-clamp:@val; //显示的行
+}
 @media (max-width: 1250px) {
   .centerBox{
     width: 960px;

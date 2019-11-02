@@ -2,7 +2,7 @@
     <div class="header">
         <div class="centerBox">
             <ul>
-                <li @click="activeid = item.id" :class="{active:item.id == activeid}" v-for="item in list" :key="item.id">{{item.name}}</li>
+                <li @click="topClick(item)" :class="{active:item.id == activeid}" v-for="item in list" :key="item.id">{{item.name}}</li>
                 <li>
                     <div class="icon">
                         <img src="../../assets/images/404bg.jpg" alt="">
@@ -26,12 +26,12 @@
                 },{
                     active:false,
                     name:"相册",
-                    src:"/index",
+                    src:"/content",
                     id:2,
                 },{
                     active:false,
                     name:"关于我",
-                    src:"/index",
+                    src:"/list",
                     id:3,
                 },{
                     active:false,
@@ -40,6 +40,18 @@
                     id:4,
                 }],
                 activeid:1,
+            }
+        },
+        methods: {
+            topClick(item) {
+                if(item.src == "/login"){
+                    window.open(item.src, '_blank');
+                }else{
+                    this.$router.push({path:item.src})
+                    this.activeid = item.id
+                }
+
+
             }
         },
     }
