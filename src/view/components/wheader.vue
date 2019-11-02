@@ -35,7 +35,7 @@
                     id:3,
                 },{
                     active:false,
-                    name:"管理",
+                    name:"用户注册",
                     src:"/login",
                     id:4,
                 }],

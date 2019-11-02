@@ -57,7 +57,6 @@
         }
         .fade-leave-active{
             opacity:0;
-            transition:opacity .5s;
         }
     }
 </style>
