@@ -6,13 +6,13 @@
 
 <script>
     import ('./js/OrbitControls.js');
-    import ('./js/index.js');
+    import ('./js');
     export default {
         name: "lion"
     }
 </script>
 
 <style scoped>
-    @import "./css/reset.min.css";
-    @import "./css/style.css";
+    @import "css/reset.min.css";
+    @import "css/style.css";
 </style>

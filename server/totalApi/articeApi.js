@@ -26,8 +26,8 @@ router.post('/addArtice', function(req, res) {
   }
   var sql = $sql.artice.addArtice;
   var time = new Date(params.setTime).getTime().toString();
-
-  conn.query(sql, [userID,params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.imgurl, params.columnId.name, time], function(err, result) {
+  var strTime = new Date(params.setTime).Format("yyyy-MM-dd HH:mm").toString();
+  conn.query(sql, [userID,params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.imgurl, params.columnId.name, time,strTime], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);

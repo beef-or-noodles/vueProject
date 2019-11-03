@@ -1,26 +1,63 @@
 <template>
     <div class="listBox">
-        <div class="list" v-for="item in 20">
+        <div class="list" @click="checkArtice(item)" v-for="item in tableData">
             <div class="pic" v-if="true">
-                <img src="../../assets/images/preview.jpg" alt="">
+                <img :src="item.imgurl" alt="">
             </div>
             <div class="right" :class="{noImg:false}">
-                <div class="title">新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻</div>
-                <div class="des">摘要摘要摘要摘要摘要摘要摘要摘要摘要</div>
+                <div class="title">{{item.articeTitle}}</div>
+                <div class="des">{{item.abstract}}</div>
                 <div class="other">
-                    <div class="time"><i class="el-icon-time"></i>发布时间：2019-03-05</div>
-                    <div class="check"><i class="el-icon-view"></i>查看66次</div>
+                    <div class="time"><i class="el-icon-time"></i>发布时间：{{item.strTime}}</div>
+                    <div class="check"><i class="el-icon-view"></i>查看{{item.clickNumber}}次</div>
                     <div class="time"></div>
                 </div>
             </div>
-           
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "wlist"
+        name: "wlist",
+        data() {
+            return {
+                paging: {
+                    pageNo: 1,
+                    pageSize: 10,
+                    total: 0,
+                },
+                tableData: [],
+                columnId:this.$route.params.id
+            }
+        },
+        mounted(){
+            this.queryArtice();
+        },
+        watch:{
+            '$route'(to,form){
+                this.columnId = to.params.id;
+                this.queryArtice();
+            }
+        },
+        methods: {
+            // 根据栏目ID查询文章列表
+            queryArtice() {
+                let params = this.paging;
+                params.columnId = this.columnId;
+                params.type = 1;
+                this.$post(this.$api.queryArtice, params).then((data) => {
+                    this.tableData = data.data;
+                    this.paging.total = data.total;
+                    this.tableData = data.data;
+                });
+            },
+            checkArtice(item){
+                this.$router.push({
+                    path:"/content/"+item.id,
+                })
+            }
+        },
     }
 </script>
 

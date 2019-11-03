@@ -26,12 +26,12 @@
                 },{
                     active:false,
                     name:"相册",
-                    src:"/content",
+                    src:"/photoList",
                     id:2,
                 },{
                     active:false,
                     name:"关于我",
-                    src:"/list",
+                    src:"/",
                     id:3,
                 },{
                     active:false,
@@ -50,8 +50,6 @@
                     this.$router.push({path:item.src})
                     this.activeid = item.id
                 }
-
-
             }
         },
     }

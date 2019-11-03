@@ -19,46 +19,22 @@ const router = new Router({
                 component: resolve => require(['@/view/components/index.vue'], resolve),
                 meta: {title: '博客主页'},
             },{
-                path: '/content',
+                path: '/content/:id',
                 name: 'content',
                 component: resolve => require(['@/view/components/wcontent.vue'], resolve),
                 meta: {title: '内容详情'},
             },{
-                path: '/list',
+                path: '/photoList',
+                name: 'photoList',
+                component: resolve => require(['@/view/components/photoList.vue'], resolve),
+                meta: {title: '相册'},
+            },{
+                path: '/list/:id',
                 name: 'list',
                 component: resolve => require(['@/view/components/wlist.vue'], resolve),
                 meta: {title: '文章列表'},
             }]
-        },
-        // {
-        //     path: '/',
-        //     name: 'index',
-        //     component: resolve => require(['@/components/view/index.vue'], resolve),
-        //     meta: {title: '首页'},
-        //     children: [{
-        //         path: '/myIndex',
-        //         name: 'myIndex',
-        //         component: resolve => require(['@/components/view/myIndex.vue'], resolve),
-        //         meta: {title: '博客主页'},
-        //     }, {
-        //         path: '/content',
-        //         name: 'content',
-        //         component: resolve => require(['@/components/view/content.vue'], resolve),
-        //         meta: {title: '文章'},
-        //     }, {
-        //         path: '/list/:id',
-        //         name: 'list',
-        //         component: resolve => require(['@/components/view/list.vue'], resolve),
-        //         meta: {title: '列表'},
-        //     }, {
-        //         path: '/photo',
-        //         name: 'photo',
-        //         component: resolve => require(['@/components/view/photo.vue'], resolve),
-        //         meta: {title: '相册'},
-        //     }
-        //     ]
-        // },
-         {
+        },{
             path: '*',
             name: '404',
             component: resolve => require(['@/components/404'], resolve),

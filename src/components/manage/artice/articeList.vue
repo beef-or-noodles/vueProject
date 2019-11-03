@@ -15,7 +15,7 @@
     </el-col>
   </el-row>
   <div class="content">
-    <el-col :span="5" class="columnLeft">
+    <div class="columnLeft">
       <div>
         <el-input placeholder="搜索栏目" v-model="filterText" size="small">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -23,8 +23,8 @@
         <!-- 栏目树 -->
         <el-tree :data="treeData" :props="defaultProps" :filter-node-method="filterNode" @node-click="treeClick" ref="tree2"></el-tree>
       </div>
-    </el-col>
-    <el-col :span="19">
+    </div>
+    <div class="contentRight">
       <div>
         <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection">
@@ -77,7 +77,7 @@
           <wPage @pageSize="pageSize" @pageNo="pageNo" :total="paging.total"></wPage>
         </div>
       </div>
-    </el-col>
+    </div>
   </div>
 
   <!-- 编辑弹窗 -->
@@ -426,16 +426,25 @@ export default {
 .content {
   margin: 20px 0;
   margin-bottom: 0;
-  height: 100%;
   overflow: auto;
+  position: absolute;
+  height: calc(100% - 260px);
+  width: calc(100% - 400px);
 }
 
 .columnLeft {
   height: 100%;
   overflow: auto;
+  width: 230px;
   background: rgba(255, 255, 255, 0.5);
 }
-
+.contentRight{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(100% - 230px);
+  height: 100%;
+}
 .image {
   width: 70px;
   height: 70px;

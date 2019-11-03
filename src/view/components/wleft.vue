@@ -7,9 +7,9 @@
             <div class="box navBox">
                 <ul class="first">
                     <li :class="{active:item.id == active.first}" v-for="item in list">
-                        <a @click.stop="firstClick(item.id)">{{item.name}}</a>
+                        <a @click.stop="firstClick(item)">{{item.label}}</a>
                         <ul class="child">
-                            <li @click.stop="childClick(chi.id)" :class="{active:chi.id == active.child}" v-for="chi in item.child"><a>{{chi.name}}</a></li>
+                            <li @click.stop="childClick(chi.id)" :class="{active:chi.id == active.child}" v-for="chi in item.children"><a>{{chi.label}}</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -39,46 +39,36 @@
                     first:1,
                     child:1,
                 },
-                list: [{
-                    id:1,
-                    name:"新闻速递",
-                    child:[{
-                        id:4,
-                        name:"国内新闻",
-                    },{
-                        id:5,
-                        name:"教育新闻",
-                    }]
-                },{
-                    id:2,
-                    name:"新闻速递",
-                    child:[{
-                        id:6,
-                        name:"国内新闻",
-                    },{
-                        id:7,
-                        name:"教育新闻",
-                    }]
-                },{
-                    id:3,
-                    name:"新闻速递",
-                    child:[{
-                        id:8,
-                        name:"国内新闻",
-                    },{
-                        id:9,
-                        name:"教育新闻",
-                    }]
-                }]
+                list: []
             }
         },
+        created(){
+            this.getTreeList();
+        },
         methods: {
-            firstClick(id) {
-                this.active.first = id
+            firstClick(item) {
+                this.active.first = item.id
+                if(item.children.length == 0){
+                    this.$router.push({
+                        path:"/list/"+item.id,
+                    })
+                }
             },
             childClick(id){
                 this.active.child = id
-            }
+                this.$router.push({
+                    path:"/list/"+id,
+                })
+            },
+            //得到栏目列表
+            getTreeList() {
+                this.$post(this.$api.queryColumn, {
+                    type: 2,
+                    userID:this.userID,
+                }).then((data) => {
+                    this.list = data;
+                });
+            },
         },
     }
 </script>
@@ -131,6 +121,7 @@
                 &>li>a{
                     padding-left:  10px;
                     border-left: 3px solid @color3;
+                    display: block;
                 }
                 &>li.active>a{
                     border-left: 3px solid @color;

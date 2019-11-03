@@ -107,8 +107,9 @@ export default {
   .pagesize{
     text-align: right;
     position: absolute;
-    bottom: 5%;
+    bottom: 1%;
     right: 5%;
+    z-index: 55;
   }
 </style>
 <style lang="less" scoped>

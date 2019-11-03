@@ -22,7 +22,7 @@ var sqlMap = {
     updateColumn: 'update columnlist set columnName = ? ,belongId = ? , checkRoot = ? ,belongName = ?, sort = ? , `describe` = ? ,imgUrl = ? where id = ?;', //根据ID修改
   },
   artice: {
-    addArtice: 'insert into artice(userID,columnId,articeTitle,abstract,content,author,checkRoot,imgurl,columnName,setTime) values(?,?,?,?,?,?,?,?,?,?);', //添加文章
+    addArtice: 'insert into artice(userID,columnId,articeTitle,abstract,content,author,checkRoot,imgurl,columnName,setTime,strTime) values(?,?,?,?,?,?,?,?,?,?,?);', //添加文章
     queryArtice: 'select * from artice where recycle=1 and columnId=?', //根据栏目id查找文章
     delectArtice: 'DELETE FROM artice WHERE id in (?);', //删除文章
     updateArtice: 'update artice set columnId=?,articeTitle=?,abstract=?,content=?,author=?,checkRoot=?,imgurl=?,columnName=?,setTime=? where id = ?', //修改文章
