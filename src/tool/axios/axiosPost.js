@@ -8,7 +8,8 @@ import store from '../vuex/store/store.js'
 // axios.defaults.withCredentials = true; //是否携带cookie
 axios.defaults.baseURL = api.baseURL; //默认请求地址
 axios.defaults.timeout = 6000;
-let loading;
+let loading = null;
+let timer = null
 // 设置拦截器
 axios.interceptors.request.use( function(config) {
    let userData = store.state.userData
@@ -16,6 +17,7 @@ axios.interceptors.request.use( function(config) {
         let token = userData.user_info.id
         config.headers.token = token;
     }
+    /*请求超过一秒没回来就打开加载动画*/
     setloading(); //加载动画
     return config;
 }, function (error) {
@@ -51,9 +53,13 @@ function setloading() {
     });
 }
 
-//关闭加载
+//关闭加载 清除请求定时器
 function endLoading() {
-    loading.close();
+    try {
+        loading.close();
+    }catch(err){
+        console.error("加载动画还未加载");
+    }
 }
 
 /*
@@ -96,7 +102,6 @@ export function post(url, data = {}) {
                 } catch (e) {
                     messageBox('error', ' 请求超时' + status, 1500);
                 }
-                endLoading();
                 reject(err)
             })
     })
@@ -122,7 +127,6 @@ export function get(url) {
                 } else if (status === 500 || status === 504) {
                     messageBox('error', '服务器错误' + status, 1500);
                 }
-                endLoading();
                 reject(err)
             })
     })
@@ -156,7 +160,6 @@ export function uploadImg(url, data) {
             } else if (status === 500 || status === 504) {
                 messageBox('error', '服务器错误' + status, 1500);
             }
-            endLoading();
             reject(err)
         });
     })

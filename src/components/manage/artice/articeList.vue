@@ -429,7 +429,7 @@ export default {
   overflow: auto;
   position: absolute;
   height: calc(100% - 260px);
-  width: calc(100% - 400px);
+  width: calc(100% - 430px);
 }
 
 .columnLeft {

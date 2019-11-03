@@ -29,6 +29,12 @@
             this.articeId = this.$route.params.id;
             this.clickNumber();
         },
+        watch:{
+          "$route"(to,form){
+              this.articeId = this.$route.params.id;
+              this.clickNumber();
+          }
+        },
         methods: {
             getArtice() {
                 this.$post(this.$api.articeInfo, {id: this.articeId}).then((data) => {
@@ -89,7 +95,7 @@
             }
         }
         .artice{
-            line-height: 25px;
+            line-height: 30px;
             margin-top: 30px;
             letter-spacing: 1px;
             text-align: justify;

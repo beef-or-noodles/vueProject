@@ -21,9 +21,7 @@
             </div>
             <div class="tjBox box">
                 <ul>
-                    <li><a>文章标题</a></li>
-                    <li><a>文章标题</a></li>
-                    <li><a>文章标题</a></li>
+                    <li v-for="item in recommendList" :key="item.id" @click="checkArtice(item)"><a>{{item.articeTitle}}</a></li>
                 </ul>
             </div>
         </div>
@@ -39,11 +37,13 @@
                     first:1,
                     child:1,
                 },
-                list: []
+                list: [],
+                recommendList:[],
             }
         },
         created(){
             this.getTreeList();
+            this.queryRecommend()
         },
         methods: {
             firstClick(item) {
@@ -60,7 +60,7 @@
                     path:"/list/"+id,
                 })
             },
-            //得到栏目列表
+            //得到栏目列表queryRecommend
             getTreeList() {
                 this.$post(this.$api.queryColumn, {
                     type: 2,
@@ -69,6 +69,19 @@
                     this.list = data;
                 });
             },
+
+            queryRecommend() {
+                this.$post(this.$api.queryRecommend).then((data) => {
+                    this.recommendList = data;
+                });
+            },
+
+                checkArtice(item){
+                    this.$router.push({
+                        path:"/content/"+item.id,
+                    })
+                }
+
         },
     }
 </script>

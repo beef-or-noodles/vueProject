@@ -94,6 +94,7 @@
                     border-top: 2px solid @color;
                     border-right: 2px solid @color;
                     z-index: 88;
+                    opacity: 0;
                 }
                 &::before{
                     content: "";
@@ -106,6 +107,7 @@
                     border-left: 2px solid @color;
                     border-bottom: 2px solid @color;
                     z-index: 88;
+                    opacity: 0;
                 }
                 img{
                     height: 100%;
@@ -131,11 +133,10 @@
                 .pic{
                     &::after,&::before{
                         width: 100%;
-                        height: 100%;
                     }
-                    img{
+                    /*img{
                         transform: scale(1.1);
-                    }
+                    }*/
                 }
             }
             .title{
