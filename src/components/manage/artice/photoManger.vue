@@ -73,6 +73,7 @@
 
 
   <el-dialog title="添加照片" :close-on-click-modal="false" width="80%" :visible.sync="addPhotoDia">
+
     <div class="photoList">
       <el-row :gutter="10">
         <el-col :span="3" class="list" v-for="(item,index) in photoList" :key="index">
@@ -87,11 +88,9 @@
           <fileupload :multiple="true" @change="photoChange" :autoUp="true" :copper="false"></fileupload>
         </el-col>
       </el-row>
-
-      <div class="block">
-        <wPage @pageSize="pageSize" @pageNo="pageNo" :total="paging.total"></wPage>
-      </div>
-
+    </div>
+    <div class="block">
+      <wPage @pageSize="pageSize" @pageNo="pageNo" :size="paging.pageSize" :total="paging.total"></wPage>
     </div>
   </el-dialog>
 
@@ -130,7 +129,7 @@ export default {
       selectRow:{},
       paging: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 30,
         total: 0,
         type:0
       },

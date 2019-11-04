@@ -73,13 +73,12 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="pagesize">
-          <wPage @pageSize="pageSize" @pageNo="pageNo" :total="paging.total"></wPage>
-        </div>
       </div>
     </div>
   </div>
-
+  <div class="pagesize">
+    <wPage @pageSize="pageSize" @pageNo="pageNo" :total="paging.total"></wPage>
+  </div>
   <!-- 编辑弹窗 -->
   <el-dialog title="编辑" :close-on-click-modal="false" :visible.sync="dialogVisible" width="1100px">
     <div class="diaContent">
@@ -428,8 +427,8 @@ export default {
   margin-bottom: 0;
   overflow: auto;
   position: absolute;
-  height: calc(100% - 260px);
-  width: calc(100% - 430px);
+  height: calc(90% - 150px);
+  width: calc(90% - 230px);
 }
 
 .columnLeft {

@@ -107,7 +107,7 @@ export default {
   .pagesize{
     text-align: right;
     position: absolute;
-    bottom: 1%;
+    bottom: 6%;
     right: 5%;
     z-index: 55;
   }
