@@ -1,0 +1,59 @@
+.saicheng_fixed{position:fixed;top:50px;z-index:999}
+.saicheng_fixed tbody{padding-top:10px;padding-right:2px;width:950px;display:block;background:#fff;z-index:999}
+.saishi_wrapper .nph_scrl_wrap{background:#fc0;padding-bottom:10px}
+.yilibottombanner{position:absolute;bottom:230px;left:50%;display:block;width:1200px;height:auto;margin-left:-600px}
+.yilibottombanner img{width:100%;height:auto}
+.bike{width:130px;height:130px;background:url(../../assets/images/bike.png);position: fixed;right: 0;top:calc(100% - 150px)}
+
+/*
+.rio{width:126px;height:35px;background:url(../images/rio.png);position:absolute;top:48px;left:50%;margin-left:-413px;transform-origin:left bottom}
+.star{width:19px;height:13px;background:url(../images/star.png);position:absolute;top:32px;left:50%;margin-left:-300px;transform-origin:left bottom}
+*/
+
+@keyframes scaleUp{
+  0%{transform:scale(1,1);-webkit-transform:scale(1,1)}
+  50%{transform:scale(1,1);-webkit-transform:scale(1,1)}
+  51%{transform:scale(0,0);-webkit-transform:scale(0,0)}
+  77%{transform:scale(1,1);-webkit-transform:scale(1,1)}
+  88%{transform:scale(.97,.97);-webkit-transform:scale(.97,.97)}
+  100%{transform:scale(1,1);-webkit-transform:scale(1,1)}
+}
+
+@-webkit-keyframes scaleUp{
+  0%{-webkit-transform:scale(1,1);transform:scale(1,1)}
+  50%{-webkit-transform:scale(1,1);transform:scale(1,1)}
+  51%{-webkit-transform:scale(0,0);transform:scale(0,0)}
+  77%{-webkit-transform:scale(1,1);transform:scale(1,1)}
+  88%{-webkit-transform:scale(.97,.97);transform:scale(.97,.97)}
+  100%{-webkit-transform:scale(1,1);transform:scale(1,1)}
+}
+
+.scaleUp{
+  -webkit-animation:scaleUp 1.04s;
+  animation:scaleUp 1.04s
+}
+
+@keyframes rotate{
+  0%{transform:rotate(0);-webkit-transform:rotate(0)}
+  59%{transform:rotate(0);-webkit-transform:rotate(0)}
+  71%{transform:rotate(24deg);-webkit-transform:rotate(24deg)}
+  88%{transform:rotate(-24deg);-webkit-transform:rotate(-24deg)}
+  100%{transform:rotate(0);-webkit-transform:rotate(0)}
+}
+
+@-webkit-keyframes rotate{
+  0%{-webkit-transform:rotate(0);transform:rotate(0)}
+  59%{-webkit-transform:rotate(0);transform:rotate(0)}
+  71%{-webkit-transform:rotate(24deg);transform:rotate(24deg)}
+  88%{-webkit-transform:rotate(-24deg);transform:rotate(-24deg)}
+  100%{-webkit-transform:rotate(0);transform:rotate(0)}
+}
+
+.rotate{-webkit-animation:rotate 1.32s;animation:rotate 1.32s}
+
+.bikeAni{-webkit-animation:bikeAni 7s steps(99) infinite;animation:bikeAni 7s steps(99) infinite}
+
+@keyframes bikeAni{
+  0%{background-position:0 12870px}
+  99%{background-position:0 0}
+}

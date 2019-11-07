@@ -11,6 +11,9 @@
                 </transition>
             </div>
         </div>
+        <div class="bikes">
+            <div class="bike bikeAni"></div>
+        </div>
     </div>
 </template>
 
@@ -27,6 +30,7 @@
 
 <style lang="less" scoped>
    @import "less/public.less";
+   @import "less/bike.less";
     .centerBox{
         position: relative;
         top: 70px;
