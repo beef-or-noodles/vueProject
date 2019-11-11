@@ -1,5 +1,12 @@
 <template>
-    <div>主页</div>
+    <div class="home">
+        <div class="banner">
+            滚动图片
+        </div>
+        <div class="list">
+            列表
+        </div>
+    </div>
 </template>
 
 <script>
@@ -8,6 +15,6 @@
     }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 </style>

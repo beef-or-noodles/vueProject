@@ -45,4 +45,7 @@ export default {
   border-radius: 10px;
   background: white;
 }
+  div{
+    -webkit-overflow-scrolling: touch;
+  }
 </style>

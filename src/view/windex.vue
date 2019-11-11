@@ -1,6 +1,7 @@
 <template>
     <div>
         <wheader></wheader>
+        <waudio></waudio>
         <div class="centerBox">
             <div class="left">
                 <wleft></wleft>
@@ -20,10 +21,11 @@
 <script>
     import wheader from "./components/wheader"
     import wleft from "./components/wleft"
+    import waudio from "./components/audioPlay"
     export default {
         name: "windex",
         components:{
-            wheader,wleft
+            wheader,wleft,waudio
         },
     }
 </script>
