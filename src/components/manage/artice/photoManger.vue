@@ -8,9 +8,7 @@
   </el-row>
 
   <div class="content">
-    <el-row :gutter="20">
-      <el-col :span="6" v-for="elem in listData" :key="elem.id">
-        <div class="photoBox" @click.stop="photoBox(elem)">
+        <div v-for="elem in listData" :key="elem.id" class="photoBox" @click.stop="photoBox(elem)">
           <div class="img">
             <img :src="elem.imgUrl" alt="">
           </div>
@@ -36,10 +34,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-      </el-col>
-    </el-row>
-
-  </div>
+      </div>
 
 
   <!-- 弹窗 -->
@@ -323,6 +318,8 @@ export default {
   overflow: hidden;
   position: relative;
   cursor: pointer;
+  float: left;
+  width: 230px;
 }
 
 .img {

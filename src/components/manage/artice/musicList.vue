@@ -9,37 +9,32 @@
         </el-row>
 
         <div class="content">
-            <el-row :gutter="20">
-                <el-col :span="6" v-for="elem in listData" :key="elem.id">
-                    <div class="photoBox" @click.stop="photoBox(elem)">
-                        <div class="img">
-                            <img :src="elem.imgUrl" alt="">
-                        </div>
-                        <div class="title">
-                            <h4>{{elem.columnName}}</h4>
-                            <p>{{elem.describe}}</p>
-                        </div>
-                        <el-dropdown class="box">
-                            <span class="el-dropdown-link">
-                              <i class="el-icon-arrow-down"></i>
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>
-                                    <div @click="update(elem, 2)">
-                                        <i class="el-icon-edit"></i>编辑
-                                    </div>
-                                </el-dropdown-item>
-                                <el-dropdown-item>
-                                    <div @click="delect(elem.id,true)">
-                                        <i class="el-icon-delete"></i>删除
-                                    </div>
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
-                    </div>
-                </el-col>
-            </el-row>
-
+            <div :span="6" v-for="elem in listData" :key="elem.id" class="photoBox" @click.stop="photoBox(elem)">
+                <div class="img">
+                    <img :src="elem.imgUrl" alt="">
+                </div>
+                <div class="title">
+                    <h4>{{elem.columnName}}</h4>
+                    <p>{{elem.describe}}</p>
+                </div>
+                <el-dropdown class="box">
+                    <span class="el-dropdown-link">
+                      <i class="el-icon-arrow-down"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>
+                            <div @click="update(elem, 2)">
+                                <i class="el-icon-edit"></i>编辑
+                            </div>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <div @click="delect(elem.id,true)">
+                                <i class="el-icon-delete"></i>删除
+                            </div>
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
         </div>
 
 
@@ -80,20 +75,17 @@
         <el-dialog title="添加MP3" :close-on-click-modal="false" width="80%" :visible.sync="addPhotoDia">
 
             <div class="photoList">
-                <el-row :gutter="10">
-                    <el-col :span="3" class="list" v-for="(item,index) in photoList" :key="index">
-                        <div class="boxP">
-                            <div class="close">
-                                <el-button type="danger" @click="delectPhoto(item.id,index)" icon="el-icon-delete"
-                                           size="mini" circle></el-button>
-                            </div>
-                            <img :src="item.imgurl" alt="有误">
-                        </div>
-                    </el-col>
-                    <el-col :span="3">
-                        <fileupload :multiple="true" @change="photoChange" :autoUp="true" :copper="false"></fileupload>
-                    </el-col>
-                </el-row>
+                <div class="list" v-for="(item,index) in photoList" :key="index">
+                    <div class="close el-icon-delete" @click="delectPhoto(item.id,index)"></div>
+                    <div class="boxP">
+                        <img :src="item.imgurl" alt="有误">
+                    </div>
+                    <div class="titleBox">
+                        <div class="author">标题</div>
+                        <div class="author">zuozasfasd标题标题标题标题</div>
+                    </div>
+                </div>
+                <div class="upload el-icon-circle-plus-outline"></div>
             </div>
             <div class="block">
                 <wPage @pageSize="pageSize" @pageNo="pageNo" :size="paging.pageSize" :total="paging.total"></wPage>
@@ -327,6 +319,8 @@
         overflow: hidden;
         position: relative;
         cursor: pointer;
+        float: left;
+        width: 230px;
     }
 
     .img {
@@ -408,42 +402,69 @@
         box-sizing: content-box;
         margin-top: 10px;
         position: relative;
-
+        &>div{
+            width: 200px;
+            height: 50px;
+            overflow: hidden;
+            float: left;
+            margin-left: 15px;
+        }
         .block {
             position: absolute;
             text-align: right;
             bottom: 0;
             width: 100%;
         }
-
+        .upload{
+            font-size: 50px;
+            color: #3a8ee6;
+            &:hover{
+                color: #e64f2a;
+                cursor: pointer;
+            }
+        }
         .list {
             margin-bottom: 10px;
+            position: relative;
+            .titleBox{
+                position: absolute;
+                width: 100%;
+                height: 80px;
+                width: 130px;
+                left: 60px;
+                top: 0;
+                &>div{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display:-webkit-box; //作为弹性伸缩盒子模型显示。
+                    -webkit-box-orient:vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+                    -webkit-line-clamp:1; //显示的行
+                }
+            }
+            .close {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                transition: all .36s ease;
+                z-index: 999;
+                width: 15px;
+                height: 15px;
+                &:hover{
+                    cursor: pointer;
+                    color: red;
+                }
+            }
         }
 
         .boxP {
-            width: 100%;
-            height: 120px;
+            width: 50px;
+            height: 50px;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
-
-            .close {
-                position: absolute;
-                top: -30px;
-                right: 10px;
-                transition: all .36s ease;
-            }
-
-            &:hover {
-                cursor: pointer;
-
-                .close {
-                    top: 10px;
-                }
-            }
-
+            overflow: hidden;
             img {
                 height: 100%;
             }
