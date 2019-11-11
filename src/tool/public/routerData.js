@@ -36,6 +36,14 @@ export const routerMenuData = [{
     name: 'photoManger',
     icon: '',
   },{
+    rootChildName: '音乐列表',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/artice/musicList',
+    path: '/home/musicList',
+    name: 'musicList',
+    icon: '',
+  },{
     rootChildName: '文章列表',
     rootPower: true,
     rootLogin: true,

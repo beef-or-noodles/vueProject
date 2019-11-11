@@ -118,7 +118,7 @@ export default {
         describe: '',
         checkRoot: true,
         sort: '',
-        isPhoto:1,
+        isType:1,
         belongId: {
           id: '0',
           name: '顶级栏目'
@@ -143,7 +143,7 @@ export default {
           describe: '',
           checkRoot: true,
           sort: '',
-          isPhoto:1,
+          isType:1,
           belongId: {
             id: '0',
             name: '顶级栏目'
@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     queryPhoto() {
-      this.$post(this.$api.queryPhoto).then((data) => {
+      this.$post(this.$api.queryPhoto,{isType:1}).then((data) => {
         this.listData = data;
       });
     },
