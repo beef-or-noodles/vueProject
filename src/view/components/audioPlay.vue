@@ -9,19 +9,17 @@
             </div>
             <div class="titleBox">
                 <div class="title">我是标题标题标题标题</div>
-                <div class="author">作者作者</div>
                 <div class="plalyCon">
-                    <div class="left el-icon-d-arrow-left">
-
-                    </div>
-                    <div class="play" :class="false?'el-icon-video-pause':'el-icon-video-play'">
-
-                    </div>
+                    <div class="menu el-icon-s-unfold"></div>
+                    <div class="left el-icon-d-arrow-left"></div>
+                    <div class="play" :class="false?'el-icon-video-pause':'el-icon-video-play'"></div>
                     <div class="right el-icon-d-arrow-right"></div>
                 </div>
             </div>
+            <div class="slidBar">
+                <div class="bar" :style="{width:'0%'}"></div>
+            </div>
         </div>
-
     </div>
 </template>
 
@@ -46,12 +44,11 @@
         bottom: 20%;
         right: 0;
         width: 300px;
-        height: 80px;
+        height: 85px;
         background: white;
         z-index: 999;
-        border-radius: 5px;
         overflow: hidden;
-        box-shadow: 1px 2px 3px #bbbdbe;
+        box-shadow: 0 2px 3px #bbbdbe;
         &.active{
           right: -270px;
         }
@@ -65,7 +62,7 @@
                 height: 100%;
                 background: #e64f2a;
                 color: white;
-                font-size: 25px;
+                font-size: 20px;
                 text-align: center;
                 display: flex;
                 justify-content: center;
@@ -112,22 +109,20 @@
                 width: 180px;
                 overflow: hidden;
                 height: 100%;
-                height: 70px;
                 top: 10px;
                 text-align: center;
                 .title{
                     font-weight: 600;
-                }
-                .author{
-                    font-size: 12px;
+                    font-size: 14px;
+                    margin-bottom: 10px;
                 }
                 .plalyCon{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     &>div{
-                        display: inline-block;
                         width: 40px;
-                        height: 30px;
                         font-size: 25px;
-                        line-height: 30px;
                         &:hover{
                             color: @color;
                         }
@@ -135,6 +130,19 @@
                     .left,.right{
                         font-size: 20px;
                     }
+                }
+            }
+            .slidBar{
+                position: absolute;
+                width: calc(100% - 30px);
+                left: 30px;
+                height: 5px;
+                background: #ffd7ce;
+                bottom: 0;
+                .bar{
+                    width: 0;
+                    height: 5px;
+                    background: @color;
                 }
             }
         }
