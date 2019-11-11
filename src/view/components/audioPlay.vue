@@ -1,5 +1,6 @@
 <template>
     <div class="audio" :class="{active:hide}">
+        <audio @oncanplay="oncanplay" src="" ref="audio"></audio>
         <div class="box">
             <div class="explanded" :class="hide?' el-icon-d-arrow-left':' el-icon-d-arrow-right'" @click="hide=!hide">
             </div>
@@ -10,15 +11,21 @@
             <div class="titleBox">
                 <div class="title">我是标题标题标题标题</div>
                 <div class="plalyCon">
-                    <div class="menu el-icon-s-unfold"></div>
+                    <div class="menu el-icon-s-unfold" @click="listHide=!listHide"></div>
                     <div class="left el-icon-d-arrow-left"></div>
-                    <div class="play" :class="false?'el-icon-video-pause':'el-icon-video-play'"></div>
+                    <div class="play" :class="playState?'el-icon-video-pause':'el-icon-video-play'" @click="playAudio"></div>
                     <div class="right el-icon-d-arrow-right"></div>
                 </div>
             </div>
             <div class="slidBar">
                 <div class="bar" :style="{width:'0%'}"></div>
             </div>
+        </div>
+        <div class="mp3List" :class="{active:listHide}">
+            <a class="selectmp3" v-for="item in 5">
+                <span>我们在这个世界相遇</span>
+                <div class="icon el-icon-close"></div>
+            </a>
         </div>
     </div>
 </template>
@@ -29,10 +36,50 @@
         data() {
             return {
                 hide: false,
+                listHide:false,
+                audio:null,
+                playState:false,
+                src:"",
             }
         },
+        mounted(){
+            this.audio = this.$refs.audio
+        },
+        watch: {
+            hide(val) {
+                if(val){
+                  this.listHide=false
+                }
+            },
+        },
         methods: {
-
+           loadMp3(){
+               let url = ""
+               ID3.loadTags(url, function() {
+                   var tags = ID3.getAllTags(url);
+                   alert(tags.artist + " - " + tags.title + ", " + tags.album);
+               });
+           },
+            /*可以播放了*/
+            oncanplay(){
+                console.log("加载完成");
+            },
+            playAudio(url){
+               let audio = this.audio
+                let val = "https://webfs.yun.kugou.com/201911111749/edff5d77053dd5be6e677d9fde2f87da/G171/M0B/18/10/i5QEAF2c0cKAJ63iADBEFy9sicA739.mp3"
+                if(this.playState){
+                    audio.pause();
+                    this.playState = false
+                }else{
+                    if(this.src != val){
+                        console.log("123");
+                        audio.src = val;
+                        this.src = val
+                    }
+                    audio.play();
+                    this.playState = true
+                }
+            }
         },
     }
 </script>
@@ -47,8 +94,28 @@
         height: 85px;
         background: white;
         z-index: 999;
-        overflow: hidden;
         box-shadow: 0 2px 3px #bbbdbe;
+        .mp3List{
+            background: #474747;
+            color: white;
+            height: 0px;
+            overflow: auto;
+            display: block;
+            &.active{
+                height: 100px;
+                padding: 5px 0;
+            }
+            .selectmp3{
+                padding: 5px 10px;
+                padding-bottom: 5px;
+                font-size: 12px;
+                display: block;
+
+                .icon{
+                    float: right;
+                }
+            }
+        }
         &.active{
           right: -270px;
         }
@@ -86,7 +153,7 @@
                 align-items: center;
                 top: 5px;
                 animation: rotateAnimate 3s infinite;
-                -webkit-animation: rotateAnimate 5s linear infinite;
+                -webkit-animation: rotateAnimate 10s linear infinite;
                 .cen{
                     position: absolute;
                     content: "";
