@@ -36,9 +36,6 @@
             return {
                 isCompress: true,
                 imgurl:'',
-                fromData: {
-                    imgurl: "",
-                },
                 imgFormData: "",
                 edit:false,
             }
@@ -47,6 +44,10 @@
             hitting: { //是否压缩
                 type: Boolean,
                 default: true
+            },
+            dirName:{ //文件夹名字
+                type: String,
+                default: "upload"
             },
             autoUp: {//自动上传
                 type: Boolean,
@@ -66,9 +67,9 @@
             }
         },
         watch:{
-          img(val){
-              this.imgurl = val
-          }
+            img(val){
+                this.imgurl = val
+            }
         },
         methods: {
             // 选择图片
@@ -105,9 +106,8 @@
                         lrz(_this.imgurl)
                             .then(function (rst) {
                                 //成功时执行
-                                console.log("压缩图片");
-                                _this.$post(_this.$api.upload, rst.formData).then((data) => {
-                                    _this.fromData.imgurl = data.path;
+                                console.log("压缩图片",rst.file);
+                                _this.$post(_this.$api.upload,rst.formData).then((data) => {
                                     _this.$emit("change",data.path)
                                 })
                             }).catch(function (error) {
@@ -118,7 +118,6 @@
                     } else {
                         console.log("不压缩");
                         this.$uploadImg(this.$api.upload, this.imgFormData).then((data) => {
-                            this.fromData.imgurl = data.path;
                             this.$emit("change",data.path)
                         })
                     }

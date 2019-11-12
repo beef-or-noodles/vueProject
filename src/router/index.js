@@ -65,6 +65,11 @@ const router = new Router({
                 component: resolve => require(['@/components/manage/artice/articeList.vue'], resolve),
                 meta: {title: '文章列表'},
             },{
+                path: '/home/musicList',
+                name: 'musicList',
+                component: resolve => require(['@/components/manage/artice/musicList.vue'], resolve),
+                meta: {title: '音乐列表'},
+            },{
                 path: '/home/recycle',
                 name: 'recycle',
                 component: resolve => require(['@/components/manage/artice/recycle.vue'], resolve),
