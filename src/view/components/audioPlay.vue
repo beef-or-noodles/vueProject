@@ -114,7 +114,9 @@
                   }
               }
               this.index = this.index+1
-              this.init();
+              let item = this.musicList[this.index];
+              this.setMusicData(item,this.index);
+
             },
             timeupdate(){
                 let curentTime = this.audio.currentTime;//当前播放时间
