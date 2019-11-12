@@ -1,31 +1,34 @@
 <template>
     <div class="audio" :class="{active:hide}">
-        <audio @oncanplay="oncanplay" src="" ref="audio"></audio>
+        <audio @ended="ended" @timeupdate="timeupdate" @canplay="canplay" src="" ref="audio"></audio>
         <div class="box">
             <div class="explanded" :class="hide?' el-icon-d-arrow-left':' el-icon-d-arrow-right'" @click="hide=!hide">
             </div>
-            <div class="icon">
+            <div class="icon" :class="{stopAnimate:!playState}">
                 <div class="cen"></div>
-                <img src="../../assets/images/preview.jpg" alt="">
+                <img :src="musicData.imgurl" alt="">
             </div>
             <div class="titleBox">
-                <div class="title">我是标题标题标题标题</div>
+                <div class="title" :title="musicData.title">{{musicData.title}}-{{musicData.author}}</div>
                 <div class="plalyCon">
                     <div class="menu el-icon-s-unfold" @click="listHide=!listHide"></div>
                     <div class="left el-icon-d-arrow-left"></div>
-                    <div class="play" :class="playState?'el-icon-video-pause':'el-icon-video-play'" @click="playAudio"></div>
+                    <div class="play" :class="playState?'el-icon-video-pause':'el-icon-video-play'"
+                         @click="playAudio(musicData.describe)"></div>
                     <div class="right el-icon-d-arrow-right"></div>
                 </div>
             </div>
             <div class="slidBar">
-                <div class="bar" :style="{width:'0%'}"></div>
+                <div class="starttime">{{formatTime(timeBar.value)}}</div>
+                <div class="endtime">{{formatTime(timeBar.total)}}</div>
+                <div class="bar" :style="{width:widthbar+'%'}"></div>
             </div>
         </div>
         <div class="mp3List" :class="{active:listHide}">
-            <a class="selectmp3" v-for="item in 5">
-                <span>我们在这个世界相遇</span>
+            <div class="selectmp3" v-for="(item,index) in musicList">
+                <a @click="setMusicData(item,index)" :class="{active:item.id == musicData.id}">{{item.title}}-{{item.author}}</a>
                 <div class="icon el-icon-close"></div>
-            </a>
+            </div>
         </div>
     </div>
 </template>
@@ -36,49 +39,131 @@
         data() {
             return {
                 hide: false,
-                listHide:false,
-                audio:null,
-                playState:false,
-                src:"",
+                listHide: false,
+                audio: null,
+                playState: false,
+                src: "",
+                widthbar:0,//进度条
+                timeBar:{
+                  total:0,
+                  value:0,
+                },
+                musicData:{
+                    id: "",
+                    title: "",
+                    author: "",
+                    imgurl: "",
+                    describe: "",//描述里面放音乐路径
+                },
+                index:0,//当前第几首歌曲
+                musicList: [{
+                    id: 1,
+                    title: "涅槃 (Phoenix)",
+                    author: "英雄联盟",
+                    imgurl: "https://p3fx.kgimg.com/stdmusic/20191009/20191009021205850636.jpg",
+                    describe: "https://webfs.yun.kugou.com/201911111749/edff5d77053dd5be6e677d9fde2f87da/G171/M0B/18/10/i5QEAF2c0cKAJ63iADBEFy9sicA739.mp3",//描述里面放音乐路径
+                }, {
+                    id: 2,
+                    title: "Legends Never Die",
+                    author: "Against The Current",
+                    imgurl: "https://p3fx.kgimg.com/stdmusic/20170918/20170918105747502541.jpg",
+                    describe: "https://webfs.yun.kugou.com/201911121301/93ad0c0ea5235011fff7813b81f762ec/G122/M09/1B/15/ug0DAFpQhAOAGHMRADlkainBqUw352.mp3",//描述里面放音乐路径
+                }, {
+                    id: 3,
+                    title: "Worlds Collide",
+                    author: "Nicki Taylor",
+                    imgurl: "https://p3fx.kgimg.com/stdmusic/20180106/20180106144006581911.jpg",
+                    describe: "https://webfs.yun.kugou.com/201911121039/00388c4fc765062e4f953e923a94a3e4/G124/M01/1F/00/HIcBAFpQhCCAQkxOADTWswZN7I4358.mp3",//描述里面放音乐路径
+                }],
             }
         },
-        mounted(){
-            this.audio = this.$refs.audio
+        mounted() {
+            this.audio = this.$refs.audio;
+            this.init();
         },
         watch: {
             hide(val) {
-                if(val){
-                  this.listHide=false
+                if (val) {
+                    this.listHide = false
                 }
             },
         },
         methods: {
-           loadMp3(){
-               let url = ""
-               ID3.loadTags(url, function() {
-                   var tags = ID3.getAllTags(url);
-                   alert(tags.artist + " - " + tags.title + ", " + tags.album);
-               });
-           },
-            /*可以播放了*/
-            oncanplay(){
-                console.log("加载完成");
+            init(){
+                this.musicData = this.musicList[this.index];
+                this.audio.src = this.musicData.describe;
             },
-            playAudio(url){
-               let audio = this.audio
-                let val = "https://webfs.yun.kugou.com/201911111749/edff5d77053dd5be6e677d9fde2f87da/G171/M0B/18/10/i5QEAF2c0cKAJ63iADBEFy9sicA739.mp3"
-                if(this.playState){
+            loadMp3() {
+                let url = ""
+                ID3.loadTags(url, function () {
+                    var tags = ID3.getAllTags(url);
+                    alert(tags.artist + " - " + tags.title + ", " + tags.album);
+                });
+            },
+            /*可以播放了*/
+            canplay() {
+                console.log("加载完成",this.audio.duration);
+                this.timeBar.total = this.audio.duration
+            },
+            ended(){
+              console.log("播放结束");
+              let total = this.musicList.length;
+              if(total>0){
+                  if(this.index){
+
+                  }
+              }
+              this.index = this.index+1
+              this.init();
+            },
+            timeupdate(){
+                let curentTime = this.audio.currentTime;//当前播放时间
+                this.timeBar.value = curentTime;
+                let num = 100 / this.timeBar.total; //百分比
+                let value = curentTime * num
+                this.widthbar = value;
+            },
+            setMusicData(item,index){
+                /*切换选项前先设置状态为暂停*/
+                this.playState = false;
+                this.index = index;
+                this.playAudio(item.describe);
+                this.musicData = item;
+            },
+            /*播放和暂停*/
+            playAudio(url) {
+                let audio = this.audio
+                if (this.playState) {
                     audio.pause();
                     this.playState = false
-                }else{
-                    if(this.src != val){
-                        console.log("123");
-                        audio.src = val;
-                        this.src = val
+                } else {
+                    if (this.musicData.describe != url) {/*url不同重新加载MP3然后播放*/
+                        audio.src = url;
+                        audio.load();
                     }
                     audio.play();
                     this.playState = true
                 }
+            },
+
+
+            /*格式化时间*/
+            formatTime(s=0) {
+                let minute = Math.floor(s/60);
+                let second =  Math.floor(s - minute*60);
+                let t1 = "";
+                let t2 = "";
+                if(minute<10){
+                    t1 =  "0"+minute
+                }else{
+                    t1 =  minute
+                }
+                if(second<10){
+                    t2 =  "0"+second
+                }else{
+                    t2 =  second
+                }
+                return t1+':'+t2;
             }
         },
     }
@@ -86,43 +171,50 @@
 
 <style lang="less" scoped>
     @import "../less/public";
-    .audio{
+
+    .audio {
         position: fixed;
         bottom: 20%;
         right: 0;
-        width: 300px;
-        height: 85px;
+        width: 320px;
+        height: 90px;
         background: white;
         z-index: 999;
         box-shadow: 0 2px 3px #bbbdbe;
-        .mp3List{
+        .mp3List {
             background: #474747;
             color: white;
             height: 0px;
             overflow: auto;
             display: block;
-            &.active{
+            &.active {
                 height: 100px;
                 padding: 5px 0;
             }
-            .selectmp3{
+            .selectmp3 {
                 padding: 5px 10px;
                 padding-bottom: 5px;
                 font-size: 12px;
                 display: block;
-
-                .icon{
+                &>a.active{
+                    color:@color;
+                }
+                .icon {
                     float: right;
+                    &:hover{
+                        color: @color;
+                        cursor: pointer;
+                    }
                 }
             }
         }
-        &.active{
-          right: -270px;
+        &.active {
+            right: -270px;
         }
-        .box{
+        .box {
             position: relative;
             height: 100%;
-            .explanded{
+            .explanded {
                 position: absolute;
                 left: 0;
                 width: 30px;
@@ -136,12 +228,12 @@
                 align-items: center;
                 box-sizing: border-box;
                 transition: all .36s ease;
-                &:hover{
+                &:hover {
                     cursor: pointer;
                     padding-left: 5px;
                 }
             }
-            .icon{
+            .icon {
                 width: 70px;
                 height: 70px;
                 overflow: hidden;
@@ -152,9 +244,13 @@
                 justify-content: center;
                 align-items: center;
                 top: 5px;
-                animation: rotateAnimate 3s infinite;
+                animation: rotateAnimate 10s infinite;
                 -webkit-animation: rotateAnimate 10s linear infinite;
-                .cen{
+                &.stopAnimate {
+                    animation-play-state: paused;
+                    -webkit-animation-play-state: paused; /* Safari 和 Chrome */
+                }
+                .cen {
                     position: absolute;
                     content: "";
                     display: block;
@@ -163,50 +259,65 @@
                     background: white;
                     z-index: 99;
                     border-radius: 50%;
-                    border: 4px solid rgba(0,0,0,.3);
+                    border: 4px solid rgba(0, 0, 0, .3);
                     opacity: .8;
                 }
-                img{
+                img {
                     height: 100%;
                 }
             }
-            .titleBox{
+            .titleBox {
                 position: absolute;
-                left: 120px;
-                width: 180px;
+                left: 110px;
+                width: 210px;
                 overflow: hidden;
-                height: 100%;
-                top: 10px;
+                height: calc(100% - 10px);
+                padding-top: 10px;
                 text-align: center;
-                .title{
+                box-sizing: content-box;
+                .title {
                     font-weight: 600;
                     font-size: 14px;
                     margin-bottom: 10px;
+                    .overHidden(1)
                 }
-                .plalyCon{
+                .plalyCon {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    &>div{
+                    & > div {
                         width: 40px;
                         font-size: 25px;
-                        &:hover{
+                        &:hover {
                             color: @color;
+                            cursor: pointer;
                         }
                     }
-                    .left,.right{
+                    .left, .right {
                         font-size: 20px;
                     }
                 }
             }
-            .slidBar{
+            .slidBar {
                 position: absolute;
                 width: calc(100% - 30px);
                 left: 30px;
                 height: 5px;
                 background: #ffd7ce;
                 bottom: 0;
-                .bar{
+                .starttime{
+                    font-size: 12px;
+                    float: left;
+                    margin-top: -15px;
+                    margin-left: 5px;
+                }
+                .endtime{
+                    font-size: 12px;
+                    float: right;
+                    margin-top: -15px;
+                    margin-right: 5px;
+                }
+                .bar {
                     width: 0;
                     height: 5px;
                     background: @color;
@@ -216,10 +327,10 @@
     }
 
     @keyframes rotateAnimate {
-        0%{
+        0% {
             transform: rotate(0deg);
         }
-        100%{
+        100% {
             transform: rotate(360deg);
         }
 
