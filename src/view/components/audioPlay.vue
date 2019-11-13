@@ -12,10 +12,10 @@
                 <div class="title" :title="musicData.title">{{musicData.title}}-{{musicData.author}}</div>
                 <div class="plalyCon">
                     <div class="menu el-icon-s-unfold" @click="listHide=!listHide"></div>
-                    <div class="left el-icon-d-arrow-left"></div>
+                    <div class="left el-icon-d-arrow-left" @click="arrowLeft"></div>
                     <div class="play" :class="playState?'el-icon-video-pause':'el-icon-video-play'"
                          @click="playAudio(musicData.describe)"></div>
-                    <div class="right el-icon-d-arrow-right"></div>
+                    <div class="right el-icon-d-arrow-right" @click="arrowRight"></div>
                 </div>
             </div>
             <div class="slidBar">
@@ -38,10 +38,10 @@
         name: "audioPlay",
         data() {
             return {
-                hide: false,
-                listHide: false,
+                hide: false,//组件状态
+                listHide: false,//列表状态
                 audio: null,
-                playState: false,
+                playState: false,//播放状态
                 src: "",
                 widthbar:0,//进度条
                 timeBar:{
@@ -102,21 +102,19 @@
             },
             /*可以播放了*/
             canplay() {
-                console.log("加载完成",this.audio.duration);
+                console.log("加载完成");
                 this.timeBar.total = this.audio.duration
             },
             ended(){
               console.log("播放结束");
               let total = this.musicList.length;
-              if(total>0){
-                  if(this.index){
-
-                  }
+              if(this.index+1 < total){
+                  this.index = this.index+1
+                  let item = this.musicList[this.index];
+                  this.setMusicData(item,this.index);
+              }else{
+                  this.playState = false
               }
-              this.index = this.index+1
-              let item = this.musicList[this.index];
-              this.setMusicData(item,this.index);
-
             },
             timeupdate(){
                 let curentTime = this.audio.currentTime;//当前播放时间
@@ -132,6 +130,25 @@
                 this.playAudio(item.describe);
                 this.musicData = item;
             },
+            arrowLeft(){
+                if(this.index>0){
+                    this.index = this.index-1
+                }else{
+                    this.index = this.musicList.length-1
+                }
+                let item = this.musicList[this.index];
+                this.setMusicData(item,this.index);
+            },
+            arrowRight(){
+                if(this.index<this.musicList.length-1){
+                    this.index = this.index+1
+                }else{
+                    this.index = 0
+                }
+                let item = this.musicList[this.index];
+                this.setMusicData(item,this.index);
+            },
+
             /*播放和暂停*/
             playAudio(url) {
                 let audio = this.audio
@@ -211,7 +228,7 @@
             }
         }
         &.active {
-            right: -270px;
+            right: -290px;
         }
         .box {
             position: relative;
@@ -266,6 +283,7 @@
                 }
                 img {
                     height: 100%;
+                    width: 100%;
                 }
             }
             .titleBox {
@@ -281,7 +299,8 @@
                     font-weight: 600;
                     font-size: 14px;
                     margin-bottom: 10px;
-                    .overHidden(1)
+                    .overHidden(1);
+                    height: 20px;
                 }
                 .plalyCon {
                     display: flex;
