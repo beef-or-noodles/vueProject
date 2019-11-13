@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="contents">
         <div class="title" v-text="artieData.articeTitle"></div>
         <div class="other">
             <div class="time"><i class="el-icon-user"></i>作者：<span v-text="artieData.author"></span></div>
@@ -56,7 +56,7 @@
 
 <style lang="less" scoped>
     @import "../less/public";
-    .content{
+    .contents{
         min-height: 100%;
         width: 100%;
         background: white;
@@ -64,11 +64,11 @@
         box-sizing: border-box;
         .title{
             text-align: left;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
         }
         .other{
-            font-size: 16px;
+            font-size: 14px;
             color:#797b7c;
             width: 100%;
             margin:30px 0;
@@ -86,9 +86,10 @@
         .des{
             width: 100%;
             background: @color2;
-            padding: 10px;
+            padding: 5px;
             box-sizing: border-box;
             .overHidden(2);
+            font-size: 14px;
             .ti{
                 color:black;
                 font-weight: 600;

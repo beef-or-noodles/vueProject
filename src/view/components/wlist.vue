@@ -154,7 +154,6 @@
             .other{
                 font-size: 12px;
                 color:#797b7c;
-                margin-top: 10px;
                 width: 100%;
                 &>div{
                     display: inline-block;

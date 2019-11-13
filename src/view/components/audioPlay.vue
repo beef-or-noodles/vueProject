@@ -38,7 +38,7 @@
         name: "audioPlay",
         data() {
             return {
-                hide: false,//组件状态
+                hide: true,//组件状态
                 listHide: false,//列表状态
                 audio: null,
                 playState: false,//播放状态
