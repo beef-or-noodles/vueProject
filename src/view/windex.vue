@@ -3,7 +3,7 @@
         <wheader></wheader>
         <waudio></waudio>
         <canvas class="canvas" height="200px" id="myCanvas"></canvas>
-
+        <el-button @click="init"></el-button>
         <div class="centerBox">
 
             <div class="left">
@@ -38,11 +38,10 @@
                var dom = document.getElementById("myCanvas");
 
                let y = dom.height;
-               console.log(y);
                let num = 1;
                let timer = null
                 timer = setInterval(()=>{
-                   num+=2;
+                   num+=2.5;
                    if(num<y){
                        this.drow(dom,num);
                    }else{
@@ -83,7 +82,7 @@
 
                 ctx.beginPath();
                 ctx.moveTo(0, offset1);
-                ctx.lineTo(width/2, offset3);
+                ctx.lineTo(width/2, height/2);
                 ctx.lineTo(width,  offset1);
                 ctx.lineTo(width, height);
                 ctx.lineTo(width/2, height/2);
