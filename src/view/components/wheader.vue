@@ -16,7 +16,7 @@
                     <img src="../../assets/images/bg.jpg" alt="">
                 </div>
                 <div class="txt">
-                    任他红尘滚滚，我自清风明月
+                    <!--任他红尘滚滚，我自清风明月-->
                 </div>
             </div>
 
@@ -148,6 +148,7 @@
     top: 0;
     left: 0;
     font-size: 0;
+    padding-top:60px ;
     .canvas{
         width: 100%;
         height: 200px;
@@ -194,6 +195,9 @@
     .centerBox{
         height: @height;
         font-size: 14px;
+        position: fixed;
+        z-index: 999;
+        top: 0;
         ul{
             display: flex;
             align-items: center;
