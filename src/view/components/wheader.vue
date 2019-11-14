@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <canvas class="box" width="100%" height="150" id="myCanvas"></canvas>
+            <canvas class="box" width="100%" height="200px" id="myCanvas"></canvas>
         </div>
 
     </div>
@@ -150,7 +150,7 @@
     font-size: 0;
     .canvas{
         width: 100%;
-        height: 150px;
+        height: 200px;
         z-index: 99;
         position: relative;
         width: 100%;
@@ -161,7 +161,7 @@
             position: absolute;
             left: 0;
             width: 100%;
-            height: 150px;
+            height: 200px;
         }
         .title{
             z-index: 99;
@@ -179,9 +179,14 @@
                 }
             }
             .txt{
+                position: absolute;
                 color: #5f606f;
                 font-weight: 600;
                 font-size: 14px;
+                width: 100%;
+                bottom: 10px;
+                left: 0;
+                text-align: center;
             }
         }
 
