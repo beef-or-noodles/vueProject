@@ -56,7 +56,8 @@
    .content{
        background: #efefef;
        width: 100%;
-       min-height: calc(100vh - 360px);
+      /* min-height: calc(100vh - 360px);*/
+       min-height:150vh;
        padding-bottom: 10px;
    }
     .centerBox{
