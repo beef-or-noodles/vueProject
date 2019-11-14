@@ -3,7 +3,8 @@
         <div class="nav" :style="'background:rgba(85,85,85,'+option+')'">
             <div class="centerBox">
                 <ul>
-                    <li @click="topClick(item)" :class="{active:item.id == activeid}" v-for="item in list" :key="item.id">
+                    <li @click="topClick(item)" :class="{active:item.id == activeid}" v-for="item in list"
+                        :key="item.id">
                         {{item.name}}
                     </li>
                     <li class="slidebar" :class="{open:openSlider}" @click="leftNav">
@@ -59,7 +60,7 @@
                 }],
                 activeid: 1,
                 openSlider: false,
-                option:0,
+                option: 0,
             }
         },
         mounted() {
@@ -69,13 +70,13 @@
             let n = 200
             window.onscroll = function () {
                 var t = document.documentElement.scrollTop || document.body.scrollTop; //变量t就是滚动条滚动时，到顶部的距离
-                if(t/200<=1){
-                    _this.option = t/200;
-                }else{
+                if (t / 200 <= 1) {
+                    _this.option = t / 200;
+                } else {
                     _this.option = 1
                 }
                 let num = n - t
-                if(num>0){
+                if (num > 0) {
                     _this.drow(dom, num);
                 }
             }
@@ -220,7 +221,8 @@
             }
 
         }
-        .nav{
+
+        .nav {
             font-size: 14px;
             position: fixed;
             z-index: 999;
@@ -229,6 +231,7 @@
             height: @height;
             font-size: 14px;
         }
+
         .centerBox {
             ul {
                 display: flex;
@@ -236,6 +239,7 @@
                 float: right;
                 height: @height;
                 color: white;
+
                 & > li {
                     display: inline-block;
                     margin-left: 20px;
