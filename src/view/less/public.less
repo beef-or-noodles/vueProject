@@ -35,11 +35,23 @@ div{
     width: 100%;
     box-sizing: border-box;
     padding: 0 10px;
+    .slidebar{
+      display: block !important;
+    }
   }
   .content{
     .centerBox{
       .left{
-        display: none;
+        position: fixed;
+        width: 280px;
+        height: 100vh;
+        top:0;
+        right: 0px;
+        background: rgba(58,58,58,.9);
+        z-index:99;
+        padding-top: 100px;
+        box-sizing: content-box;
+        overflow: auto;
       }
       .right{
         width: 100%;

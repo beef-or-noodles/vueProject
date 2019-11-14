@@ -3,6 +3,11 @@
         <div class="centerBox">
             <ul>
                 <li @click="topClick(item)" :class="{active:item.id == activeid}" v-for="item in list" :key="item.id">{{item.name}}</li>
+                <li class="slidebar" :class="{open:openSlider}" @click="leftNav">
+                    <div class="s1"></div>
+                    <div class="s2"></div>
+                    <div class="s3"></div>
+                </li>
             </ul>
         </div>
         <div class="canvas">
@@ -43,17 +48,22 @@
                     id:3,
                 },{
                     active:false,
-                    name:"用户注册",
+                    name:"登录小站",
                     src:"/login",
                     id:4,
                 }],
                 activeid:1,
+                openSlider:false
             }
         },
         mounted(){
             this.init()
         },
         methods: {
+            leftNav(){
+                this.openSlider =!this.openSlider
+                this.$emit("close",this.openSlider);
+            },
             topClick(item) {
                 if(item.src == "/login"){
                     window.open(item.src, '_blank');
@@ -149,6 +159,7 @@
         align-items: center;
         .box{
             position: absolute;
+            left: 0;
             width: 100%;
             height: 150px;
         }
@@ -211,16 +222,49 @@
                     }
                 }
             }
-            .icon{
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                overflow: hidden;
-                img{
+            .slidebar{
+                width: 36px;
+                height: 36px;
+                z-index: 100;
+                position: relative;
+                display: none;
+                &>div{
+                    position: absolute;
                     width: 100%;
-                    height: 100%;
+                    height: 2px;
+                    border-radius: 50px;
+                    background: #FFFFFF;
+                    left: 0;
+                }
+                .s1{
+                    top:7px ;
+                }
+                .s2{
+                    top: calc(50% - 1px);
+                }
+                .s3{
+                    bottom:7px;
+                }
+                &.open{
+                    .s2{
+                        width: 0;
+                        left: 50%;
+                    }
+                    .s1{
+                        transform-origin: 0 0;
+                        transform: rotate(45deg);
+                        top: 5px;
+                        left: 5px;
+                    }
+                    .s3{
+                        transform-origin: 0 0;
+                        transform: rotate(-45deg);
+                        bottom: 5px;
+                        left: 5px;
+                    }
                 }
             }
+
         }
     }
 }

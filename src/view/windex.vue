@@ -1,10 +1,10 @@
 <template>
     <div class="indexBg">
-        <wheader></wheader>
+        <wheader @close="close"></wheader>
         <waudio></waudio>
         <div class="content">
             <div class="centerBox">
-                <div class="left">
+                <div class="left" :class="{leftNav:!leftNav}">
                     <wleft></wleft>
                 </div>
                 <div class="right">
@@ -29,6 +29,16 @@
         name: "windex",
         components:{
             wheader,wleft,waudio
+        },
+        data() {
+            return {
+                leftNav: false
+            }
+        },
+        methods: {
+            close(val) {
+                this.leftNav = val;
+            }
         },
     }
 </script>
@@ -55,6 +65,9 @@
         }
         .left{
             width: 280px;
+            &.leftNav{
+                right: -280px;
+            }
         }
         .right{
             margin-left: 20px;
