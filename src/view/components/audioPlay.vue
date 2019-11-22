@@ -9,12 +9,12 @@
                 <img :src="musicData.imgurl" alt="">
             </div>
             <div class="titleBox">
-                <div class="title" :title="musicData.title">{{musicData.title}}-{{musicData.author}}</div>
+                <div class="title" :title="musicData.articeTitle">{{musicData.articeTitle}}-{{musicData.author}}</div>
                 <div class="plalyCon">
                     <div class="menu el-icon-s-unfold" @click="listHide=!listHide"></div>
                     <div class="left el-icon-d-arrow-left" @click="arrowLeft"></div>
                     <div class="play" :class="playState?'el-icon-video-pause':'el-icon-video-play'"
-                         @click="playAudio(musicData.describe)"></div>
+                         @click="playAudio(musicData.content)"></div>
                     <div class="right el-icon-d-arrow-right" @click="arrowRight"></div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="mp3List" :class="{active:listHide}">
             <div class="selectmp3" v-for="(item,index) in musicList">
-                <a @click="setMusicData(item,index)" :class="{active:item.id == musicData.id}">{{item.title}}-{{item.author}}</a>
+                <a @click="setMusicData(item,index)" :class="{active:item.id == musicData.id}">{{item.articeTitle}}-{{item.author}}</a>
                 <div class="icon el-icon-close"></div>
             </div>
         </div>
@@ -80,6 +80,14 @@
         mounted() {
             this.audio = this.$refs.audio;
             this.init();
+        },
+        props: {
+            musicList: {
+                type: Array,
+                default: function(){
+                    return []
+                }
+            },
         },
         watch: {
             hide(val) {

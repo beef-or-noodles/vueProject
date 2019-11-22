@@ -1,12 +1,19 @@
 <template>
     <div class="box">
         <div v-if="!copper">
-            <div>
+            <div v-if="fileType==1">
                 <el-upload :multiple="multiple" class="avatar-uploader" :action="$api.upload" ref="upload"
                            :show-file-list="false" :on-change="uploadChange" :auto-upload="false">
                     <img v-if="imgurl && !multiple" :src="imgurl" ref="imgUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
+            </div>
+            <div v-else-if="fileType ==2" class="mp3">
+                <el-upload :multiple="multiple" :action="$api.upload" ref="upload"
+                           :show-file-list="false" :on-change="uploadChange" :auto-upload="false">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                </el-upload>
+                {{dataUrl}}
             </div>
         </div>
         <div v-else>
@@ -18,7 +25,7 @@
         <div v-if="!autoUp">
             <el-button type="primary" style="width:120px ;" size="mini" @click="submitUpload">上传</el-button>
         </div>
-
+        <!--图盘剪裁-->
         <el-dialog append-to-body :visible.sync="edit" width="284px" :close-on-click-modal="true">
             <img-edit @saveImg="saveImg"></img-edit>
         </el-dialog>
@@ -38,6 +45,7 @@
                 imgurl:'',
                 imgFormData: "",
                 edit:false,
+                dataUrl:"",
             }
         },
         props: {
@@ -61,9 +69,13 @@
                 type: Boolean,
                 default: false
             },
-            img:{
+            img:{ //图片地址
                 type:String,
                 default:"",
+            },
+            fileType:{ //上传类型 1图片 2MP3
+                type:[String,Number],
+                default:1,
             }
         },
         watch:{
@@ -74,10 +86,14 @@
         methods: {
             // 选择图片
             uploadChange(file, fileList) {
-                console.log(file.raw.type);
                 const type = file.raw.type;
-                let typeArr = ["image/jpeg","image/png","image/jpg"]
-                console.log(typeArr.indexOf(type) != -1);
+                console.log(type);
+                let typeArr = []
+                if(this.fileType == 1){
+                    typeArr = ["image/jpeg","image/png","image/jpg"]
+                }else if (this.fileType == 2) {
+                    typeArr = ["audio/mp3"]
+                }
                 if(typeArr.indexOf(type) != -1){
                     this.imgurl = URL.createObjectURL(file.raw);
                     this.imgFormData = file.raw;
@@ -86,7 +102,7 @@
                     }
                 }else{
                     this.$message({
-                        message: '请选择正确格式的图片',
+                        message: '请选择正确格式的文件',
                         type: 'error'
                     });
                 }
@@ -101,33 +117,40 @@
             //手动上传图片
             submitUpload() {
                 var _this = this;
-                if (this.imgurl != "") {
-                    if (this.hitting) {
-                        lrz(_this.imgurl)
-                            .then(function (rst) {
-                                //成功时执行
-                                console.log("压缩图片",rst.file);
-                                _this.$post(_this.$api.upload,rst.formData).then((data) => {
-                                    _this.$emit("change",data.path)
-                                })
-                            }).catch(function (error) {
-                            //失败时执行
-                        }).always(function () {
-                            //不管成功或失败，都会执行
-                        })
+                if(this.fileType==1){
+                    if (this.imgurl != "") {
+                        if (this.hitting) {
+                            lrz(_this.imgurl)
+                                .then(function (rst) {
+                                    //成功时执行
+                                    console.log("压缩图片",rst.file);
+                                    _this.$post(_this.$api.upload,rst.formData).then((data) => {
+                                        _this.$emit("change",data.path)
+                                    })
+                                }).catch(function (error) {
+                                //失败时执行
+                            }).always(function () {
+                                //不管成功或失败，都会执行
+                            })
+                        } else {
+                            console.log("不压缩");
+                            this.$uploadImg(this.$api.upload, this.imgFormData).then((data) => {
+                                this.$emit("change",data.path)
+                            })
+                        }
                     } else {
-                        console.log("不压缩");
-                        this.$uploadImg(this.$api.upload, this.imgFormData).then((data) => {
-                            this.$emit("change",data.path)
-                        })
+                        this.$message({
+                            message: '请选择图片',
+                            type: 'info'
+                        });
                     }
-                } else {
-                    this.$message({
-                        message: '请选择图片',
-                        type: 'info'
-                    });
+                }else if (this.fileType==2) {
+                    console.log("上传MP3");
+                    this.$uploadImg(this.$api.upload, this.imgFormData).then((data) => {
+                        this.dataUrl = data.path
+                        this.$emit("change",data.path)
+                    })
                 }
-
             },
         },
     }

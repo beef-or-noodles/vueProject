@@ -49,7 +49,6 @@
                 this.$post(this.$api.queryArtice, params).then((data) => {
                     this.tableData = data.data;
                     this.paging.total = data.total;
-                    this.tableData = data.data;
                 });
             },
             checkArtice(item){

@@ -64,7 +64,6 @@
             getTreeList() {
                 this.$post(this.$api.queryColumn, {
                     type: 2,
-                    userID:this.userID,
                 }).then((data) => {
                     this.list = data;
                 });

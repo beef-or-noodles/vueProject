@@ -73,7 +73,6 @@
 
 
         <el-dialog title="添加MP3" :close-on-click-modal="false" width="80%" :visible.sync="addPhotoDia">
-
             <div class="photoList">
                 <div class="list" v-for="(item,index) in photoList" :key="index">
                     <div class="close el-icon-delete" @click="delectPhoto(item.id,index)"></div>
@@ -81,17 +80,52 @@
                         <img :src="item.imgurl" alt="有误">
                     </div>
                     <div class="titleBox">
-                        <div class="author">标题</div>
-                        <div class="author">zuozasfasd标题标题标题标题</div>
+                        <div class="author">{{item.articeTitle}}</div>
+                        <div class="author">{{item.author}}</div>
                     </div>
                 </div>
-                <div class="upload el-icon-circle-plus-outline"></div>
+                <div class="upload el-icon-circle-plus-outline" @click="MP3dia = true"></div>
             </div>
             <div class="block">
                 <wPage @pageSize="pageSize" @pageNo="pageNo" :size="paging.pageSize" :total="paging.total"></wPage>
             </div>
         </el-dialog>
 
+        <!-- 弹窗 -->
+        <el-dialog title="上传歌曲" :close-on-click-modal="false" width="500px" :visible.sync="MP3dia">
+            <el-form v-model="fromData" label-width="85px">
+                <el-form-item label="乐集名称：">
+                    <el-input v-model="fromArtie.articeTitle" placeholder="歌名" size="small"
+                              autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="歌手：">
+                    <el-input v-model="fromArtie.author" placeholder="歌手"></el-input>
+                </el-form-item>
+                <el-row>
+                    <el-col :span="12">
+                    <el-form-item label="封面图：" prop="imgUrl">
+                        <fileupload :img="fromArtie.imgurl" @change="fileChangeMP3" :autoUp="false"
+                                    :copper="true"></fileupload>
+                    </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="上传MP3：" prop="imgUrl">
+                            <fileupload fileType="2" :img="fromArtie.content" @change="mp3Change" :autoUp="true"></fileupload>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-form-item label="是否显示：">
+                            <el-switch v-model="fromArtie.checkRoot" active-color="#13ce66" inactive-color="#ff4949"
+                                       active-text="是" inactive-text="否"></el-switch>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="MP3dia = false" size="mini">取 消</el-button>
+                <el-button type="primary" @click="addMp3()" size="mini">确 定</el-button>
+            </div>
+        </el-dialog>
 
     </div>
 </template>
@@ -107,6 +141,7 @@
                 addPhotoDia: false,
                 creatPhoto: false,
                 isCompress: true, //是否压缩
+                MP3dia:false,
                 imgFormData: '', //图片file对象
                 imgUrl: '',
                 updateID: '',
@@ -132,6 +167,18 @@
                     total: 0,
                     type: 0
                 },
+                fromArtie: {
+                    articeTitle: '',
+                    abstract: '',
+                    imgurl: '',
+                    content: '',
+                    columnId: {},
+                    author: '',
+                    checkRoot: true,
+                    setTime: new Date(),
+                    creatTime: new Date(),
+                },
+                articeId:"",
             }
         },
         watch: {
@@ -151,7 +198,22 @@
                     };
                     this.submitType = 1;
                 }
-            }
+            },
+            MP3dia(val) {
+                if (!val) {
+                    this.fromArtie = {
+                        articeTitle: '',
+                        abstract: '',
+                        imgurl: '',
+                        content: '',
+                        columnId: {},
+                        author: '',
+                        checkRoot: true,
+                        setTime: new Date(),
+                        creatTime: new Date(),
+                    }
+                }
+            },
         },
         mounted() {
             //do something after mounting vue instance
@@ -215,7 +277,28 @@
                 });
 
             },
-            keepSort() {
+            /*保存MP3*/
+            addMp3() {
+                var params = this.fromArtie;
+                if (this.fromArtie.articeTitle == "") {
+                    this.$message({
+                        message: '请输入标题',
+                        type: 'info'
+                    });
+                }else {
+                    params.columnId = this.selectRow
+                    if (this.articeId == '') {
+                        this.$post(this.$api.addArtice, params).then((data) => {
+                            this.photoList.push(params);
+                            this.MP3dia = false;
+                        });
+                    } else {
+                        params.id = this.articeId;
+                        this.$post(this.$api.updateArtice, params).then((data) => {
+                            this.MP3dia = false;
+                        });
+                    }
+                }
 
             },
             // 修改栏目
@@ -246,8 +329,11 @@
             fileChange(val) {
                 this.fromData.imgUrl = val;
             },
-            photoChange(val) {
-                this.saverPhoto(val)
+            mp3Change(val){
+                this.fromArtie.content = val
+            },
+            fileChangeMP3(val){
+              this.fromArtie.imgurl = val
             },
             pageSize(val) {
                 this.paging.pageSize = val;
@@ -265,24 +351,6 @@
                     this.paging.total = data.total;
                 });
             },
-
-            saverPhoto(url) {
-                let params = {
-                    articeTitle: '',
-                    abstract: '',
-                    imgurl: url,
-                    content: '',
-                    columnId: this.selectRow,
-                    author: '',
-                    checkRoot: false,
-                    setTime: new Date(),
-                    creatTime: new Date(),
-                }
-                this.$post(this.$api.addArtice, params).then((data) => {
-                    this.photoList.push(params)
-                });
-            },
-
 
             delectPhoto(id, index) {
                 let params = {

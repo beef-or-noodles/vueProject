@@ -143,9 +143,9 @@ router.post('/queryArtice', function(req, res) {
   let pageNo = (params.pageNo - 1) * params.pageSize;
   let pageSize = params.pageSize;
   var sqls = "";
-  if (params.type == 0) {
+  if (params.type == 0) {//查询所有
     sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
-  } else if (params.type == 1) {
+  } else if (params.type == 1) {//查询可看文章
     sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and checkRoot = 1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
   }
 
