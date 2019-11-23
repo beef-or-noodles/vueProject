@@ -48,38 +48,13 @@
                   total:0,
                   value:0,
                 },
-                musicData:{
-                    id: "",
-                    title: "",
-                    author: "",
-                    imgurl: "",
-                    describe: "",//描述里面放音乐路径
-                },
+                musicData:{},
                 index:0,//当前第几首歌曲
-                musicList: [{
-                    id: 1,
-                    title: "涅槃 (Phoenix)",
-                    author: "英雄联盟",
-                    imgurl: "https://p3fx.kgimg.com/stdmusic/20191009/20191009021205850636.jpg",
-                    describe: "https://webfs.yun.kugou.com/201911111749/edff5d77053dd5be6e677d9fde2f87da/G171/M0B/18/10/i5QEAF2c0cKAJ63iADBEFy9sicA739.mp3",//描述里面放音乐路径
-                }, {
-                    id: 2,
-                    title: "Legends Never Die",
-                    author: "Against The Current",
-                    imgurl: "https://p3fx.kgimg.com/stdmusic/20170918/20170918105747502541.jpg",
-                    describe: "https://webfs.yun.kugou.com/201911121301/93ad0c0ea5235011fff7813b81f762ec/G122/M09/1B/15/ug0DAFpQhAOAGHMRADlkainBqUw352.mp3",//描述里面放音乐路径
-                }, {
-                    id: 3,
-                    title: "Worlds Collide",
-                    author: "Nicki Taylor",
-                    imgurl: "https://p3fx.kgimg.com/stdmusic/20180106/20180106144006581911.jpg",
-                    describe: "https://webfs.yun.kugou.com/201911121039/00388c4fc765062e4f953e923a94a3e4/G124/M01/1F/00/HIcBAFpQhCCAQkxOADTWswZN7I4358.mp3",//描述里面放音乐路径
-                }],
             }
         },
         mounted() {
             this.audio = this.$refs.audio;
-            this.init();
+            /*this.init();*/
         },
         props: {
             musicList: {
@@ -99,7 +74,7 @@
         methods: {
             init(){
                 this.musicData = this.musicList[this.index];
-                this.audio.src = this.musicData.describe;
+                this.audio.src = this.musicData.content;
             },
             loadMp3() {
                 let url = ""
@@ -135,7 +110,7 @@
                 /*切换选项前先设置状态为暂停*/
                 this.playState = false;
                 this.index = index;
-                this.playAudio(item.describe);
+                this.playAudio(item.content);
                 this.musicData = item;
             },
             arrowLeft(){
@@ -164,7 +139,7 @@
                     audio.pause();
                     this.playState = false
                 } else {
-                    if (this.musicData.describe != url) {/*url不同重新加载MP3然后播放*/
+                    if (this.musicData.content != url) {/*url不同重新加载MP3然后播放*/
                         audio.src = url;
                         audio.load();
                     }

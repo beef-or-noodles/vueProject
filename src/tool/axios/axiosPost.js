@@ -7,7 +7,7 @@ import api from '../api/apiurl.js'
 import store from '../vuex/store/store.js'
 // axios.defaults.withCredentials = true; //是否携带cookie
 axios.defaults.baseURL = api.baseURL; //默认请求地址
-axios.defaults.timeout = 6000;
+axios.defaults.timeout = 15000;
 let loading = null;
 let timer = null
 // 设置拦截器
