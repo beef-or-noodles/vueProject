@@ -15,6 +15,7 @@ var sqlMap = {
   column: {
     addColumn: 'insert into columnlist(columnName, belongId, sort, checkRoot, belongName,`describe`,imgUrl, userID,isType) values ( ?, ?, ?, ?,?,?,?,?,?);', //增加栏目
     queryColumn: 'select * from columnlist where userID=? AND isType = 0;', //查询栏目表
+    queryAllColumn:'select * from columnlist where isType = 0', //查询栏目表'
     queryTopColumn: 'select * from columnlist where userID=? and belongId = ?;', //查询栏目表
     queryPhoto: 'SELECT * FROM columnlist WHERE userID = ? AND isType = ?; ',
     delectColumn: 'delete from columnlist where id in (?);', //删除栏目
@@ -22,7 +23,8 @@ var sqlMap = {
     updateColumn: 'update columnlist set columnName = ? ,belongId = ? , checkRoot = ? ,belongName = ?, sort = ? , `describe` = ? ,imgUrl = ? where id = ?;', //根据ID修改
   },
   artice: {
-    addArtice: 'insert into artice(userID,columnId,articeTitle,abstract,content,author,checkRoot,imgurl,columnName,setTime,strTime) values(?,?,?,?,?,?,?,?,?,?,?);', //添加文章
+    addArtice: 'insert into artice(userID,columnId,articeTitle,abstract,content,author,checkRoot,imgurl,columnName,setTime,strTime,articeType) values(?,?,?,?,?,?,?,?,?,?,?,?);', //添加文章
+    addArticeNoimg: 'insert into artice(userID,columnId,articeTitle,abstract,content,author,checkRoot,columnName,setTime,strTime,articeType) values(?,?,?,?,?,?,?,?,?,?,?);', //添加文章
     queryArtice: 'select * from artice where recycle=1 and columnId=?', //根据栏目id查找文章
     delectArtice: 'DELETE FROM artice WHERE id in (?);', //删除文章
     updateArtice: 'update artice set columnId=?,articeTitle=?,abstract=?,content=?,author=?,checkRoot=?,imgurl=?,columnName=?,setTime=? where id = ?', //修改文章

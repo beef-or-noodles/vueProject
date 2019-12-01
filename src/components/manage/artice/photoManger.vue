@@ -276,6 +276,7 @@ export default {
           checkRoot: false,
           setTime: new Date(),
           creatTime: new Date(),
+          articeType:1,
       }
       this.$post(this.$api.addArtice, params).then((data) => {
         this.photoList.push(params)

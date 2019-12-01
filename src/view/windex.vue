@@ -33,42 +33,13 @@
         data() {
             return {
                 leftNav: false,
-                musicList:[],
-                paging: {
-                    pageNo: 1,
-                    pageSize: 20,
-                    total: 0,
-                },
             }
         },
         mounted(){
-          this.getTreeList()
         },
         methods: {
             close(val) {
                 this.leftNav = val;
-            },
-            //得到栏目列表queryRecommend
-            getTreeList() {
-                this.$post(this.$api.queryPhoto, {
-                    isType: 2,
-                }).then((data) => {
-                    console.log(data);
-                    if(data.length>0){
-                        this.queryArtice(data[0].id)
-                    }
-
-                });
-            },
-            // 根据栏目ID查询文章列表
-            queryArtice(id) {
-                let params = this.paging;
-                params.columnId = id;
-                params.type = 1;
-                this.$post(this.$api.queryArtice, params).then((data) => {
-                    this.paging.total = data.total;
-                    this.musicList = data.data;
-                });
             },
         },
     }

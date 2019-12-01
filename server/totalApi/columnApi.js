@@ -87,6 +87,9 @@ function sortRule(title,type){
 router.post('/queryColumn', (req, res) => {
   var sql = $sql.column.queryColumn;
   var type = req.body.type;
+  if(type == 2){
+    sql = $sql.column.queryAllColumn;
+  }
   var userID = req.headers.token;
   conn.query(sql,[userID], function(err, result) {
     if (err) {
@@ -323,5 +326,7 @@ router.post('/queryPhoto',(req,res)=>{
     }
   });
 });
+
+
 
 module.exports = router;

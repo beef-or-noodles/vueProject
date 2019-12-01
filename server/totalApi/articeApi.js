@@ -21,13 +21,15 @@ router.post('/addArtice', function(req, res) {
     params.checkRoot = 0;
   }
   var userID = req.headers.token;
-  if (params.imgurl == '') {
-    params.imgurl = '/server/upload/noImg.png'
-  }
-  var sql = $sql.artice.addArtice;
   var time = new Date(params.setTime).getTime().toString();
   var strTime = new Date(params.setTime).Format("yyyy-MM-dd HH:mm").toString();
-  conn.query(sql, [userID,params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.imgurl, params.columnId.name, time,strTime], function(err, result) {
+  var sql = $sql.artice.addArtice;
+  var arr = [userID,params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.imgurl, params.columnId.name, time,strTime, params.articeType]
+  if (params.imgurl == '') {
+    sql =  $sql.artice.addArticeNoimg
+    arr = [userID,params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.columnId.name, time,strTime,params.articeType]
+  }
+  conn.query(sql, arr, function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -143,14 +145,18 @@ router.post('/queryArtice', function(req, res) {
   let pageNo = (params.pageNo - 1) * params.pageSize;
   let pageSize = params.pageSize;
   var sqls = "";
-  if (params.type == 0) {//查询所有
-    sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
-  } else if (params.type == 1) {//查询可看文章
-    sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and checkRoot = 1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
+  var arr = []
+  if(params.columnId == "" || typeof params.columnId==="undefined"){
+    sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and articeType = 0;select * from artice where recycle=1 and checkRoot = 1 and articeType = 0 order by setTime DESC limit ${pageNo},${pageSize}`
+  }else{
+    arr = [params.columnId]
+    if (params.type == 0) {//查询所有
+      sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
+    } else if (params.type == 1) {//查询可看文章
+      sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and checkRoot = 1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
+    }
   }
-
-
-  conn.query(sqls, [params.columnId], function(err, result) {
+  conn.query(sqls, arr,function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);

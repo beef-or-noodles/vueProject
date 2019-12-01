@@ -177,6 +177,7 @@
                     checkRoot: true,
                     setTime: new Date(),
                     creatTime: new Date(),
+                    articeType:2,
                 },
                 articeId:"",
             }

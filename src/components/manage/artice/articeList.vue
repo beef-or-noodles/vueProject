@@ -167,6 +167,7 @@ export default {
         checkRoot: true,
         setTime: new Date(),
         creatTime: new Date(),
+        articeType:0,
       },
       tableData: [],
       treeData: [],
@@ -195,6 +196,7 @@ export default {
           checkRoot: true,
           setTime: new Date(),
           creatTime: new Date(),
+          articeType:0,
         }
         this.articeId = "";
         this.stickDate = 1; //置顶天数
