@@ -27,7 +27,7 @@
         <div class="mp3List" :class="{active:listHide}">
             <div class="selectmp3" v-for="(item,index) in musicList">
                 <a @click="setMusicData(item,index)" :class="{active:item.id == musicData.id}">{{item.articeTitle}}-{{item.author}}</a>
-                <div class="icon el-icon-close"></div>
+               <!-- <div class="icon el-icon-close"></div>-->
             </div>
         </div>
     </div>
