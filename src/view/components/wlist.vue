@@ -75,7 +75,7 @@
             overflow: hidden;
             min-height:137px;
             .pic{
-                width: 150px;
+                width: 105px;
                 height: 105px;
                 overflow: hidden;
                 display: flex;
@@ -115,7 +115,7 @@
             }
             .right{
                 position: absolute;
-                width: calc(100% - 180px);
+                width: calc(100% - 150px);
                 right: 0;
                 top: 15px;
                 &.noImg{

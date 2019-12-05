@@ -4,12 +4,12 @@
             滚动图片
         </div>
         <div class="list">
-            <div class="box" :key="index" :class="[index%4==3||index%4==0?'bg1':'bg2']" v-for="(item,index) in dataList">
-                <div>{{item.articeTitle}}</div>
-                <div>{{item.abstract}}</div>
-                <div>{{item.strTime}}</div>
-                <div>{{item.autor}}</div>
+            <div class="box" @click="detail(item)" :key="index" :class="[index%4==3||index%4==0?'bg1':'bg2']" v-for="(item,index) in dataList">
                 <div class="img"><img :src="item.imgurl" alt=""></div>
+                <div class="title">{{item.articeTitle}}</div>
+                <div class="desc">{{item.abstract}}</div>
+                <div class="time">{{item.strTime}}</div>
+                <div>{{item.autor}}</div>
             </div>
         </div>
     </div>
@@ -39,9 +39,13 @@
                 this.$post(this.$api.queryArtice, params).then((data) => {
                     this.paging.total = data.total;
                     this.dataList = data.data
-                    console.log(data);
                 });
             },
+            detail(item){
+                this.$router.push({
+                    path:"/content/"+item.id,
+                })
+            }
         },
     }
 </script>
@@ -60,8 +64,15 @@
             width: 50%;
             padding: 15px;
             box-sizing: border-box;
+            text-align: justify;
+            &:hover{
+                cursor: pointer;
+                .title{
+                    color:#e64f2a;
+                }
+            }
             &.bg1{
-                background: rgba(230,79,42,.2);
+                background: rgba(230,79,42,.1);
             }
             &.bg2{
                 /*background: #409EFF;*/
@@ -70,9 +81,25 @@
                 width: 80px;
                 height: 80px;
                 overflow: hidden;
+                border-radius: 10px;
+                margin: 0 auto;
                 img{
                     width: 100%;
                 }
+            }
+            .title{
+                text-align: center;
+                margin: 10px 0;
+                font-size: 14px;
+            }
+            .desc{
+                text-align: center;
+                color: #868686;
+                font-size: 12px;
+            }
+            .time{
+                font-size: 12px;
+                text-align: center;
             }
         }
     }

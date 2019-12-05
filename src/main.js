@@ -44,6 +44,7 @@ new Vue({
 //路由守卫
 router.beforeEach((to, from, next) => {
   var login = store.state.userData.user_info;
+  document.documentElement.scrollTop=document.body.scrollTop=0;
   if(to.meta.rootLogin){
     if(!login.isLogin){
       ElementUi.Message.error("请登陆")

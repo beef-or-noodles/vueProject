@@ -41,6 +41,13 @@
                 },
             }
         },
+        created(){
+            // 插入 meta 标签
+            var oMeta = document.createElement('meta');
+            oMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0, user-scalable=0';
+            oMeta.name = 'viewport';
+            document.getElementsByTagName('head')[0].appendChild(oMeta);
+        },
         mounted(){
           this.getTreeList()
         },
