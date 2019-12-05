@@ -65,11 +65,18 @@
         },
         mounted() {
             this.init();
-            let _this = this;
-            var dom = document.getElementById("myCanvas");
-            let n = 200
-            window.onscroll = function () {
-                var t = document.documentElement.scrollTop || document.body.scrollTop; //变量t就是滚动条滚动时，到顶部的距离
+        },
+        props: {
+            scroll: {
+                type: Number,
+                default: 0
+            },
+        },
+        watch: {
+            scroll(t) {
+                let _this = this;
+                var dom = document.getElementById("myCanvas");
+                let n = 200
                 if (t / 200 <= 1) {
                     _this.option = t / 200;
                 } else {
@@ -230,6 +237,7 @@
             width: 100%;
             height: @height;
             font-size: 14px;
+            overflow: hidden;
         }
 
         .centerBox {

@@ -1,6 +1,6 @@
 <template>
     <div class="indexBg">
-        <wheader @close="close"></wheader>
+        <wheader :scroll="scroll" @close="close"></wheader>
         <waudio :musicList="musicList"></waudio>
         <div class="content">
             <div class="centerBox">
@@ -15,9 +15,9 @@
         <div class="footer">
 
         </div>
-        <div class="bikes">
+       <!-- <div class="bikes">
             <div class="bike bikeAni"></div>
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -39,6 +39,7 @@
                     pageSize: 20,
                     total: 0,
                 },
+                scroll:0,
             }
         },
         created(){
@@ -49,7 +50,12 @@
             document.getElementsByTagName('head')[0].appendChild(oMeta);
         },
         mounted(){
-          this.getTreeList()
+          this.getTreeList();
+            let _this = this;
+            window.onscroll = function () {
+                var t = document.documentElement.scrollTop || document.body.scrollTop; //变量t就是滚动条滚动时，到顶部的距离
+                _this.scroll = t
+            }
         },
         methods: {
             close(val) {
@@ -94,24 +100,19 @@
    .content{
        background: #efefef;
        width: 100%;
-       min-height: calc(100vh - 360px);
-       padding-bottom: 10px;
    }
     .centerBox{
-        &>div{
-           float: left;
-        }
+        overflow: hidden;
         .left{
+            float: left;
             width: 280px;
             &.leftNav{
                 right: -280px;
             }
         }
         .right{
-            margin-left: 20px;
+            float: right;
             width: calc(100% - 300px);
-            height: 100%;
-            overflow: auto;
         }
     }
     .footer{
