@@ -8,7 +8,7 @@
                     <wleft></wleft>
                 </div>
                 <div class="right">
-                    <router-view> </router-view>
+                    <router-view ref="view"> </router-view>
                 </div>
             </div>
         </div>
@@ -55,7 +55,18 @@
             window.onscroll = function () {
                 var t = document.documentElement.scrollTop || document.body.scrollTop; //变量t就是滚动条滚动时，到顶部的距离
                 _this.scroll = t
+                /*到底加载更多数据*/
+                if(t+$(window).height()==$(document).height()){
+                    try {
+                        _this.$refs.view.pagingData();
+                    }catch (e) {
+
+                    }
+
+                }
             }
+
+
         },
         methods: {
             close(val) {
@@ -66,7 +77,6 @@
                 this.$post(this.$api.queryPhoto, {
                     isType: 2,
                 }).then((data) => {
-                    console.log(data);
                     if(data.length>0){
                         this.queryArtice(data[0].id)
                     }
@@ -116,6 +126,6 @@
         }
     }
     .footer{
-        height: 150px;
+        height: 50px;
     }
 </style>

@@ -55,6 +55,15 @@
                 this.$router.push({
                     path:"/content/"+item.id,
                 })
+            },
+            /*分页查询*/
+            pagingData(){
+                if(this.paging.pageNo*this.paging.pageSize < this.paging.total){
+                    this.paging.pageNo++;
+                    this.queryArtice()
+                }else{
+                    console.log("没有更多了");
+                }
             }
         },
     }

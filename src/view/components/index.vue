@@ -32,7 +32,7 @@
             this.queryArtice()
         },
         methods: {
-            // 根据栏目ID查询文章列表
+            //查询文章列表
             queryArtice() {
                 let params = this.paging;
                 params.type = 1;
@@ -45,6 +45,15 @@
                 this.$router.push({
                     path:"/content/"+item.id,
                 })
+            },
+            /*分页查询*/
+            pagingData(){
+                if(this.paging.pageNo*this.paging.pageSize < this.paging.total){
+                    this.paging.pageNo++;
+                    this.queryArtice()
+                }else{
+                    console.log("没有更多了");
+                }
             }
         },
     }
