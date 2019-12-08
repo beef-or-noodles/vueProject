@@ -36,7 +36,7 @@
                 musicList:[],
                 paging: {
                     pageNo: 1,
-                    pageSize: 20,
+                    pageSize: 10,
                     total: 0,
                 },
                 scroll:0,
@@ -58,7 +58,10 @@
                 /*到底加载更多数据*/
                 if(t+$(window).height()==$(document).height()){
                     try {
-                        _this.$refs.view.pagingData();
+                        setTimeout(()=>{
+                           _this.$refs.view.pagingData();
+                        },300)
+
                     }catch (e) {
 
                     }

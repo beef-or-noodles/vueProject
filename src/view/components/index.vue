@@ -23,7 +23,7 @@
                 dataList:[],
                 paging: {
                     pageNo: 1,
-                    pageSize: 20,
+                    pageSize: 10,
                     total: 0,
                 },
             }
@@ -38,7 +38,7 @@
                 params.type = 1;
                 this.$post(this.$api.queryArtice, params).then((data) => {
                     this.paging.total = data.total;
-                    this.dataList = data.data
+                    this.dataList.push(...data.data)
                 });
             },
             detail(item){

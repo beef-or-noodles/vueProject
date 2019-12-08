@@ -47,7 +47,7 @@
                 params.columnId = this.columnId;
                 params.type = 1;
                 this.$post(this.$api.queryArtice, params).then((data) => {
-                    this.tableData = data.data;
+                    this.tableData.push(...data.data);
                     this.paging.total = data.total;
                 });
             },
