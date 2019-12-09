@@ -88,7 +88,6 @@
                 $("#waterFall>div").css('width', divWidth);
                 _this.arrHeight = new Array(index).fill(0) //数组长度
                 _this.arrLeft = new Array(index).fill(0) //偏移量
-                console.log(_this.arrLeft,div);
                 //计算该有的偏移量
                 for (var i = 0; i < _this.arrLeft.length; i++) {
                     var left = (divWidth * i) + (interval * i)

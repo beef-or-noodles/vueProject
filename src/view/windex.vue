@@ -113,6 +113,7 @@
    .content{
        background: #efefef;
        width: 100%;
+       min-height: calc(100vh - 320px);
    }
     .centerBox{
         overflow: hidden;

@@ -37,6 +37,8 @@
         watch:{
             '$route'(to,form){
                 this.columnId = to.params.id;
+                this.tableData = []
+                this.paging.pageNo = 1;
                 this.queryArtice();
             }
         },

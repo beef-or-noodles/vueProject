@@ -1,8 +1,5 @@
 <template>
     <div class="home">
-        <div class="banner">
-            滚动图片
-        </div>
         <div class="list">
             <div class="box" @click="detail(item)" :key="index" :class="[index%4==3||index%4==0?'bg1':'bg2']" v-for="(item,index) in dataList">
                 <div class="img"><img :src="item.imgurl" alt=""></div>
@@ -60,12 +57,6 @@
 </script>
 
 <style lang="less" scoped>
-.banner{
-    width: 100%;
-    height: 200px;
-    border-radius: 8px;
-    background: #3a8ee6;
-}
     .list {
         display: flex;
         flex-wrap: wrap;
