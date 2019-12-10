@@ -95,11 +95,6 @@ export default {
   border-right: 3px solid #f56c6c;
 }
 
-.el-menu-item:focus,
-.el-menu-item:hover {
-  background: inherit !important;
-}
-
 .el-submenu .el-menu-item {
   line-height: 40px;
   height: 40px;
@@ -113,13 +108,7 @@ export default {
   }
 </style>
 <style lang="less" scoped>
-.home .el-menu {
-  background: none;
-  color: #808281 !important;
-}
-
 .home {
-  position: absolute;
   width: 100%;
   height: 100vh;
   background: radial-gradient(ellipse at top left, rgba(181, 197, 216, 1) 0%, rgba(105, 155, 200, 1) 57%);
