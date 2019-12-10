@@ -47,7 +47,7 @@ const router = new Router({
         },{
             path: '/dome',
             name: 'dome',
-            component: resolve => require(['@/view/components/componentView/a_water_fall.vue'], resolve),
+            component: resolve => require(['@/view/components/componentView/aWaterFall.vue'], resolve),
             meta: {title: 'dome'},
         }, {
             path: '/home',

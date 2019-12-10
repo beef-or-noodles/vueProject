@@ -1,16 +1,10 @@
 <template>
     <div>
         <div class="Afall" id="Afall">
-            <div class="fallBox" :key="index" v-for="(item,index) in dataList">
-
-                {{index}}
+            <div ref="fallBox" class="fallBox" :key="index" v-for="(item,index) in dataList">
+                <slot :row="item"></slot>
             </div>
         </div>
-        <div class="fb">
-            <el-button  type="primary" style="" @click="setData">加载更多</el-button>
-            <el-button  type="primary" style="" @click="clear">清空</el-button>
-        </div>
-
     </div>
 
 </template>
@@ -31,27 +25,25 @@
       }
     },
     mounted() {
-      this.init()
-    },
-    updated(){
-        this.loadList()
+        this.init();
     },
     methods: {
-      clear(){
-          this.dataList= []
-          this.addList=[]//添加的数据
-          this.oldLength=0//原始长度
-          this.init()
-      },
-      setData(){
+      setData(data){
         this.oldLength = this.dataList.length;
-        this.addList = new Array(4).fill(0);
+        this.addList = data
         this.dataList.push(...this.addList)
+          setTimeout(()=>{
+              this.loadList()
+          },100)
       },
       init() {
         let col = this.col;
         let box = $("#Afall");
         this.boxDom = box;
+        console.log(box.width());
+        if (box.width()<600){
+            col = 2
+        }
         let width = box.width() / col;
         this.divWidth = width;
         let arrHeight = new Array(col).fill(0) //每列的高度
@@ -64,22 +56,23 @@
       },
       loadList(){
         let box = this.boxDom
-        let divList = $("#Afall .fallBox");
+        let divList = this.$refs.fallBox;
         let oldLength = this.oldLength-1;//0
         let arrHeight = this.arrHeight;
         let arrLeft = this.arrLeft;
         let width = this.divWidth
         for (let i = 1; i <= this.addList.length; i++) {
           let x = oldLength + i;
-          let rand = Math.random()*200 +100
           let min = Math.min(...arrHeight);
           divList[x].style.width = width+"px";
-          divList[x].style.height = rand+"px";
+          let divHeight = divList[x].offsetHeight
+            divList[x].style.height = divHeight+"px";
           for (let j = 0; j < arrHeight.length; j++) {
             if (arrHeight[j]==min) {
               divList[x].style.top = arrHeight[j]+"px";
               divList[x].style.left = arrLeft[j]+"px";
-              arrHeight[j] = arrHeight[j]+divList[x].offsetHeight
+              divList[x].style.opacity = 1
+              arrHeight[j] = arrHeight[j]+divHeight
               break;
             }
           }
@@ -99,15 +92,14 @@
     .Afall {
         position: relative;
         width: 100%;
-        background-color: #e8f4ff;
     }
     .fallBox {
         position: absolute;
-        transition: all .36s ease;
-        background-color: #0e6dad;
-        color: white;
-        left: 50%;
-        bottom: 0;
+        transition: all .5s ease;
+        left: 10%;
+        padding: 5px;
+        box-sizing: border-box;
+        opacity: 0;
     }
     .fb{
         position: fixed;

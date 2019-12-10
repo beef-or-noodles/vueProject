@@ -8,7 +8,9 @@
                     <wleft></wleft>
                 </div>
                 <div class="right">
-                    <router-view ref="view"> </router-view>
+                    <keep-alive>
+                        <router-view ref="view"> </router-view>
+                    </keep-alive>
                 </div>
             </div>
         </div>
@@ -60,8 +62,7 @@
                     try {
                         setTimeout(()=>{
                            _this.$refs.view.pagingData();
-                        },300)
-
+                        },100)
                     }catch (e) {
 
                     }
@@ -130,6 +131,6 @@
         }
     }
     .footer{
-        height: 50px;
+        height: 150px;
     }
 </style>

@@ -1,14 +1,12 @@
 <template>
     <div class="">
-        <!--<el-button type="primary" style="" @click="pagingData">加载更多</el-button>-->
-<!--        <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>-->
-        <a_water_fall></a_water_fall>
+        <el-button type="primary" style="" @click="pagingData">加载更多</el-button>
+        <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>
     </div>
 </template>
 
 <script>
     import waterFall from './componentView/waterFall.vue'
-    import a_water_fall from './componentView/a_water_fall.vue'
     export default {
         name: 'app',
         data() {
@@ -45,7 +43,7 @@
             }
         },
         components: {
-            waterFall,a_water_fall
+            waterFall
         },
         created() {
             //do something after creating vue instance

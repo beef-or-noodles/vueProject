@@ -1,20 +1,24 @@
 <template>
     <div class="home">
-        <div class="list">
-            <div class="box" @click="detail(item)" :key="index" :class="[index%4==3||index%4==0?'bg1':'bg2']" v-for="(item,index) in dataList">
-                <div class="img"><img :src="item.imgurl" alt=""></div>
-                <div class="title">{{item.articeTitle}}</div>
-                <div class="desc">{{item.abstract}}</div>
-                <div class="time">{{item.strTime}}</div>
-                <div>{{item.autor}}</div>
-            </div>
-        </div>
+        <a-water-fall ref="waterfall">
+            <template slot-scope="scope">
+                <div class="box" @click="detail(scope.row)">
+                    <div class="img"><img :src="scope.row.imgurl" alt=""></div>
+                    <div class="title">{{scope.row.articeTitle}}</div>
+                    <div class="desc">{{scope.row.abstract}}</div>
+                    <div class="time">{{scope.row.strTime}}</div>
+                    <div>{{scope.row.autor}}</div>
+                </div>
+            </template>
+        </a-water-fall>
     </div>
 </template>
 
 <script>
+    import aWaterFall from "./componentView/aWaterFall"
     export default {
         name: "index",
+        components:{aWaterFall},
         data() {
             return {
                 dataList:[],
@@ -35,7 +39,8 @@
                 params.type = 1;
                 this.$post(this.$api.queryArtice, params).then((data) => {
                     this.paging.total = data.total;
-                    this.dataList.push(...data.data)
+                    this.dataList=data.data;
+                    this.$refs.waterfall.setData(data.data);
                 });
             },
             detail(item){
@@ -57,14 +62,14 @@
 </script>
 
 <style lang="less" scoped>
-    .list {
-        display: flex;
-        flex-wrap: wrap;
+
         .box{
-            width: 50%;
+            width: 100%;
             padding: 15px;
             box-sizing: border-box;
             text-align: justify;
+            background: white;
+            border-radius: 6px;
             &:hover{
                 cursor: pointer;
                 .title{
@@ -102,5 +107,5 @@
                 text-align: center;
             }
         }
-    }
+
 </style>
