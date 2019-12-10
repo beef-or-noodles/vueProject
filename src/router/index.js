@@ -44,6 +44,11 @@ const router = new Router({
             name: 'login',
             component: resolve => require(['@/components/manage/login/login.vue'], resolve),
             meta: {title: '登陆'},
+        },{
+            path: '/dome',
+            name: 'dome',
+            component: resolve => require(['@/view/components/componentView/a_water_fall.vue'], resolve),
+            meta: {title: 'dome'},
         }, {
             path: '/home',
             name: 'home',
