@@ -85,6 +85,11 @@ const router = new Router({
                 component: resolve => require(['@/components/manage/userInfo/userEdit.vue'], resolve),
                 meta: {title: '账号管理'},
             },{
+                path: '/home/logList',
+                name: 'logList',
+                component: resolve => require(['@/components/manage/system/logList.vue'], resolve),
+                meta: {title: '接口日志'},
+            },{
                 path: '/home/email',
                 name: 'email',
                 component: resolve => require(['@/components/manage/tool/email.vue'], resolve),

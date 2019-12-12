@@ -14,6 +14,21 @@
  *rootPath : 路由页面路径，对应文件夹路径
  */
 export const routerMenuData = [{
+  rootMainName: '系统',
+  power: true,
+  rooutMainIcon: 'el-icon-setting',
+  menuIndex: '1',
+  rootPath: '/manage/system',
+  rootMainList: [{
+    rootChildName: '系统日志',
+    rootPower: true,
+    rootLogin: true,
+    rootPath: '/manage/system/logList',
+    path: '/home/logList',
+    name: 'logList',
+    icon: 'el-icon-message',
+  }]
+},{
   rootMainName: '文章管理',
   power: true,
   rooutMainIcon: 'el-icon-tickets',

@@ -1,19 +1,15 @@
 <template>
 <div>
-  <el-row :gutter="20">
-    <el-col :span="4">
-      <div class="search">
-        <el-input placeholder="搜索栏目" @keyup.enter.native="searchUser" size="small" v-model="userSearch">
-          <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        </el-input>
-      </div>
-    </el-col>
-    <el-col :span="20">
-      <el-button type="primary" size="small" @click="searchUser" icon="el-icon-search">搜索</el-button>
-      <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加栏目</el-button>
-        <el-button type="warning" size="small" @click="keepSort" icon="el-icon-plus">保存排序</el-button>
-    </el-col>
-  </el-row>
+<div>
+    <el-input placeholder="搜索栏目" style="width: 200px;" @keyup.enter.native="searchUser" size="small" v-model="userSearch">
+      <i slot="prefix" class="el-input__icon el-icon-search"></i>
+    </el-input>
+  <el-button type="primary" size="small" @click="searchUser" icon="el-icon-search">搜索</el-button>
+  <el-button type="primary" size="small" @click="addUserBtn(1)" icon="el-icon-plus">添加栏目</el-button>
+  <el-button type="warning" size="small" @click="keepSort" icon="el-icon-plus">保存排序</el-button>
+
+</div>
+
   <div class="content">
     <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
       <el-table-column label="栏目ID" prop="id" width="80px" show-overflow-tooltip>

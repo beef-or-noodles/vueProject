@@ -5,6 +5,7 @@ const upload = require('./totalApi/uploadApi/upload');
 const columnApi = require('./totalApi/columnApi');
 const articeApi = require('./totalApi/articeApi');
 const sendEmailApi = require('./totalApi/sendEmailApi');
+const system = require('./totalApi/system');
 
 const fs = require('fs');
 const path = require('path');
@@ -15,15 +16,28 @@ let http = require("http");
 let https = require("https");
 const app = express();
 
-
-// // 具体参数我们在后面进行解释
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+//请求拦截
 app.all('*', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+    /*res.header("Access-Control-Allow-Origin", "http://localhost:8080");
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By",'1')
-    res.header("Content-Type", "application/json;charset=utf-8");
+    res.header("Content-Type", "application/json;charset=utf-8");*/
+    let txt = (req.headers["user-agent"].split(";")[0]).split(" ")[1];
+    let versions = txt.substr(1,txt.length);
+    let params = JSON.stringify(req.body);
+    let userId = req.headers.token;
+    let data = {
+        ip:req.ip,
+        api:req.path,
+        params,
+        versions,
+        userId
+    }
+    system.connLog(data)
     next();
 });
 
@@ -39,17 +53,15 @@ app.use(session({
         maxAge : 1000 * 60 * 2, // 设置 session 的有效时间，单位毫秒
     },
 }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
 // 服务开启后访问指定编译好的dist文件下的数据
 app.use(express.static(path.resolve(__dirname, './dist')))
 app.use(express.static(path.resolve(__dirname, './upload')))
 app.get('*', function(req, res) {
-    const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
+    const html = fs.readFileSync(path.resolve(__dirname, './dist/index.html'), 'utf-8')
     res.send(html)
 })
 // 后端api路由
-app.use('/api', [userApi,upload,columnApi,articeApi,sendEmailApi]);
+app.use('/api', [userApi,upload,columnApi,articeApi,sendEmailApi,system.router]);
 
 const httpsOption = { //加入Https证书
     key : fs.readFileSync("./https/2215442_www.smartwu.top.key"),
@@ -58,11 +70,11 @@ const httpsOption = { //加入Https证书
 
 // Create service
 // http.createServer(app).listen(server);
-if (process.env.NODE_ENV === 'production') {
+if (true) {
     //生产环境
     var server =  https.createServer(httpsOption, app)
     var io      = require('socket.io').listen(server);
-    servers.listen('443', () => {
+    server.listen('443', () => {
         console.log('Server listening on Port 443');
     })
 }else{

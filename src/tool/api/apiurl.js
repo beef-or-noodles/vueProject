@@ -40,5 +40,5 @@ export default {
   recommend: baseURL + "/recommend",//设置推荐文章
   queryRecommend: baseURL + "/queryRecommend",//查询推荐文章
 
-
+  queryLog:baseURL + "/queryLog", //查询日志
 }

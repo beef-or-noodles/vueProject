@@ -34,6 +34,9 @@ var sqlMap = {
     recommendArtice: 'update artice set recommend = ? where id = ?', //设置推荐文章
     queryRecommend: 'select * from artice where recommend = 1 and recycle = 1 and checkRoot = 1 order by setTime DESC limit 0,8', //查询前八条数据
   },
+  log:{
+    userLog:'insert into user_log(userId,ip,api,system,params) values(?,?,?,?,?);',
+  },
   //权限
   root:{
     queryRoot:`SELECT

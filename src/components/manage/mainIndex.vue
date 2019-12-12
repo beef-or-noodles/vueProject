@@ -1,6 +1,5 @@
 <template>
 <div class="home">
-
   <div class="allContent">
     <el-container>
       <el-aside width="200px" class="leftNav" :class="{active:isCollapse}">
@@ -24,25 +23,23 @@
       </el-aside>
       <el-container>
         <el-main class="right">
-          <div>
-            <div class="contentTop">
-              <div class="icon">
-                <img :src="getUserInfo.image" alt="">
-              </div>
-              <div class="message">
-                <el-badge :value="200" :max="99">
-                  <i class="el-icon-bell"></i>
-                </el-badge>
-              </div>
-              <div class="setting">
-                <i class="el-icon-setting"></i>
-              </div>
+          <div class="contentTop">
+            <div class="icon">
+              <img :src="getUserInfo.image" alt="">
             </div>
+            <div class="message">
+              <el-badge :value="200" :max="99">
+                <i class="el-icon-bell"></i>
+              </el-badge>
+            </div>
+            <div class="setting">
+              <i class="el-icon-setting"></i>
+            </div>
+          </div>
             <div class="content">
               <!-- 路由出口 -->
               <router-view></router-view>
             </div>
-          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -167,8 +164,7 @@ export default {
 }
 
 .content {
-  padding: 20px;
-  height: 100%;
+  height: calc(100% - 70px);
   overflow: auto;
 }
 

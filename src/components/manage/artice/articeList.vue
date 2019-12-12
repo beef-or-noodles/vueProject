@@ -1,20 +1,14 @@
 <template>
 <div>
-  <el-row :gutter="20">
-    <el-col :span="4">
-      <div class="search">
-        <el-input placeholder="搜索文章" @keyup.enter.native="serchArtice" size="small" v-model="searchName">
-          <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        </el-input>
-      </div>
-    </el-col>
-    <el-col :span="20">
-      <el-button type="primary" @click='serchArtice' size="small" icon="el-icon-search">搜索</el-button>
-      <el-button type="primary" size="small" @click='dialogVisible = true' icon="el-icon-plus">添加文章</el-button>
-      <el-button type="danger" size="small" @click="delect(idList,false)" icon="el-icon-delete">批量删除文章</el-button>
-    </el-col>
-  </el-row>
-  <div class="content">
+  <div>
+    <el-input placeholder="搜索文章" style="width:200px;" @keyup.enter.native="serchArtice" size="small" v-model="searchName">
+      <i slot="prefix" class="el-input__icon el-icon-search"></i>
+    </el-input>
+    <el-button type="primary" @click='serchArtice' size="small" icon="el-icon-search">搜索</el-button>
+    <el-button type="primary" size="small" @click='dialogVisible = true' icon="el-icon-plus">添加文章</el-button>
+    <el-button type="danger" size="small" @click="delect(idList,false)" icon="el-icon-delete">批量删除文章</el-button>
+  </div>
+      <div class="content">
     <div class="columnLeft">
       <div>
         <el-input placeholder="搜索栏目" v-model="filterText" size="small">
