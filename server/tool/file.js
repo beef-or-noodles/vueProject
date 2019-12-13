@@ -93,3 +93,7 @@ export function editFile(path,data){
     }
     return params
 }
+
+module.exports={
+    getReaddir,delectFile
+}
