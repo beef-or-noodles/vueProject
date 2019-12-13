@@ -3,7 +3,7 @@
         <div class="left">
             <div class="listBox" v-for="(item,index) in dataList" @click="activeUser(index)" :key="index" :class="{activeClass:item.active}">
                 <div class="icon">
-                    <img src="../../../assets/images/preview.jpg" alt="">
+                    <img src="" alt="">
                 </div>
                 <div class="title">
                     <h5>{{item.name}}</h5>
@@ -200,7 +200,7 @@
                         float: left;
                     }
                     .message{
-                        background: url("../../../assets/images/ltBg.png");
+
                         background-size: 100% 100%;
                         margin-bottom: 15px;
                         color: white;
@@ -211,7 +211,7 @@
                         border-radius: 5px;
                     }
                     .ic{
-                        background: url("../../../assets/images/rgif.gif");
+
                         width: 35px;
                         height: 35px;
                         background-size: 100% 100%;

@@ -1,10 +1,9 @@
 <template>
   <div class="content">
     <div class="Pages">
-      <img src="@/assets/images/404bg.jpg" alt="404页面未找到">
+      <div class="bike bikeAni" :class="{active:back}"></div>
       <div class="txt">
-        一不小心走丢了。。。。<br />
-        3S后返回上一页
+        404：我迷路了=><span class="goback" @click="goback">返回</span>
       </div>
     </div>
   </div>
@@ -13,19 +12,24 @@
 export default {
   data(){
     return{
-
+      back:false
     }
   },
   created() {
-    //do something after creating vue instance
-    let _this = this;
-    // setTimeout(function () {
-    //   _this.$router.go(-1);
-    // }, 3000);
+
+  },
+  methods:{
+    goback(){
+      this.back = true;
+      setTimeout(()=>{
+        this.$router.go(-1);//返回上一层
+      },900)
+    }
   }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
+  @import "less/bike.less";
 .content{
   position: absolute;
   width: 100%;
@@ -36,11 +40,32 @@ export default {
       justify-content:center;
       align-items:Center;
 }
+  .Pages{
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction:column;
+    width: 180px;
+    height: 180px;
+  }
 .Pages img{
   width: 300px;
   height: 300px;
 }
+.active{
+  left: -1400px;
+}
 .txt{
   font-size: 18px;
+  font-weight: bold;
+  position: absolute;
+  top:140px ;
+  width: 100%;
 }
+  .goback{
+    &:hover{
+      cursor: pointer;
+    }
+    color: #E64F2A;
+  }
 </style>
