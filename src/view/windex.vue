@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="footer">
-
+            Copyright 2018 by wuwanqiang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;渝ICP备19006911号-1
         </div>
     </div>
 </template>
@@ -100,10 +100,9 @@
    @import "less/public.less";
    .indexBg{
        position: relative;
-       background: url("../assets/images/bg.jpg") no-repeat;
-       background-size: cover;
-       background-attachment: fixed;
-       background-position:center center;
+       background: #4568DC;
+       background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);
+       background: linear-gradient(to right, #B06AB3, #4568DC);
    }
    .content{
        background: #efefef;
@@ -125,6 +124,10 @@
         }
     }
     .footer{
-        height: 150px;
+        text-align: center;
+        background: #efefef;
+        margin-top: 20px;
+        font-size: 12px;
+        line-height: 50px;
     }
 </style>
