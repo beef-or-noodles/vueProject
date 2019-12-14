@@ -1,12 +1,31 @@
 <template>
     <div class="">
-        <el-button type="primary" style="" @click="pagingData">加载更多</el-button>
-        <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>
+<!--        <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>-->
+        <a-water-fall ref="waterfall">
+            <template slot-scope="scope">
+                <div class="centerbox">
+                    <img class="img" :src="scope.row.imgUrl" alt="">
+                    <div class="msgBox">
+                        <div class="zanBtn el-icon-star-off" title="更多小星星" style="color:red;"></div>
+                        <div class="zan_num">{{scope.row.goodNum}}</div>
+                        <div class="title">
+                            {{scope.row.columnName}}
+                        </div>
+                    </div>
+                    <div class="abs">
+                        <span>{{scope.row.describe}}</span>
+                    </div>
+                </div>
+
+            </template>
+        </a-water-fall>
+
     </div>
 </template>
 
 <script>
     import waterFall from './componentView/waterFall.vue'
+    import aWaterFall from "./componentView/aWaterFall"
     export default {
         name: 'app',
         data() {
@@ -43,11 +62,14 @@
             }
         },
         components: {
-            waterFall
+            waterFall,aWaterFall
         },
         created() {
             //do something after creating vue instance
             this.queryPhoto();
+        },
+        mounted(){
+            this.$refs.waterfall.setData(this.imgsArr);
         },
         methods: {
             queryPhoto() {
@@ -77,11 +99,68 @@
                   columnName:"图片信息",
                   describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
                 }]
+              this.$refs.waterfall.setData(this.imgsArr);
             }
         },
 
 
     }
 </script>
-<style scoped>
+<style lang="less" scoped>
+    .centerbox{
+        background: white;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .msgBox {
+        background: white;
+        overflow: hidden;
+        padding: 5px 0
+    }
+
+    .msgBox > div {
+        float: left;
+    }
+
+    .zanBtn {
+        font-size: 20px;
+        width: 30px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .abs {
+        text-align: justify;
+        padding: 0px 8px 8px 8px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .water-item:hover .zanBtn {
+        animation: animat 1s linear infinite;
+    }
+
+    @keyframes animat {
+        0% {
+            transform: scale(0.9);
+        }
+        50% {
+            transform: scale(1.3);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
 </style>
