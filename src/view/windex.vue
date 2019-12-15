@@ -4,7 +4,7 @@
         <waudio :musicList="musicList"></waudio>
         <div class="content">
             <div class="centerBox">
-                <div class="left" :class="{leftNav:!leftNav}">
+                <div class="left" :style="{top:leftTop+'px'}" :class="{leftNav:!leftNav}">
                     <wleft></wleft>
                 </div>
                 <div class="right">
@@ -37,6 +37,7 @@
                     total: 0,
                 },
                 scroll:0,
+                leftTop:0,
             }
         },
         created(){
@@ -49,9 +50,19 @@
         mounted(){
           this.getTreeList();
             let _this = this;
+            let windowWidth = window.innerWidth
             window.onscroll = function () {
                 var t = document.documentElement.scrollTop || document.body.scrollTop; //变量t就是滚动条滚动时，到顶部的距离
                 _this.scroll = t
+                if (windowWidth>960) {
+                    if(t>200){
+                        _this.leftTop = t - 190
+                    }else{
+                        _this.leftTop = 10
+                    }
+                }
+
+
                 /*到底加载更多数据*/
                 if(t+$(window).height()==$(document).height()){
                     try {
@@ -107,13 +118,18 @@
    .content{
        background: #efefef;
        width: 100%;
-       min-height: calc(100vh - 320px);
    }
     .centerBox{
+        position: relative;
+        min-height: calc(100vh - 320px);
         overflow: hidden;
         .left{
+            transition: all .1s ease;
             float: left;
             width: 280px;
+            position: absolute;
+            left: 0;
+            top: 0;
             &.leftNav{
                 right: -280px;
             }

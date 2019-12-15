@@ -53,6 +53,7 @@ const router = new Router({
             path: '/home',
             name: 'home',
             component: mainIndex,
+            redirect: '/home/logList',
             meta: {title: '首页'},
             children: [{
                 path: '/home/columnEdit',

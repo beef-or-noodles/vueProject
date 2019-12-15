@@ -273,7 +273,7 @@ export default {
           content: '',
           columnId: this.selectRow,
           author: '',
-          checkRoot: false,
+          checkRoot: true,
           setTime: new Date(),
           creatTime: new Date(),
           articeType:1,

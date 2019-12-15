@@ -1,13 +1,13 @@
 <template>
     <div class="">
-<!--        <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>-->
-        <a-water-fall ref="waterfall">
+        <!--        <water-fall :img="imgsArr" :colNum="colNum" :intervalN="intervalN"></water-fall>-->
+        <a-water-fall :imgDom="true" ref="waterfall">
             <template slot-scope="scope">
                 <div class="centerbox">
-                    <img class="img" :src="scope.row.imgUrl" alt="">
+                    <img class="img" :src="scope.row.imgurl" alt="">
                     <div class="msgBox">
-                        <div class="zanBtn el-icon-star-off" title="更多小星星" style="color:red;"></div>
-                        <div class="zan_num">{{scope.row.goodNum}}</div>
+                        <div class="zanBtn el-icon-star-off" title="留下小星星" style="color:red;"></div>
+                        <div class="zan_num">5</div>
                         <div class="title">
                             {{scope.row.columnName}}
                         </div>
@@ -16,7 +16,6 @@
                         <span>{{scope.row.describe}}</span>
                     </div>
                 </div>
-
             </template>
         </a-water-fall>
 
@@ -26,94 +25,106 @@
 <script>
     import waterFall from './componentView/waterFall.vue'
     import aWaterFall from "./componentView/aWaterFall"
+
     export default {
         name: 'app',
         data() {
             return {
                 imgsArr: [{
-                  imgUrl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954354299&di=2cd60bf9936224baccf805b2ca19c2e7&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fe42041da63fba7cefa1eca54c2851f39206adbef656c-oUYcCZ_fw658",
-                  goodNum:5,
-                  columnName:"图片信息",
-                  describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
-                },{
-                  imgUrl:"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3681806718,180800645&fm=26&gp=0.jpg",
-                  goodNum:5,
-                  columnName:"图片信息",
-                  describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
-                },{
-                  imgUrl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954456595&di=df2d3b06f982ad1c60a7c926fdc4cbbe&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201608%2F06%2F20160806210806_GTQHj.thumb.700_0.jpeg",
-                  goodNum:5,
-                  columnName:"图片信息",
-                  describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
-                },{
-                  imgUrl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954555475&di=38d8a9f56c6203a1df0d8969ed26e496&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D349322184%2C3775147202%26fm%3D214%26gp%3D0.jpg",
-                  goodNum:5,
-                  columnName:"图片信息",
-                  describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
+                    imgUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954354299&di=2cd60bf9936224baccf805b2ca19c2e7&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fe42041da63fba7cefa1eca54c2851f39206adbef656c-oUYcCZ_fw658",
+                    goodNum: 5,
+                    columnName: "图片信息",
+                    describe: '2017年儿童杂志边框插图合集|插画|儿童插画'
+                }, {
+                    imgUrl: "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3681806718,180800645&fm=26&gp=0.jpg",
+                    goodNum: 5,
+                    columnName: "图片信息",
+                    describe: '2017年儿童杂志边框插图合集|插画|儿童插画'
+                }, {
+                    imgUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954456595&di=df2d3b06f982ad1c60a7c926fdc4cbbe&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201608%2F06%2F20160806210806_GTQHj.thumb.700_0.jpeg",
+                    goodNum: 5,
+                    columnName: "图片信息",
+                    describe: '2017年儿童杂志边框插图合集|插画|儿童插画'
+                }, {
+                    imgUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954555475&di=38d8a9f56c6203a1df0d8969ed26e496&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D349322184%2C3775147202%26fm%3D214%26gp%3D0.jpg",
+                    goodNum: 5,
+                    columnName: "图片信息",
+                    describe: '2017年儿童杂志边框插图合集|插画|儿童插画'
                 }],
                 group: 1, // request param
                 paging: {
                     pageNo: 1,
-                    pageSize: 10,
+                    pageSize:10,
                     total: 0,
                 },
                 colNum: 3,
                 intervalN: 10,
+
+                paging: {
+                    pageNo: 1,
+                    pageSize: 10,
+                    total: 0,
+                    columnId: "",
+                },
             }
         },
         components: {
-            waterFall,aWaterFall
+            waterFall, aWaterFall
         },
         created() {
             //do something after creating vue instance
-            this.queryPhoto();
+
         },
-        mounted(){
-            this.$refs.waterfall.setData(this.imgsArr);
+        mounted() {
+            /*     this.$refs.waterfall.setData(this.imgsArr);*/
+            this.queryPhoto();
         },
         methods: {
             queryPhoto() {
-                this.$post(this.$api.queryPhoto).then((data) => {
+                this.$post(this.$api.queryPhoto, {isType: 1}).then((data) => {
                     this.imgsArr = data;
+                    if (data.length > 0) {
+                        this.paging.columnId = data[0].id;
+                        this.queryList()
+                    }
                 });
             },
-          pagingData() {
-                this.imgsArr = [{
-                  imgUrl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954354299&di=2cd60bf9936224baccf805b2ca19c2e7&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fe42041da63fba7cefa1eca54c2851f39206adbef656c-oUYcCZ_fw658",
-                  goodNum:5,
-                  columnName:"图片信息",
-                  describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
-                },{
-                  imgUrl:"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3681806718,180800645&fm=26&gp=0.jpg",
-                  goodNum:5,
-                  columnName:"图片信息",
-                  describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
-                },{
-                  imgUrl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954456595&di=df2d3b06f982ad1c60a7c926fdc4cbbe&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201608%2F06%2F20160806210806_GTQHj.thumb.700_0.jpeg",
-                  goodNum:5,
-                  columnName:"图片信息",
-                  describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
-                },{
-                  imgUrl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575954555475&di=38d8a9f56c6203a1df0d8969ed26e496&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D349322184%2C3775147202%26fm%3D214%26gp%3D0.jpg",
-                  goodNum:5,
-                  columnName:"图片信息",
-                  describe:'2017年儿童杂志边框插图合集|插画|儿童插画'
-                }]
-              this.$refs.waterfall.setData(this.imgsArr);
+            // 根据栏目ID查询文章列表
+            queryList() {
+                let params = this.paging;
+                params.type = 1;
+                this.$post(this.$api.queryArtice, params).then((data) => {
+                    console.log(data.data);
+                    this.$refs.waterfall.setData(data.data);
+                    this.paging.total = data.total;
+                });
+            },
+
+            pagingData() {
+                if (this.paging.pageNo * this.paging.pageSize < this.paging.total) {
+                    this.paging.pageNo++;
+                    this.queryList()
+                } else {
+                    console.log("没有更多了");
+                }
             }
+
+
         },
 
 
     }
 </script>
 <style lang="less" scoped>
-    .centerbox{
+    .centerbox {
         background: white;
-        img{
+
+        img {
             width: 100%;
             height: 100%;
         }
     }
+
     .msgBox {
         background: white;
         overflow: hidden;
