@@ -7,6 +7,8 @@ const articeApi = require('./totalApi/articeApi');
 const sendEmailApi = require('./totalApi/sendEmailApi');
 const system = require('./totalApi/system');
 
+const config = require("./tool/config")
+
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -26,19 +28,23 @@ app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By",'1')
     res.header("Content-Type", "application/json;charset=utf-8");*/
-    let txt = (req.headers["user-agent"].split(";")[0]).split(" ")[1];
-    let versions = txt.substr(1,txt.length);
-    let params = JSON.stringify(req.body);
-    let userId = req.headers.token;
-    let data = {
-        ip:req.ip,
-        api:req.path,
-        params,
-        versions,
-        userId
+    if(config.loseApi.indexOf(req.path) != -1 || req.path.indexOf(".")!=-1){
+        next();
+    }else{
+        let txt = (req.headers["user-agent"].split(";")[0]).split(" ")[1];
+        let versions = txt.substr(1,txt.length);
+        let params = JSON.stringify(req.body);
+        let userId = req.headers.token;
+        let data = {
+            ip:req.ip,
+            api:req.path,
+            params,
+            versions,
+            userId
+        }
+        system.connLog(data)
+        next();
     }
-    system.connLog(data)
-    next();
 });
 
 
@@ -70,7 +76,7 @@ const httpsOption = { //加入Https证书
 
 // Create service
 // http.createServer(app).listen(server);
-if (true) {
+if (config.EVN == "production") {
     //生产环境
     var server =  https.createServer(httpsOption, app)
     var io      = require('socket.io').listen(server);

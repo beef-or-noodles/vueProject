@@ -6,8 +6,8 @@
                     <div class="img"><img :src="scope.row.imgurl" alt=""></div>
                     <div class="title">{{scope.row.articeTitle}}</div>
                     <div class="desc">{{scope.row.abstract}}</div>
-                    <div class="time">{{scope.row.strTime}}</div>
-                    <div>{{scope.row.autor}}</div>
+                    <div class="time">{{scope.row.strTime}} <span class=" zanBtn el-icon-star-off" title="更多小星星" style="color:red;"></span></div>
+                    <div class="">{{scope.row.autor}}</div>
                 </div>
             </template>
         </a-water-fall>
@@ -70,11 +70,14 @@
             text-align: justify;
             background: white;
             border-radius: 6px;
+            .zanBtn {
+                font-size: 20px;
+                width: 30px;
+                cursor: pointer;
+                float: right;
+            }
             &:hover{
                 cursor: pointer;
-                .title{
-                    color:#e64f2a;
-                }
             }
             &.bg1{
                 background: rgba(230,79,42,.1);
@@ -82,29 +85,27 @@
             &.bg2{
                 /*background: #409EFF;*/
             }
+
             .img{
-                width: 80px;
-                height: 80px;
+                height: 120px;
                 overflow: hidden;
-                border-radius: 10px;
-                margin: 0 auto;
+                margin: -13px;
+                margin-bottom: 0;
                 img{
                     width: 100%;
                 }
             }
             .title{
-                text-align: center;
                 margin: 10px 0;
                 font-size: 14px;
             }
             .desc{
-                text-align: center;
                 color: #868686;
                 font-size: 12px;
             }
             .time{
                 font-size: 12px;
-                text-align: center;
+                margin-top: 10px;
             }
         }
 
