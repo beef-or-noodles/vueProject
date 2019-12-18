@@ -50,7 +50,7 @@ export default {
   methods: {
     seteditor() {
       this.editor = new E(this.$refs.toolbar, this.$refs.editor)
-
+      this.editor.customConfig.pasteFilterStyle = false//关闭代码样式过滤
       this.editor.customConfig.uploadImgShowBase64 = true // base 64 存储图片
       this.editor.customConfig.uploadImgServer = '/api/upload' // 配置服务器端地址
       this.editor.customConfig.uploadImgHeaders = {

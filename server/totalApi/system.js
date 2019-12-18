@@ -7,7 +7,7 @@ var router = express.Router();
 var mysql = require('mysql'); //引入sql驱动
 var $sql = require('../sqlfun'); //载入sql语句
 var returnData = require('../tool/returnData'); //返回封装数据
-var file = require("../tool/file");
+/*var file = require("../tool/file");*/
 
 var conn = mysql.createConnection(models.mysql); //创建连接
 conn.connect(); //连接数据库
@@ -49,12 +49,12 @@ function connLog(data){
 }
 
 /*得到文件列表*/
-router("/queryFileList",function(req,res){
+/*router("/queryFileList",function(req,res){
     var fileList = file.getReaddir("");
 });
-/*删除文件*/
+/!*删除文件*!/
 router("/deleteFileList",function(req,res){
 
-});
+});*/
 
 module.exports = {router,connLog};
