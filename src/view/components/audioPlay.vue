@@ -176,7 +176,7 @@
 
     .audio {
         position: fixed;
-        bottom: 20%;
+        bottom: 10%;
         right: 0;
         width: 320px;
         height: 90px;

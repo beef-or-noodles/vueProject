@@ -10,13 +10,14 @@
             <span class="ti">简介：</span>
             <span v-text="artieData.abstract"></span>
         </div>
-        <div class="artice" v-html="artieData.content">
+        <div class="artice" v-html="artieData.content"></div>
 
-        </div>
+        <wmessage></wmessage>
     </div>
 </template>
 
 <script>
+    import wmessage from "./wmessage"
     export default {
         name: "wcontent",
         data() {
@@ -24,6 +25,9 @@
                 artieData: {},
                 articeId:"",
             }
+        },
+        components:{
+            wmessage
         },
         mounted(){
             this.articeId = this.$route.params.id;
@@ -96,8 +100,8 @@
             }
         }
         .artice{
-            line-height: 30px;
-            margin-top: 30px;
+            line-height: 25px;
+            margin-top: 20px;
             letter-spacing: 1px;
             text-align: justify;
         }

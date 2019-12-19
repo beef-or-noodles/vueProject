@@ -51,7 +51,6 @@
                 let col = this.col;
                 let box = $("#Afall");
                 this.boxDom = box;
-                console.log(box.width());
                 if (box.width() < 600) {
                     col = 2
                 }
@@ -75,13 +74,11 @@
                 function imgLoad() {
                     i ++
                     let x = i-1;
-                    console.log(x);
                     img[x] = new Image()
                     img[x].src = addList[x].imgurl
                     img.onload = function () {
                         console.log("加载完成");
                         ok++
-                        console.log(ok, "ok", addList.length);
                         if (ok >= addList.length) {
                             _this.loadList()
                         } else {
