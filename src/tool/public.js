@@ -1,4 +1,12 @@
 const tool = {
+  //对象拷贝
+  copyObj:function(data){
+    let newData = {}
+    if(typeof data === "object"){
+      newData = JSON.parse(JSON.stringify(data));
+    }
+    return newData
+  },
   // 截取连接地址
   getUrlParam: function(name) { // 获取url参数值
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -80,7 +88,10 @@ const tool = {
     var halfamonth = day * 15;
     var month = day * 30;
     var now = new Date().getTime();
-    var diffValue = now - value * 1000;
+    var diffValue = now - value
+    if(value.length == 10){
+      diffValue = now - value * 1000;
+    }
     if (diffValue < 0) {
       return;
     }
@@ -139,6 +150,20 @@ const tool = {
     }
     return true;
   },
+  IsPC:function() {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone",
+      "SymbianOS", "Windows Phone",
+      "iPad", "iPod"];
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+      if (userAgentInfo.indexOf(Agents[v]) > 0) {
+        flag = false;
+        break;
+      }
+    }
+    return flag;
+  }
 }
 // 格式时间
 // 对Date的扩展，将 Date 转化为指定格式的String
