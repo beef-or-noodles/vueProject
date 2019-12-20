@@ -26,7 +26,9 @@
                     <span class="userName">{{item.userName}}</span><span class="time"  v-text="computedTime(item.creatTime)">几小时</span>
                     <div class="mes" v-text="item.title">这里放标题</div>
                     <div class="answerbox">
-                        <div class="userName"><span @click="commentBtn(item,index)">回复</span> ~ <span>{{item.commentTotal}}条回复</span></div>
+                        <div class="userName">
+                            <span v-if="userId != item.userId" @click="commentBtn(item,index)">回复 ~ </span><span>{{item.commentTotal}}条回复</span>
+                        </div>
                         <div class="noice">{{item.like}}赞</div>
                     </div>
                     <div class="comment" :class="'J_input_'+index"></div>
@@ -39,9 +41,13 @@
                             </div>
                             <div class="right">
                                 <span class="userName">{{elem.userName}}</span><span class="time" v-text="computedTime(elem.creatTime)">几小时</span>
-                                <div class="mes" v-text="elem.title"></div>
+                                <div class="mes">{{elem.title}}
+                                    <template v-if="elem.commentUserId">
+                                        <span class="userName">@{{elem.commentUserName}}：</span><span v-text="elem.commentText"></span>
+                                    </template>
+                                </div>
                                 <div class="answerbox">
-                                    <div class="userName"><span @click="commentBtn(elem,index,childIndex)">回复</span></div>
+                                    <div class="userName"><span v-if="userId != elem.userId" @click="commentBtn(elem,index,childIndex)">回复</span></div>
                                     <div class="noice">{{elem.like}}赞</div>
                                 </div>
                                 <div class="comment" :class="'J_input_'+index+'_'+childIndex"></div>
@@ -64,6 +70,7 @@
               inputdom:null,
               commentItem:"",//评论的选项
               phoneInput:false,
+              userId:1,
               messageData:[{
                 id:1,
                 messageId:"",//主消息ID
@@ -73,7 +80,7 @@
                 creatTime:"1576684800000",//创建时间
                 imgUrl:"http://p3.pstatp.com/origin/pgc-image/2f6aa96e6ccf4d078b80d376d5f51bad",//头像
                 like:100,//赞
-                title:"这篇文章很牛逼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼不吃猫的鱼",//内容
+                title:"这篇文章很牛逼不吃猫的",//内容
                 commentText:"",//评论的评论
                 commentUserName:"",//被评论人名字
                 commentUserId:"",
@@ -179,6 +186,24 @@
               if(!value){
                 return
               }
+              let message = {
+                id:1,
+                messageId:"",//主消息ID
+                userId:1,//用户ID
+                articeId:1,//文章id
+                userName:"不吃猫的鱼",//用户名
+                creatTime:new Date().getTime(),//创建时间
+                imgUrl:"http://p3.pstatp.com/origin/pgc-image/2f6aa96e6ccf4d078b80d376d5f51bad",//头像
+                like:0,//赞
+                title:value,
+                commentText:"",//评论的评论
+                commentUserName:"",//被评论人名字
+                commentUserId:"",
+                commentTotal:0,//总条数
+                childMessage:[]
+              }
+
+
               let pc = this.$tool.IsPC();
               let inputdom = this.inputdom
               let commentItem = this.commentItem
@@ -192,37 +217,30 @@
                   inputdom.firstChild.value = ""
                   inputdom.style.height = 10+'px'
                   inputdom.children[1].firstChild.style.opacity=1
+                let name = "";
+                if (commentItem.hasOwnProperty("index")&&commentItem.hasOwnProperty("childIndex")){//二级回复
+                  console.log("二级回复");
+                  message.commentText = commentItem.title;
+                  message.commentUserName = commentItem.userName;
+                  message.commentUserId = commentItem.userId;
+                  message.messageId = commentItem.id;
+                  this.messageData[commentItem.index].childMessage.splice(commentItem.childIndex+1,0,message);
+                  name = `J_input_${commentItem.index}_${commentItem.childIndex}`;
+                }else if(commentItem.hasOwnProperty("index")){
+                  console.log("一级回复");
+                  message.commentText = commentItem.title;
+                  message.commentUserName = commentItem.userName;
+                  message.messageId = commentItem.id;
+                  this.messageData[commentItem.index].childMessage.push(message)
+                  name = `J_input_${commentItem.index}_${commentItem.childIndex}`;
+                }
+                let dom = document.getElementsByClassName(name)[0]
+                dom.removeChild(dom.firstChild)
               }else{
                 this.$refs.textArea.value = ""
                 this.height = 10;
+                this.messageData.unshift(message)
               }
-
-
-              if (commentItem.hasOwnProperty("index")&&commentItem.hasOwnProperty("childIndex")){//二级回复
-                console.log("二级回复");
-              }else if(commentItem.hasOwnProperty("index")){
-                console.log("一级回复");
-              }
-
-
-              this.messageData.push({
-                id:1,
-                messageId:"",//主消息ID
-                userId:1,//用户ID
-                articeId:1,//文章id
-                userName:"不吃猫的鱼",//用户名
-                creatTime:"1576684800000",//创建时间
-                imgUrl:"http://p3.pstatp.com/origin/pgc-image/2f6aa96e6ccf4d078b80d376d5f51bad",//头像
-                like:100,//赞
-                title:value,
-                commentText:"",//评论的评论
-                commentUserName:"",//被评论人名字
-                commentUserId:"",
-                commentTotal:0,//总条数
-                childMessage:[]
-              })
-
-              console.log(value);
             },
         },
     }
