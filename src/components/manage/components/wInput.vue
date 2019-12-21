@@ -54,7 +54,7 @@ export default {
 </script>
 <style scoped lang="less">
 @inputHeight: 25px;
-@inputColor: #b1b1b1;
+@inputColor: #d6d6d6;
 .input {
     &.inputActive {
         color: white !important;
@@ -86,8 +86,9 @@ export default {
             outline: none;
         }
         &::-webkit-input-placeholder {
-            color: @inputColor;
+            color: #c0ccda;
             font-size: 12px;
+            opacity: .5;
         }
         &::-moz-placeholder {
             /* Mozilla Firefox 19+ */

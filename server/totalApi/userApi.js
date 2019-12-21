@@ -13,7 +13,8 @@ conn.connect();
 router.post('/login', (req, res) => {
   var sql = $sql.user.UserLogin;
   var params = req.body;
-  conn.query(sql, [params.userName], function(err, result) {
+  var user = params.userName;
+  conn.query(sql, [user,user], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -23,7 +24,7 @@ router.post('/login', (req, res) => {
       var data = {}
       if (result.length == 0) {
         data.isLogin = false;
-        data.msg = '用户名不存在';
+        data.msg = '用户不存在,请先注册';
       }else if(result[0].user_type == 0){
           data.isLogin = false;
           data.msg = '该用户已被禁用请联系管理员';

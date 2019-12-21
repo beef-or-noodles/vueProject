@@ -7,8 +7,8 @@
             <div class="rightBox">
                 <div class="loginBox" :class="{left:activeMove}">
                     <h3>Sign Up</h3>
-                    <w-input title="用户名" v-model="userName"></w-input>
-                    <w-input type="password" title="密码" v-model="password"></w-input>
+                    <w-input title="用户名" placeholder="请输入QQ邮箱 / 账号" v-model="userName"></w-input>
+                    <w-input type="password" title="密码" placeholder="输入您的密码" v-model="password"></w-input>
                     <div style="margin-top:20px;">
                         <div class="zc" @click="activeMove = true">
                             没有账号？立即注册
@@ -20,10 +20,10 @@
                 </div>
                 <div class="zcBox" :class="{right:activeMove}">
                     <h3>Sign Up</h3>
-                    <w-input title="用户名" v-model="userName1"></w-input>
+                    <w-input title="用户名" placeholder="输入您的昵称" v-model="userName1"></w-input>
                     <w-input type="password" title="密码" v-model="password1"></w-input>
                     <w-input type="password" title="确认密码" v-model="password2"></w-input>
-                    <w-input title="QQ邮箱" v-model="email"></w-input>
+                    <w-input title="QQ邮箱" placeholder="邮箱将作为用户登录账号" v-model="email"></w-input>
                     <div>
                         <button class="btn codebtn" @click="getCode" :class="{disbled:codeTxt!='获取证码'?true:false}">
                             {{codeTxt}}

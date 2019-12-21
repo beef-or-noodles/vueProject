@@ -6,7 +6,7 @@ const columnApi = require('./totalApi/columnApi');
 const articeApi = require('./totalApi/articeApi');
 const sendEmailApi = require('./totalApi/sendEmailApi');
 const system = require('./totalApi/system');
-
+const commentApi = require('./totalApi/commentApi');
 const config = require("./tool/config")
 
 const fs = require('fs');
@@ -67,7 +67,7 @@ app.get('*', function(req, res) {
     res.send(html)
 })
 // 后端api路由
-app.use('/api', [userApi,upload,columnApi,articeApi,sendEmailApi,system.router]);
+app.use('/api', [userApi,upload,columnApi,articeApi,sendEmailApi,system.router,commentApi]);
 
 const httpsOption = { //加入Https证书
     key : fs.readFileSync("./https/2215442_www.smartwu.top.key"),

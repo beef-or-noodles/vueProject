@@ -12,7 +12,7 @@
         </div>
         <div class="artice" v-html="artieData.content"></div>
 
-        <wmessage></wmessage>
+        <wmessage :articeId="articeId" ref="wmessage"></wmessage>
     </div>
 </template>
 
@@ -23,19 +23,21 @@
         data() {
             return {
                 artieData: {},
-                articeId:"",
+                articeId:0,
             }
         },
         components:{
             wmessage
         },
+        created(){
+            this.articeId = Number(this.$route.params.id);
+        },
         mounted(){
-            this.articeId = this.$route.params.id;
             this.clickNumber();
         },
         watch:{
           "$route"(to,form){
-              this.articeId = this.$route.params.id;
+              this.articeId = Number(this.$route.params.id);
               this.clickNumber();
           }
         },
@@ -53,6 +55,10 @@
                 this.$post(this.$api.articeClickNumber, {id: this.articeId}).then((data) => {
                     this.getArtice();
                 });
+            },
+
+            pagingData(){
+                this.$refs.wmessage.pagingData();
             }
         },
     }
@@ -61,7 +67,6 @@
 <style lang="less" scoped>
     @import "../less/public";
     .contents{
-        min-height: 100%;
         width: 100%;
         background: white;
         padding: 20px;
@@ -100,6 +105,7 @@
             }
         }
         .artice{
+            min-height: 300px;
             line-height: 25px;
             margin-top: 20px;
             letter-spacing: 1px;

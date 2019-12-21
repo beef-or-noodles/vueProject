@@ -41,4 +41,8 @@ export default {
   queryRecommend: baseURL + "/queryRecommend",//查询推荐文章
 
   queryLog:baseURL + "/queryLog", //查询日志
+
+  addComment:baseURL+"/addComment",//添加评论
+  queryComment:baseURL+"/queryComment",//查询评论
+  queryCommentChild:baseURL+"/queryCommentChild",//查询子评论
 }

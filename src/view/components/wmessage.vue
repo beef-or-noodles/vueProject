@@ -2,7 +2,7 @@
     <div class="message">
         <div class="inputbox">
             <div class="icon">
-                <img src="" alt="">
+                <img :src="getUserInfo.image" alt="">
             </div>
             <div class="input">
                 <div class="input_dom" ref="inputdom" @click="Comment" :style="{height:height+'px'}">
@@ -19,7 +19,7 @@
             <div class="list" v-for="(item,index) in messageData" :key="index">
                 <div class="left">
                     <div class="icon">
-                        <img :src="item.imgUrl" alt="">
+                        <img :src="item.image" alt="">
                     </div>
                 </div>
                 <div class="right">
@@ -27,16 +27,17 @@
                     <div class="mes" v-text="item.title">这里放标题</div>
                     <div class="answerbox">
                         <div class="userName">
-                            <span v-if="userId != item.userId" @click="commentBtn(item,index)">回复 ~ </span><span>{{item.commentTotal}}条回复</span>
+                            <span v-if="userId != item.userId" @click="commentBtn(item,index)">回复 ~ </span>
+                            <span @click="queryCommentChild(item,index)">{{item.commentTotal}}条回复<template v-if="item.commentTotal">{{item.open?'收起':'展开'}}</template></span>
                         </div>
-                        <div class="noice">{{item.like}}赞</div>
+                        <div class="noice">{{item.likes}}赞</div>
                     </div>
                     <div class="comment" :class="'J_input_'+index"></div>
                     <div class="moremessage">
                         <div class="list" v-for="(elem,childIndex) in item.childMessage" :key="childIndex">
                             <div class="left">
                                 <div class="icon">
-                                    <img :src="elem.imgUrl" alt="">
+                                    <img :src="elem.image" alt="">
                                 </div>
                             </div>
                             <div class="right">
@@ -48,7 +49,7 @@
                                 </div>
                                 <div class="answerbox">
                                     <div class="userName"><span v-if="userId != elem.userId" @click="commentBtn(elem,index,childIndex)">回复</span></div>
-                                    <div class="noice">{{elem.like}}赞</div>
+                                    <div class="noice">{{elem.likes}}赞</div>
                                 </div>
                                 <div class="comment" :class="'J_input_'+index+'_'+childIndex"></div>
                             </div>
@@ -62,6 +63,7 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex"
     export default {
         name: "wmessage",
         data() {
@@ -71,58 +73,44 @@
               commentItem:"",//评论的选项
               phoneInput:false,
               userId:1,
-              messageData:[{
-                id:1,
-                messageId:"",//主消息ID
-                userId:1,//用户ID
-                articeId:1,//文章id
-                userName:"不吃猫的鱼",//用户名
-                creatTime:"1576684800000",//创建时间
-                imgUrl:"http://p3.pstatp.com/origin/pgc-image/2f6aa96e6ccf4d078b80d376d5f51bad",//头像
-                like:100,//赞
-                title:"这篇文章很牛逼不吃猫的",//内容
-                commentText:"",//评论的评论
-                commentUserName:"",//被评论人名字
-                commentUserId:"",
-                commentTotal:20,//总条数
-                childMessage:[{
-                  id:2,
-                  messageId:2,//主消息ID
-                  userId:2,
-                  articeId:1,//文章id
-                  userName:"一二三",
-                  creatTime:"1576339200000",
-                  imgUrl:"http://p3.pstatp.com/origin/pgc-image/2f6aa96e6ccf4d078b80d376d5f51bad",
-                  like:10,//赞
-                  title:"我来评论你！",
-                  commentText:"",//评论的评论
-                  commentUserName:"",//被评论人名字
-                  commentUserId:"",
-                },{
-                  id:3,
-                  messageId:2,//主消息ID
-                  userId:2,
-                  articeId:1,//文章id
-                  userName:"云中君",
-                  creatTime:new Date().getTime(),
-                  imgUrl:"http://p3.pstatp.com/origin/pgc-image/2f6aa96e6ccf4d078b80d376d5f51bad",
-                  like:20,//赞
-                  title:"你别乱评论！",//内容
-                  commentText:"我来评论你。",//评论的评论
-                  commentUserName:"不吃猫的鱼",//被评论人名字
-                  commentUserId:1,
-                }]
-              }]
-
-
+              messageData:[],
+                paging: {
+                    pageNo: 1,
+                    pageSize: 10,
+                    total: 0,
+                },
             }
         },
         created(){
-
+            this.paging.pageNo = 1;
+            this.userId = this.getUserInfo.id
+            this.getList();
+        },
+        props: {
+            articeId: {
+                type: Number,
+                default: 0
+            },
         },
           mounted(){
              this.init();
           },
+        computed:{
+            ...mapGetters(["getUserInfo"]),
+        },
+        watch: {
+            articeId(val) {
+                this.paging.pageNo = 1;
+                this.messageData = []
+                this.commentItem = ""
+                this.paging={
+                    pageNo: 1,
+                    pageSize: 5,
+                    total: 0,
+                }
+                this.getList();
+            }
+        },
         methods: {
           computedTime(time){
             return this.$tool.timeago(time)
@@ -187,14 +175,13 @@
                 return
               }
               let message = {
-                id:1,
-                messageId:"",//主消息ID
-                userId:1,//用户ID
-                articeId:1,//文章id
-                userName:"不吃猫的鱼",//用户名
-                creatTime:new Date().getTime(),//创建时间
-                imgUrl:"http://p3.pstatp.com/origin/pgc-image/2f6aa96e6ccf4d078b80d376d5f51bad",//头像
-                like:0,//赞
+                messageId:0,//主消息ID
+                userId:this.getUserInfo.id,//用户ID
+                articeId:this.articeId,//文章id
+                userName:this.getUserInfo.userName,//用户名
+                image:this.getUserInfo.image,//头像
+                creatTime:new Date().getTime(),
+                likes:0,//赞
                 title:value,
                 commentText:"",//评论的评论
                 commentUserName:"",//被评论人名字
@@ -218,30 +205,87 @@
                   inputdom.style.height = 10+'px'
                   inputdom.children[1].firstChild.style.opacity=1
                 let name = "";
-                if (commentItem.hasOwnProperty("index")&&commentItem.hasOwnProperty("childIndex")){//二级回复
-                  console.log("二级回复");
                   message.commentText = commentItem.title;
                   message.commentUserName = commentItem.userName;
-                  message.commentUserId = commentItem.userId;
-                  message.messageId = commentItem.id;
-                  this.messageData[commentItem.index].childMessage.splice(commentItem.childIndex+1,0,message);
+                if (commentItem.hasOwnProperty("index")&&commentItem.hasOwnProperty("childIndex")){//二级回复
+
+                  console.log("二级回复");
+                  message.messageId = commentItem.messageId;
+                  message.commentUserId = commentItem.userId
                   name = `J_input_${commentItem.index}_${commentItem.childIndex}`;
+                    this.addComment(message,()=>{
+                        this.messageData[commentItem.index].commentTotal ++
+                        this.messageData[commentItem.index].childMessage.splice(commentItem.childIndex+1,0,message);
+                        let dom = document.getElementsByClassName(name)[0]
+                        dom.removeChild(dom.firstChild)
+                    })
                 }else if(commentItem.hasOwnProperty("index")){
                   console.log("一级回复");
-                  message.commentText = commentItem.title;
-                  message.commentUserName = commentItem.userName;
                   message.messageId = commentItem.id;
-                  this.messageData[commentItem.index].childMessage.push(message)
+                  message.commentUserId = null
                   name = `J_input_${commentItem.index}_${commentItem.childIndex}`;
+                  this.addComment(message,()=>{
+                      this.messageData[commentItem.index].commentTotal ++
+                      this.messageData[commentItem.index].childMessage.push(message)
+                      /*let dom = document.getElementsByClassName(name)[0]*/
+                      /*dom.removeChild(dom.firstChild)*/
+                  })
                 }
-                let dom = document.getElementsByClassName(name)[0]
-                dom.removeChild(dom.firstChild)
               }else{
-                this.$refs.textArea.value = ""
-                this.height = 10;
-                this.messageData.unshift(message)
+                  this.addComment(message,()=>{
+                      this.messageData.unshift(message)
+                      this.$refs.textArea.value = ""
+                      this.height = 10;
+                  })
+
               }
             },
+            addComment(params,f){
+                this.$post(this.$api.addComment, params).then((data) => {
+                    f()
+                });
+            },
+
+            getList(){
+                this.paging['articeId'] = this.articeId;
+                this.$post(this.$api.queryComment, this.paging).then((data) => {
+                    data.data.forEach(itme=>{
+                        itme["childMessage"] = [];
+                        itme["open"] = false
+                    })
+                    this.messageData.push(...data.data)
+                    this.paging.total = data.total
+                });
+            },
+            pagingData(){
+                if(this.paging.pageNo*this.paging.pageSize < this.paging.total){
+                    this.paging.pageNo++;
+                    this.getList()
+                }else{
+                    console.log("没有更多了");
+                }
+            },
+
+            //查询子回复
+            queryCommentChild(item,index){
+                if(item.commentTotal == 0) return
+
+                if(!item.open){
+                    let params = {
+                        pageNo: 1,
+                        pageSize: 5,
+                        messageId:item.id
+                    }
+                    this.$post(this.$api.queryCommentChild, params).then((data) => {
+                        this.messageData[index].childMessage.push(...data.data)
+                        item.open = true;
+                    });
+                }else{
+                    this.messageData[index].childMessage = []
+                    item.open = false;
+                }
+
+            }
         },
     }
 </script>
@@ -256,7 +300,9 @@
             margin-right: 15px;
             width: 40px;
             height: 40px;
+            overflow: hidden;
             img{
+                width: 100%;
             }
         }
         .input{

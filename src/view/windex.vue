@@ -59,24 +59,23 @@
                     if (t > 200) {
                         _this.leftTop = t - 190
                     } else {
-                        _this.leftTop = 10
+                        _this.leftTop = 0
                     }
                 }
 
+                if(document.documentElement.scrollTop != 0){
+                    /*到底加载更多数据*/
+                    if (t + $(window).height() == $(document).height()) {
+                        setTimeout(() => {
+                            try {
+                                _this.$refs.view.pagingData();
+                            } catch (e) {
 
-                /*到底加载更多数据*/
-                if (t + $(window).height() == $(document).height()) {
-
-                    setTimeout(() => {
-                        try {
-                            _this.$refs.view.pagingData();
-                        } catch (e) {
-
-                        }
-                    }, 100)
-
-
+                            }
+                        }, 300)
+                    }
                 }
+
             }
 
 
@@ -131,7 +130,7 @@
         overflow: hidden;
 
         .left {
-            transition: all .1s ease;
+            transition: all 0s ease;
             float: left;
             width: 280px;
             position: absolute;
