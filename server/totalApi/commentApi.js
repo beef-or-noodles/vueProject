@@ -67,7 +67,23 @@ router.post('/queryCommentChild', function(req, res) {
         }
     })
 });
+/*点赞*/
+router.post('/clickLikes', function(req, res) {
+    var params = req.body;
+    var totalPush = $sql.commentApi.clickLikes
 
+    conn.query(totalPush, [params.id], function(err, result) {
+        if (err) {
+            console.log(err);
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
+        }
+        if (result) {
+            let data = returnData(200, '', '添加成功', false);
+            res.send(data);
+        }
+    })
+});
 
 /*添加评论*/
 router.post('/addComment', function(req, res) {
@@ -79,9 +95,12 @@ router.post('/addComment', function(req, res) {
     conn.query(totalPush, [params.messageId], function(err, result) {
         if (err) {
             console.log(err);
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
         }
         if (result) {
-            console.log(result);
+            let data = returnData(200, '', '添加成功', false);
+            res.send(data);
         }
     })
     conn.query(sql, arr, function(err, result) {

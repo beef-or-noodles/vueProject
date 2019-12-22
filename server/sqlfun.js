@@ -101,7 +101,7 @@ var sqlMap = {
                             \tcm.creatTime DESC 
                         LIMIT ?,?`,//查询回复
         totalPush:`update comments set commentTotal=commentTotal+1 where id = ?`,//总数计算
-
+        clickLikes:`update comments set likes=likes+1 where id = ?`,//留言点赞
 
     }
 }

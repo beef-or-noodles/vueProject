@@ -31,7 +31,7 @@
                             <span v-if="userId != item.userId" @click="commentBtn(item,index)">回复 ~ </span>
                             <span @click="queryCommentChild(item,index)">{{item.commentTotal}}条回复<template v-if="item.commentTotal">{{item.open?'收起':'展开'}}</template></span>
                         </div>
-                        <div class="noice">{{item.likes}}赞</div>
+                        <div class="noice" @click="zanClick(item)">{{item.likes}}<i class="iconfont icon-icon"></i></div>
                     </div>
                     <div class="comment" :class="'J_input_'+index"></div>
                     <div class="moremessage">
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="answerbox">
                                     <div class="userName"><span v-if="userId != elem.userId" @click="commentBtn(elem,index,childIndex)">回复</span></div>
-                                    <div class="noice">{{elem.likes}}赞</div>
+                                    <div class="noice" @click="zanClick(elem)">{{elem.likes}}<i class="iconfont icon-icon"></i></div>
                                 </div>
                                 <div class="comment" :class="'J_input_'+index+'_'+childIndex"></div>
                             </div>
@@ -300,6 +300,11 @@
                     item.open = false;
                 }
 
+            },
+            zanClick(item){
+                this.$post(this.$api.clickLikes, {id:item.id}).then((data) => {
+                    item.likes++
+                });
             }
         },
     }
@@ -377,6 +382,10 @@
                 .noice{
                    position: absolute;
                    right: 0;
+                    &:hover{
+                        cursor: pointer;
+                        color: #e64f2a;
+                    }
                 }
             }
             .moremessage{

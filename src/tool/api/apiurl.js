@@ -45,4 +45,5 @@ export default {
   addComment:baseURL+"/addComment",//添加评论
   queryComment:baseURL+"/queryComment",//查询评论
   queryCommentChild:baseURL+"/queryCommentChild",//查询子评论
+  clickLikes:baseURL+"/clickLikes",//点赞
 }
