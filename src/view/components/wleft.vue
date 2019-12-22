@@ -6,10 +6,10 @@
             </div>
             <div class="box navBox">
                 <ul class="first">
-                    <li :class="{active:item.id == active.first}" v-for="item in list">
+                    <li :class="{active:item.id == leftNav.first}" v-for="item in list">
                         <a @click.stop="firstClick(item)">{{item.label}}</a>
                         <ul class="child">
-                            <li @click.stop="childClick(chi.id)" :class="{active:chi.id == active.child}" v-for="chi in item.children"><a>{{chi.label}}</a></li>
+                            <li @click.stop="childClick(chi.id)" :class="{active:chi.id == leftNav.child}" v-for="chi in item.children"><a>{{chi.label}}</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+    import {mapState,mapMutations} from 'vuex'
     export default {
         name: "wleft",
         data() {
@@ -45,7 +46,13 @@
             this.getTreeList();
             this.queryRecommend()
         },
+        computed:{
+            ...mapState({
+                leftNav:(state)=>state.userData.leftnavActive
+            })
+        },
         methods: {
+            ...mapMutations(["setLeftNavIndex","setNavIndex"]),
             firstClick(item) {
                 this.active.first = item.id
                 if(item.children.length == 0){
@@ -53,12 +60,16 @@
                         path:"/list/"+item.id,
                     })
                 }
+                this.setLeftNavIndex(this.active);
+                this.setNavIndex()
             },
             childClick(id){
                 this.active.child = id
                 this.$router.push({
                     path:"/list/"+id,
                 })
+                this.setLeftNavIndex(this.active);
+                this.setNavIndex()
             },
             //得到栏目列表queryRecommend
             getTreeList() {

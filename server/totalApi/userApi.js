@@ -91,10 +91,10 @@ router.post('/addNewUser', (req, res) => {
   })
 
 });
-//判断用户名是否以存在
+//判断用户名或邮箱是否以存在
 router.post('/judegeUserName',(req,res)=>{
   var name = req.body.userName;
-  var sql = `select * from userinfo where userName = '${name}'`
+  var sql = `select * from userinfo where userName = '${name}' or Email = '${name}'`
   conn.query(sql,function(err,result){
     if (err) {
       console.log(err);
@@ -104,7 +104,7 @@ router.post('/judegeUserName',(req,res)=>{
     if(result){
       var data = "";
       if(result != ""){
-        data = returnData(200,{type:1,msg:'用户名已存在'},'用户名已存在',false);
+        data = returnData(500,{type:1,msg:'用户已存在'},'用户已存在',true);
       }else{
         data = returnData(200,{type:0,msg:'可以使用'},'可以使用',false);
       }

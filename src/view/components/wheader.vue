@@ -3,7 +3,7 @@
         <div class="nav" :style="'background:rgba(85,85,85,'+option+')'">
             <div class="centerBox">
                 <ul>
-                    <li @click="topClick(item)" :class="{active:item.id == activeid}" v-for="item in list"
+                    <li @click="topClick(item)" :class="{active:item.id == navIndex}" v-for="item in list"
                         :key="item.id">
                         {{item.name}}
                     </li>
@@ -18,11 +18,13 @@
 
         <div class="canvas">
             <div class="title">
-                <div class="icon">
-                    <img src="../../assets/images/bg.jpg" alt="">
+                <div class="icon" @click="goLogin" title="去登录" >
+                    <img :src="getUserInfo.image" v-if="getUserInfo.image" alt="">
+                    <i class="icon_txt el-icon-user" v-else></i>
+
                 </div>
                 <div class="txt">
-                    <!--任他红尘滚滚，我自清风明月-->
+                    {{getUserInfo.userName?getUserInfo.userName:'暂未登录'}}
                 </div>
             </div>
 
@@ -33,6 +35,7 @@
 </template>
 
 <script>
+    import {mapGetters,mapMutations,mapState} from 'vuex'
     export default {
         name: "wheader",
         data() {
@@ -49,12 +52,12 @@
                     id: 2,
                 }, {
                     active: false,
-                    name: "关于我",
-                    src: "/",
+                    name: "留言板",
+                    src: "/comment",
                     id: 3,
                 }, {
                     active: false,
-                    name: "登录小站",
+                    name: "管理",
                     src: "/login",
                     id: 4,
                 }],
@@ -65,6 +68,12 @@
         },
         mounted() {
             this.init();
+        },
+        computed:{
+          ...mapGetters(["getUserInfo"]),
+          ...mapState({
+              navIndex:(state)=>state.userData.navIndex
+          })
         },
         props: {
             scroll: {
@@ -89,16 +98,29 @@
             }
         },
         methods: {
+            ...mapMutations(['setNavIndex','setLeftNavIndex']),
             leftNav() {
                 this.openSlider = !this.openSlider
                 this.$emit("close", this.openSlider);
             },
+            goLogin(){
+                if(!this.getUserInfo.hasOwnProperty("id")){
+                    this.$router.push({
+                        name:"login",
+                        params:{isview:true}
+                    })
+                }
+
+            },
+
             topClick(item) {
                 if (item.src == "/login") {
                     window.open(item.src, '_blank');
                 } else {
                     this.$router.push({path: item.src})
                     this.activeid = item.id
+                    this.setNavIndex(item.id)
+                    this.setLeftNavIndex()
                 }
             },
             init() {
@@ -208,7 +230,16 @@
                     margin: 0 auto;
                     margin-bottom: 20px;
                     border: 5px solid rgba(255, 255, 255, .2);
-
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .icon_txt{
+                        color: #cdc4d0;
+                        font-size: 50px;
+                    }
+                    &:hover{
+                        cursor: pointer;
+                    }
                     img {
                         width: 100%;
                         height: 100%;
@@ -221,7 +252,7 @@
                     font-weight: 600;
                     font-size: 14px;
                     width: 100%;
-                    bottom: 10px;
+                    bottom: 25px;
                     left: 0;
                     text-align: center;
                 }

@@ -2,7 +2,8 @@
     <div class="message">
         <div class="inputbox">
             <div class="icon">
-                <img :src="getUserInfo.image" alt="">
+                <img :src="getUserInfo.image" v-if="getUserInfo.image" alt="">
+                <i class="icon_txt el-icon-user" v-else></i>
             </div>
             <div class="input">
                 <div class="input_dom" ref="inputdom" @click="Comment" :style="{height:height+'px'}">
@@ -113,7 +114,11 @@
         },
         methods: {
           computedTime(time){
-            return this.$tool.timeago(time)
+              let d = time;
+            if (typeof time === "string") {
+                d = new Date(time).getTime()
+            }
+            return this.$tool.timeago(d)
           },
             //初始化评论框
             init(){
@@ -171,6 +176,16 @@
             },
             /*提交数据*/
             send(value=""){
+                if(!this.getUserInfo.hasOwnProperty("id")){
+                    this.$message({
+                        type:"error",
+                        message:"请先登录"
+                    })
+                    this.$router.push({
+                        name:"login",
+                        params:{isview:true}
+                    })
+                }
               if(!value){
                 return
               }
@@ -301,6 +316,13 @@
             width: 40px;
             height: 40px;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .icon_txt{
+                color: #ffffff;
+                font-size: 25px;
+            }
             img{
                 width: 100%;
             }
@@ -374,6 +396,7 @@
         box-sizing: border-box;
         box-sizing: content-box;
         border: 1px solid #3f404c;
+        background: white;
         .area{
             width: calc(100% - 30px);
             font-size: 16px;

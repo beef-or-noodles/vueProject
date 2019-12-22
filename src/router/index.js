@@ -19,6 +19,11 @@ const router = new Router({
                 component: resolve => require(['@/view/components/index.vue'], resolve),
                 meta: {title: '博客主页'},
             },{
+                path: '/comment',
+                name: 'comment',
+                component: resolve => require(['@/view/components/wcomment.vue'], resolve),
+                meta: {title: '留言板'},
+            },{
                 path: '/content/:id',
                 name: 'content',
                 component: resolve => require(['@/view/components/wcontent.vue'], resolve),

@@ -6,13 +6,13 @@
         <div class="leftHead">
           {{textName}}
         </div>
-        <el-menu active-text-color="#f56c6c" router unique-opened text-color="#808281">
-          <el-submenu v-for="(item,index) in menuData" :index="(index+1) + ''" :key="index" v-if="item.power">
+        <el-menu active-text-color="#f56c6c" router unique-opened :default-active="mangerIndex" text-color="#808281">
+          <el-submenu v-for="(item,index) in menuData" :index="index+1 + ''" :key="index" v-if="item.power">
             <template slot="title">
               <i :class="item.rooutMainIcon"></i>
               <span slot="title">{{item.rootMainName}}</span>
             </template>
-            <el-menu-item v-for="(chird,ind) in item.rootMainList" v-if="chird.rootPower" @click="textName = chird.rootChildName" :index="`${index+1}-${ind+1}`" :key="ind" :route="chird.path">
+            <el-menu-item v-for="(chird,ind) in item.rootMainList" v-if="chird.rootPower" @click="menuclick(index,ind)" :index="`${index+1}-${ind+1}`" :key="ind" :route="chird.path">
               {{chird.rootChildName}}
             </el-menu-item>
           </el-submenu>
@@ -47,7 +47,7 @@
 </div>
 </template>
 <script>
-import {mapMutations,mapGetters} from 'vuex'
+import {mapMutations,mapGetters,mapState} from 'vuex'
 export default {
   data() {
     return {
@@ -61,10 +61,18 @@ export default {
   },
 
   computed:{
-    ...mapGetters(["getUserInfo","getRootMenu"])
+    ...mapGetters(["getUserInfo","getRootMenu"]),
+    ...mapState({
+      mangerIndex:(state)=>state.userData.mangerIndex
+    })
   },
   methods: {
-    ...mapMutations(['setUserInfo',"setRootMenu"]),
+    ...mapMutations(['setUserInfo',"setRootMenu","setMangerIndex"]),
+    menuclick(index,ind){
+      let txt = (index+1)+"-"+(ind+1)
+      this.setMangerIndex(txt);
+    },
+
     exitBtn() {
       this.setUserInfo();//清空用户信息
       this.setRootMenu();

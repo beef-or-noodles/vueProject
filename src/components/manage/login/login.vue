@@ -25,7 +25,7 @@
                     <w-input type="password" title="确认密码" v-model="password2"></w-input>
                     <w-input title="QQ邮箱" placeholder="邮箱将作为用户登录账号" v-model="email"></w-input>
                     <div>
-                        <button class="btn codebtn" @click="getCode" :class="{disbled:codeTxt!='获取证码'?true:false}">
+                        <button class="btn codebtn" @click="judegeUserName(email,1)" :class="{disbled:codeTxt!='获取证码'?true:false}">
                             {{codeTxt}}
                         </button>
                         <div class="code">
@@ -37,7 +37,7 @@
                         <div class="zc" @click="activeMove = false">
                             去登录
                         </div>
-                        <button class="btn" @click="addNewUser">
+                        <button class="btn" @click="judegeUserName(userName,2)">
                             立即注册
                         </button>
                     </div>
@@ -78,7 +78,11 @@
                 activeMove: false,
                 codeTxt: '获取证码',
                 setTime: '',
+                isview:"",
             }
+        },
+        mounted(){
+            this.isview = this.$route.params.isview
         },
         methods: {
             // 将用户信息保存在vuex里面
@@ -112,6 +116,17 @@
                     this.codeTxt = "获取证码"
                     window.clearInterval(this.setTime);
                 });
+            },
+
+            /*验证邮箱昵称*/
+            judegeUserName(name,type=1){
+                this.$post(this.$api.judegeUserName, {userName:name}).then((data) => {
+                    if(type == 1){
+                        this.getCode()
+                    }else{
+                        this.addNewUser()
+                    }
+                })
             },
 
             //注册用户
@@ -169,12 +184,17 @@
                             this.$post(this.$api.queryRoot, {userId:data.data[0].id}).then((data1) => {
                                 this.setPageRouter(data1);
                                 this.$message({
-                                    message: '欢迎回来' + data.data[0].userName,
+                                    message: '登录成功' + data.data[0].userName,
                                     type: 'success'
                                 });
-                                this.$router.push({
-                                    path: '/home'
-                                })
+                                if(this.isview){
+                                    this.$router.back(-1);
+                                }else{
+                                    this.$router.push({
+                                        path: '/home'
+                                    })
+                                }
+
                             })
                         } else {
                             this.$message({
