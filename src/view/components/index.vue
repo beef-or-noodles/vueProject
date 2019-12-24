@@ -29,6 +29,9 @@
                 },
             }
         },
+      activated(){
+        console.log("缓存");
+      },
         mounted(){
             this.queryArtice()
         },

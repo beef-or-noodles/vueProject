@@ -1,6 +1,6 @@
 <template>
     <div>
-        <wmessage></wmessage>
+        <wmessage ref="wmessage"></wmessage>
     </div>
 </template>
 
@@ -16,6 +16,11 @@
 
             }
         },
+      methods:{
+        pagingData(){
+          this.$refs.wmessage.pagingData();
+        }
+      }
     }
 </script>
 

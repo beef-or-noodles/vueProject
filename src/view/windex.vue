@@ -8,7 +8,9 @@
                     <wleft></wleft>
                 </div>
                 <div class="right">
-                    <router-view ref="view"></router-view>
+                    <keep-alive>
+                       <router-view ref="view"></router-view>
+                    </keep-alive>
                 </div>
             </div>
         </div>
@@ -22,7 +24,6 @@
     import wheader from "./components/wheader"
     import wleft from "./components/wleft"
     import waudio from "./components/audioPlay"
-
     export default {
         name: "windex",
         components: {
@@ -69,17 +70,19 @@
                         setTimeout(() => {
                             try {
                                 _this.$refs.view.pagingData();
-                            } catch (e) {
 
+                            } catch (e) {
+                              console.log(e);
                             }
                         }, 300)
                     }
                 }
 
             }
-
-
         },
+      activated(){
+         console.log("1233333333333333333333");
+      },
         methods: {
             close(val) {
                 this.leftNav = val;
@@ -92,7 +95,6 @@
                     if (data.length > 0) {
                         this.queryArtice(data[0].id)
                     }
-
                 });
             },
             // 根据栏目ID查询文章列表

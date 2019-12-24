@@ -1,11 +1,14 @@
 <template>
     <div id="app">
         <router-view />
+        <wToast></wToast>
     </div>
 </template>
 
 <script>
+  import wToast from "./components/toast/wToast";
 export default {
+  components:{wToast},
   name: 'app',
   data() {
     return {

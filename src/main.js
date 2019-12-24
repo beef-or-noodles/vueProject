@@ -40,11 +40,12 @@ new Vue({
   },
   template: '<App/>'
 });
-
+store.commit("setToast")
 //路由守卫
 router.beforeEach((to, from, next) => {
   var login = store.state.userData.user_info;
   document.documentElement.scrollTop=document.body.scrollTop=0;
+  store.commit("setToast")
   if(to.meta.rootLogin){
     if(!login.isLogin){
       ElementUi.Message.error("请登陆")

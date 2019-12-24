@@ -10,7 +10,7 @@
                     <textarea ref="textArea" class="area" placeholder="写下您的评论..."></textarea>
                     <div class="inputBtn">
                         <div v-if="height == 10" class="txt">写下您的评论...</div>
-                        <button class="btn" @click.stop="send($refs.textArea.value)">评论</button>
+                        <div class="btn" @click.stop="send($refs.textArea.value)">评论</div>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex"
+    import {mapGetters,mapMutations} from "vuex"
     export default {
         name: "wmessage",
         data() {
@@ -96,6 +96,9 @@
           mounted(){
              this.init();
           },
+          activated(){
+            console.log("缓存");
+          },
         computed:{
             ...mapGetters(["getUserInfo"]),
         },
@@ -113,6 +116,7 @@
             }
         },
         methods: {
+          ...mapMutations(["setToast"]),
           computedTime(time){
               let d = time;
             if (typeof time === "string") {
@@ -177,14 +181,14 @@
             /*提交数据*/
             send(value=""){
                 if(!this.getUserInfo.hasOwnProperty("id")){
-                    this.$message({
-                        type:"error",
-                        message:"请先登录"
-                    })
-                    this.$router.push({
+                  this.setToast({show:true,icon:"warning",title:"请先登录"})
+                  setTimeout(()=>{
+                     this.$router.push({
                         name:"login",
                         params:{isview:true}
                     })
+                  },2000);
+
                 }
               if(!value){
                 return

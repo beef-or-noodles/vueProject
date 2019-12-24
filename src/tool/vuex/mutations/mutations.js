@@ -24,6 +24,17 @@ const mutations = {
   //设置后台导航
   setMangerIndex(state,index="1-1"){
     state.userData.mangerIndex = index;
+  },
+  //设置toast加载动画
+  setToast(state,data){
+    let toast = {
+      show: false,
+      icon: "loading",//success , error  ,warning,loading,
+      time: 2000,//关闭时间毫秒
+      title: "",//文字描述
+      ...data
+    }
+    state.userData.toast = toast;
   }
 }
 export default mutations

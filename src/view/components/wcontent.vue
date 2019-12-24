@@ -58,6 +58,7 @@
             },
 
             pagingData(){
+              console.log("2");
                 this.$refs.wmessage.pagingData();
             }
         },

@@ -7,8 +7,14 @@ const state = {
          first:0,
          child:0,
       },
-      mangerIndex:"1-1",
+      mangerIndex:"1-1",//后台导航
       user_info:{},//用户信息
+      toast:{//加载动画
+         show:false,
+         icon:"loading",//success , error  ,warning,loading,
+         time:2000,//关闭时间毫秒
+         title:"",//文字描述
+      },
    },
 }
 var locaData = localStorage.getItem("userData")

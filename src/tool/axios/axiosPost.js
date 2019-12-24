@@ -7,6 +7,8 @@ import api from '../api/apiurl.js'
 import store from '../vuex/store/store.js'
 // axios.defaults.withCredentials = true; //是否携带cookie
 axios.defaults.baseURL = api.baseURL; //默认请求地址
+const http_status={'400':'请求错误','401':'未授权，请登录','403':'拒绝访问','404':'请求地址出错','408':'请求超时','500':'服务器内部错误','501':'服务未实现','502':'网关错误','503':'服务不可用','504':'网关超时','505':'HTTP版本不受支持'};
+
 axios.defaults.timeout = 15000;
 let loading = null;
 let timer = null
@@ -45,21 +47,12 @@ axios.interceptors.response.use(function(response){
  */
 //加载动画
 function setloading() {
-    loading = Loading.service({
-        spinner: 'el-icon-loading',
-        text: '客官别慌，随后就到',
-        background: 'rgba(0,0,0,0)',
-        target: document.querySelector('.loadingTarget'),
-    });
+    store.commit("setToast",{show:true,icon:"loading",title:"加载中..."})
 }
 
 //关闭加载 清除请求定时器
 function endLoading() {
-    try {
-        loading.close();
-    }catch(err){
-        console.error("加载动画还未加载");
-    }
+    store.commit("setToast")
 }
 
 /*
@@ -84,23 +77,19 @@ export function post(url, data = {}) {
             .then(response => {
                 if (response.data.code == 200) {
                     if (response.data.diaShow) {
-                        messageBox('success', response.data.msg, 1500);
+                        store.commit("setToast",{show:true,icon:"success",title:response.data.msg})
                     }
                     resolve(response.data.data);
                 } else {
-                    messageBox('error', response.data.msg, 1500);
+                    store.commit("setToast",{show:true,icon:"error",title:response.data.msg})
                 }
             }, err => {
                 console.log(err)
                 try {
                     let status = err.response.status;
-                    if (status === 404) {
-                        messageBox('error', '没找到请求地址' + status, 1500);
-                    } else if (status === 500 || status === 504) {
-                        messageBox('error', '服务器错误' + status, 1500);
-                    }
+                    store.commit("setToast",{show:true,icon:"error",title:http_status[status]})
                 } catch (e) {
-                    messageBox('error', ' 请求超时' + status, 1500);
+                    store.commit("setToast",{show:true,icon:"error",title:' 请求超时'})
                 }
                 reject(err)
             })

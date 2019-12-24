@@ -86,7 +86,7 @@
         },
         methods: {
             // 将用户信息保存在vuex里面
-            ...mapMutations(["setUserInfo","setRootMenu"]),
+            ...mapMutations(["setUserInfo","setRootMenu","setToast"]),
 
             getCode() {
                 if (this.codeTxt !== "获取证码") return;
@@ -167,15 +167,9 @@
                     passWord: this.password
                 }
                 if (this.userName == "") {
-                    this.$message({
-                        message: '请输入用户名',
-                        type: 'error'
-                    });
+                  this.setToast({show:true,icon:"warning",title:"请输入用户名"})
                 } else if (this.password == "") {
-                    this.$message({
-                        message: '请输入密码',
-                        type: 'error'
-                    });
+                  this.setToast({show:true,icon:"warning",title:"请输入密码"})
                 } else {
                     this.$post(this.$api.login, params).then((data) => {
                         if (data.isLogin) {
@@ -244,8 +238,6 @@
         flex-direction: column;
         width: 100vw;
         height: 100vh;
-        background: url("../../../../static/images/loginBg.jpg");
-        background-size: cover;
         position: relative;
     }
 
@@ -262,9 +254,10 @@
     }
 
     .card {
-        background: url("../../../../static/images/loginBg.jpg");
+        background: url("../../../../static/images/l_bg2.jpg");
         background-size: cover;
         background-color: white;
+        background-position: center center;
         box-shadow: 0 0 40px black;
         z-index: 15;
 
@@ -280,7 +273,7 @@
 
         & > div:nth-child(2) {
             width: 370px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
 
             & > div {
                 margin-top: 150px;
