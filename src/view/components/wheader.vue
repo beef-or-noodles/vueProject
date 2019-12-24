@@ -55,12 +55,7 @@
                     name: "留言板",
                     src: "/comment",
                     id: 3,
-                }, {
-                  active: false,
-                  name: "个人中心",
-                  src: "/userInfo",
-                  id: 5,
-                }, {
+                },{
                     active: false,
                     name: "管理",
                     src: "/login",
