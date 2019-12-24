@@ -211,7 +211,7 @@
             }
         }
         &.active {
-            right: -290px;
+            right: -300px;
         }
         .box {
             position: relative;
@@ -219,10 +219,10 @@
             .explanded {
                 position: absolute;
                 left: 0;
-                width: 30px;
+                width: 20px;
                 height: 100%;
-                background: #e64f2a;
-                color: white;
+                background: rgba(230,79,42,0.1);
+                color: #000000;
                 font-size: 20px;
                 text-align: center;
                 display: flex;
@@ -261,7 +261,7 @@
                     background: white;
                     z-index: 99;
                     border-radius: 50%;
-                    border: 4px solid rgba(0, 0, 0, .3);
+                    border: 4px solid #ffd7ce;
                     opacity: .8;
                 }
                 img {
@@ -304,8 +304,8 @@
             }
             .slidBar {
                 position: absolute;
-                width: calc(100% - 30px);
-                left: 30px;
+                width: calc(100% - 20px);
+                left: 20px;
                 height: 5px;
                 background: #ffd7ce;
                 bottom: 0;

@@ -38,6 +38,11 @@ const router = new Router({
                 name: 'list',
                 component: resolve => require(['@/view/components/wlist.vue'], resolve),
                 meta: {title: '文章列表'},
+            },{
+                path: '/userInfo',
+                name: 'userInfo',
+                component: resolve => require(['@/view/components/userInfo.vue'], resolve),
+                meta: {title: '用户中心'},
             }]
         },{
             path: '*',

@@ -99,25 +99,26 @@ export function post(url, data = {}) {
 //get 请求
 export function get(url) {
     return new Promise((resolve, reject) => {
-        axios.get(url, data)
-            .then(response => {
-                if (response.data.code == 200) {
-                    resolve(response.data.data);
-                    if (response.data.diaShow) {
-                        messageBox('success', response.data.msg, 1500);
-                    }
-                } else {
-                    messageBox('error', response.data.msg, 1500);
-                }
-            }, err => {
-                let status = err.response.status;
-                if (status === 404) {
-                    messageBox('error', '没找到请求地址' + status, 1500);
-                } else if (status === 500 || status === 504) {
-                    messageBox('error', '服务器错误' + status, 1500);
-                }
-                reject(err)
-            })
+        axios.get(url)
+          .then(response => {
+              if (response.data.code == 200) {
+                  if (response.data.diaShow) {
+                      store.commit("setToast",{show:true,icon:"success",title:response.data.msg})
+                  }
+                  resolve(response.data.data);
+              } else {
+                  store.commit("setToast",{show:true,icon:"error",title:response.data.msg})
+              }
+          }, err => {
+              console.log(err)
+              try {
+                  let status = err.response.status;
+                  store.commit("setToast",{show:true,icon:"error",title:http_status[status]})
+              } catch (e) {
+                  store.commit("setToast",{show:true,icon:"error",title:' 请求超时'})
+              }
+              reject(err)
+          })
     })
 };
 
