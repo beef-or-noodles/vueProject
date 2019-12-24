@@ -9,7 +9,7 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            name: 'index',
+            name: 'indexcon',
             component: resolve => require(['@/view/windex.vue'], resolve),
             redirect: '/index',
             meta: {title: '首页'},
@@ -39,7 +39,7 @@ const router = new Router({
                 component: resolve => require(['@/view/components/wlist.vue'], resolve),
                 meta: {title: '文章列表'},
             },{
-                path: '/userInfo',
+                path: '/userInfo/:id',
                 name: 'userInfo',
                 component: resolve => require(['@/view/components/userInfo.vue'], resolve),
                 meta: {title: '用户中心'},

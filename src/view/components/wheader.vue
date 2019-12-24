@@ -21,7 +21,6 @@
                 <div class="icon" @click="goLogin" title="去登录" >
                     <img :src="getUserInfo.image" v-if="getUserInfo.image" alt="">
                     <i class="icon_txt el-icon-user" v-else></i>
-
                 </div>
                 <div class="txt">
                     {{getUserInfo.userName?getUserInfo.userName:'暂未登录'}}
@@ -108,6 +107,10 @@
                     this.$router.push({
                         name:"login",
                         params:{isview:true}
+                    })
+                }else{
+                    this.$router.push({
+                        path:"/userInfo/0"
                     })
                 }
 

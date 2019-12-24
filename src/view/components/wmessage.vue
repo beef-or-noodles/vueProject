@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="right">
-                    <span class="userName">{{item.userName}}</span><span class="time"  v-text="computedTime(item.creatTime)">几小时</span>
+                    <span class="userName" @click="go_info(item.userId)">{{item.userName}}</span><span class="time"  v-text="computedTime(item.creatTime)">几小时</span>
                     <div class="mes" v-text="item.title">这里放标题</div>
                     <div class="answerbox">
                         <div class="userName">
@@ -42,10 +42,10 @@
                                 </div>
                             </div>
                             <div class="right">
-                                <span class="userName">{{elem.userName}}</span><span class="time" v-text="computedTime(elem.creatTime)">几小时</span>
+                                <span class="userName" @click="go_info(elem.userId)">{{elem.userName}}</span><span class="time" v-text="computedTime(elem.creatTime)">几小时</span>
                                 <div class="mes">{{elem.title}}
                                     <template v-if="elem.commentUserId">
-                                        <span class="userName">@{{elem.commentUserName}}：</span><span v-text="elem.commentText"></span>
+                                        <span class="userName" @click="go_info(elem.commentUserId)">@{{elem.commentUserName}}：</span><span v-text="elem.commentText"></span>
                                     </template>
                                 </div>
                                 <div class="answerbox">
@@ -117,6 +117,11 @@
         },
         methods: {
           ...mapMutations(["setToast"]),
+            go_info(id){
+                this.$router.push({
+                    path:"/userInfo/"+id
+                })
+            },
           computedTime(time){
               let d = time;
             if (typeof time === "string") {

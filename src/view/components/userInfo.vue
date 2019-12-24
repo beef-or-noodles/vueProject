@@ -2,9 +2,11 @@
     <div class="userInfo">
         <div class="head_img">
             <img src="../../../static/images/l_bg.jpg" alt="">
-            <div class="imgEdit hover" @click="uploadImg" v-if="type">
-                <i class="iconfont icon-tupian"></i>
-                <p>上传头像</p>
+            <div class="imgEdit">
+                <div class="headIcon" >
+                    <img :src="userData.image" alt="">
+                </div>
+                <p @click="uploadImg" v-if="type">上传头像</p>
             </div>
         </div>
         <div class="infoMessage">
@@ -12,16 +14,16 @@
             <div class="message">
                 <div class="name">
                     <i class="iconfont icon-yonghu"></i>
-                    <div v-if="!type">用户名</div>
+                    <div v-if="!type">{{userData.userName}}</div>
                     <div v-else>
-                        <input class="input" placeholder="输入用户名" type="text">
+                        <input ref="userName" class="input" placeholder="输入用户名" type="text">
                     </div>
                 </div>
                 <div class="email">
                     <i class="iconfont icon-youxiang"></i>
-                    <div v-if="!type">15945451@qq.com</div>
+                    <div v-if="!type">{{reapalceTxt(userData.Email)}}</div>
                     <div v-else>
-                        <input placeholder="1502337640@qq.com" class="input" type="text">
+                        <input ref="emile" placeholder="157******9@qq.com" class="input" type="text">
                     </div>
                 </div>
                 <div class="btn" v-if="type">
@@ -33,17 +35,56 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
   export default {
     name: "userInfo",
     data() {
       return {
-        type:true,//false查看 true编辑
+          type:true,//false查看 true编辑
+          userId:0,
+          userData:{}
       }
     },
     mounted(){
       this.draw()
+        this.init()
     },
+      watch: {
+          "$route"(to,form){
+              this.init()
+          },
+      },
+
+      computed:{
+        ...mapState({
+            userInfo:(state)=>state.userData.user_info
+        })
+      },
     methods:{
+        reapalceTxt(val){
+            console.log(val)
+            if(val){
+                var mtel = val.substr(0, 3) + '****' + val.substr(7);
+                return mtel
+            }else{
+                return ""
+            }
+
+        },
+        init(){
+            this.userId = this.$route.params.id
+            if(this.userId !=0 && this.userId){
+                this.queryUserInfo();
+                this.type = false
+            }else{
+                this.type=true;
+                this.userData = this.userInfo;
+                setTimeout(()=>{
+                    this.$refs.userName.value = this.userData.userName
+                    this.$refs.emile.value = this.userData.Email
+                },10)
+            }
+        },
       uploadImg(){
         console.log("上传图片");
       },
@@ -51,7 +92,6 @@
         let dom = this.$refs.canShade
         let width = dom.width;
         let height = dom.height
-        console.log(width,height);
         var ctx = dom.getContext("2d");
         ctx.beginPath();
         ctx.moveTo(0, height);
@@ -59,7 +99,14 @@
         ctx.lineTo(width, height);
         ctx.fillStyle = "white";
         ctx.fill();
-      }
+      },
+        //查询用户信息
+        queryUserInfo(){
+          this.$post(this.$api.userQueryId,{id:this.userId}).then(data=>{
+              this.userData = data
+              console.log(data);
+          })
+        }
     }
   }
 </script>
@@ -146,6 +193,14 @@
                 font-size: 40px;
             }
 
+        }
+        .headIcon{
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+            border: 5px solid rgba(255, 255, 255, 0.2);
         }
         img{
             display: block;

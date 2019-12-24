@@ -8,9 +8,7 @@
                     <wleft></wleft>
                 </div>
                 <div class="right">
-                    <keep-alive>
-                       <router-view ref="view"></router-view>
-                    </keep-alive>
+                    <router-view ref="view"></router-view>
                 </div>
             </div>
         </div>

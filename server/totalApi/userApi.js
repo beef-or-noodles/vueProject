@@ -143,6 +143,27 @@ router.post('/userQuery', (req, res) => {
   })
 });
 
+//根据用户id查询用户信息
+router.post('/userQueryId', (req, res) => {
+    // 查询总条数
+    var params = req.body;
+    var sqls = `select image,userName,creatTime,Email from userinfo where id=${params.id}`
+    conn.query(sqls, function(err, result) {
+        if (err) {
+            console.log(err);
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
+        }
+        if (result) {
+            let data = result[0]
+            let rdata = returnData(200,data,'',false);
+            res.send(rdata);
+        }
+    })
+});
+
+
+
 // 修改用户信息
 router.post('/updateUser',(req,res)=>{
   var sql = $sql.user.updateUser;

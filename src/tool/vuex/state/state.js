@@ -21,5 +21,4 @@ var locaData = localStorage.getItem("userData")
 if(!locaData){
    localStorage.setItem("userData",JSON.stringify(state.userData))
 }
-console.log(locaData);
 export default state
