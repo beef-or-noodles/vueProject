@@ -26,6 +26,10 @@ Vue.prototype.$tool = tool;//工具类
 Vue.config.productionTip = false;
 Vue.use(ElementUi); //调用element-ui
 
+import Navigation from 'vue-navigation'
+
+Vue.use(Navigation, {router,store,keyName:"KEY"})
+
 
 //全局组件
 Vue.component('wPage', resolve=>(require(["@/components/manage/components/wPage"],resolve)))
@@ -44,7 +48,10 @@ store.commit("setToast")
 //路由守卫
 router.beforeEach((to, from, next) => {
   var login = store.state.userData.user_info;
-  document.documentElement.scrollTop=document.body.scrollTop=0;
+  if(to.name == from.name){
+    document.documentElement.scrollTop=document.body.scrollTop=0;
+  }
+
   store.commit("setToast")
   if(to.meta.rootLogin){
     if(!login.isLogin){
@@ -55,7 +62,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title != '' && to.meta.title != undefined) {
     document.title = to.meta.title;
   } else {
-    document.title = "首页";
+    document.title = "一二三首页";
   }
   next();
 });

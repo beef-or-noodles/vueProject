@@ -37,8 +37,10 @@
         },
         watch:{
           "$route"(to,form){
+            if(to.name == form.name){
               this.articeId = Number(this.$route.params.id);
               this.clickNumber();
+            }
           }
         },
         methods: {
@@ -58,7 +60,6 @@
             },
 
             pagingData(){
-              console.log("2");
                 this.$refs.wmessage.pagingData();
             }
         },

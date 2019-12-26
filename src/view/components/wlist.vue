@@ -36,10 +36,13 @@
         },
         watch:{
             '$route'(to,form){
+              if(to.name == form.name){
                 this.columnId = to.params.id;
                 this.tableData = []
                 this.paging.pageNo = 1;
                 this.queryArtice();
+              }
+
             }
         },
         methods: {

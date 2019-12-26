@@ -8,7 +8,9 @@
                     <wleft></wleft>
                 </div>
                 <div class="right">
-                    <router-view ref="view"></router-view>
+                    <navigation>
+                        <router-view ref="view"></router-view>
+                    </navigation>
                 </div>
             </div>
         </div>
