@@ -89,14 +89,14 @@ var sqlMap = {
                             \tcm.likes,
                             \tcm.title,
                             \tu2.userName commentUserName,
-                            \comments.title commentText
+                            \comm.title commentText
                             FROM
                             \tcomments AS cm
                             \tLEFT JOIN userinfo AS u ON u.id = cm.userId
                             \tLEFT JOIN userinfo AS u2 ON u2.id = cm.commentUserId 
-                            \LEFT JOIN comments ON comments.userId = cm.commentUserId 
+                            \LEFT JOIN comments AS comm ON comm.userId = cm.commentUserId 
                             WHERE
-                            \tcm.messageId = ? 
+                            \tcm.messageId = ?  and comm.messageId=?
                             ORDER BY
                             \tcm.creatTime DESC 
                         LIMIT ?,?`,//查询回复

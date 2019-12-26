@@ -96,7 +96,6 @@
         .des{
             width: 100%;
             background: @color2;
-            padding: 5px;
             box-sizing: border-box;
             .overHidden(2);
             font-size: 14px;

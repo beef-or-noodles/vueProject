@@ -48,7 +48,7 @@ router.post('/queryCommentChild', function(req, res) {
     var pageSize = params.pageSize;
     let queryList = $sql.commentApi.queryCommentChild
     var sqls = `select count(*) from comments where messageId=${params.messageId} and messageId=0;${queryList}`
-    conn.query(sqls,[params.messageId,pageNo,pageSize], function(err, result) {
+    conn.query(sqls,[params.messageId,params.messageId,pageNo,pageSize], function(err, result) {
         if (err) {
             console.log(err);
             let Edata = returnData(500, '', '服务器错误', true);

@@ -61,21 +61,16 @@
                         _this.leftTop = 0
                     }
                 }
-
-                if(document.documentElement.scrollTop != 0){
-                    /*到底加载更多数据*/
-                    if (t + $(window).height() == $(document).height()) {
-                        setTimeout(() => {
-                            try {
-                                _this.$refs.view.pagingData();
-
-                            } catch (e) {
-                              console.log(e);
-                            }
-                        }, 300)
-                    }
+                /*到底加载更多数据*/
+                if (t + $(window).height() == $(document).height()) {
+                    setTimeout(() => {
+                        try {
+                            _this.$refs.view.pagingData();
+                        } catch (e) {
+                          console.log(e);
+                        }
+                    }, 300)
                 }
-
             }
         },
       activated(){

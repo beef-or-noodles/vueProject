@@ -103,9 +103,7 @@
     #object {
         width: 50px;
         height: 50px;
-        background: linear-gradient(to right, #4568DC, #B06AB3);
-        background: #4568DC;
-        background: -webkit-gradient(linear, left top, right top, from(#B06AB3), to(#4568DC));
+        background: #ff7268;
         -webkit-animation: animate 1s infinite ease-in-out;
         animation: animate 1s infinite ease-in-out;
     }
