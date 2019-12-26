@@ -31,7 +31,10 @@
                             <span v-if="userId != item.userId" @click="commentBtn(item,index)">回复 ~ </span>
                             <span @click="queryCommentChild(item,index)">{{item.commentTotal}}条回复<template v-if="item.commentTotal">{{item.open?'收起':'展开'}}</template></span>
                         </div>
-                        <div class="noice" @click="zanClick(item)">{{item.likes}}<i class="iconfont icon-icon"></i></div>
+                        <div class="noice" @click="zanClick(item)">
+                            <div :class="{active:item.likeActive}" class="liketxt">{{item.likes}}</div>
+                            <wstart :active="item.likeActive" :scale=".7"></wstart>
+                        </div>
                     </div>
                     <div class="comment" :class="'J_input_'+index"></div>
                     <div class="moremessage">
@@ -50,7 +53,10 @@
                                 </div>
                                 <div class="answerbox">
                                     <div class="userName"><span v-if="userId != elem.userId" @click="commentBtn(elem,index,childIndex)">回复</span></div>
-                                    <div class="noice" @click="zanClick(elem)">{{elem.likes}}<i class="iconfont icon-icon"></i></div>
+                                    <div class="noice" @click="zanClick(elem)">
+                                        <div :class="{active:elem.likeActive}" class="liketxt">{{elem.likes}}</div>
+                                        <wstart :active="elem.likeActive" :scale=".7"></wstart>
+                                    </div>
                                 </div>
                                 <div class="comment" :class="'J_input_'+index+'_'+childIndex"></div>
                             </div>
@@ -65,6 +71,7 @@
 
 <script>
     import {mapGetters,mapMutations} from "vuex"
+    import wstart from "./componentView/wstart";
     export default {
         name: "wmessage",
         data() {
@@ -75,6 +82,7 @@
               phoneInput:false,
               userId:1,
               messageData:[],
+              likesId:[],
                 paging: {
                     pageNo: 1,
                     pageSize: 10,
@@ -82,6 +90,9 @@
                 },
             }
         },
+      components:{
+        wstart
+      },
         created(){
             this.paging.pageNo = 1;
             this.userId = this.getUserInfo.id
@@ -275,7 +286,8 @@
                 this.$post(this.$api.queryComment, this.paging).then((data) => {
                     data.data.forEach(itme=>{
                         itme["childMessage"] = [];
-                        itme["open"] = false
+                        itme["open"] = false;
+                        itme["likeActive"] = false;
                     })
                     this.messageData.push(...data.data)
                     this.paging.total = data.total
@@ -311,7 +323,13 @@
 
             },
             zanClick(item){
+              if(this.likesId.indexOf(item.id)!=-1){
+                this.setToast({show:true,icon:"warning",title:"已经赞过啦"})
+                return
+              }
                 this.$post(this.$api.clickLikes, {id:item.id}).then((data) => {
+                    this.likesId.push(item.id)
+                    item["likeActive"] = true;
                     item.likes++
                 });
             }
@@ -390,10 +408,19 @@
                 position: relative;
                 .noice{
                    position: absolute;
-                   right: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    right: -35px;
+                    top: -40px;
+                    .liketxt{
+                        margin-right: -35px;
+                        &.active{
+                            color: #e64f2a;
+                        }
+                    }
                     &:hover{
                         cursor: pointer;
-                        color: #e64f2a;
                     }
                 }
             }

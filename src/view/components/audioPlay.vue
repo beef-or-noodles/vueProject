@@ -176,7 +176,7 @@
 
     .audio {
         position: fixed;
-        bottom: 20%;
+        top: 20%;
         right: 0;
         width: 320px;
         height: 90px;
@@ -211,18 +211,20 @@
             }
         }
         &.active {
-            right: -300px;
+            right: -320px;
         }
         .box {
             position: relative;
             height: 100%;
             .explanded {
                 position: absolute;
-                left: 0;
-                width: 20px;
-                height: 100%;
-                background: rgba(230,79,42,0.1);
-                color: #000000;
+                left: -40px;
+                top: 20px;
+                width: 40px;
+                height: 40px;
+                background: rgba(230,79,42,1);
+                border-radius: 50%;
+                color: white;
                 font-size: 20px;
                 text-align: center;
                 display: flex;
