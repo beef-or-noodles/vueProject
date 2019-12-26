@@ -25,9 +25,9 @@ Vue.prototype.$api = api;
 Vue.prototype.$tool = tool;//工具类
 Vue.config.productionTip = false;
 Vue.use(ElementUi); //调用element-ui
-
+import "../static/view/css/iconfont.css";
+//使用导航缓存页面插件
 import Navigation from 'vue-navigation'
-
 Vue.use(Navigation, {router,store,keyName:"KEY"})
 
 

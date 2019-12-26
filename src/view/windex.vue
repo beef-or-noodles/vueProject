@@ -8,9 +8,9 @@
                     <wleft></wleft>
                 </div>
                 <div class="right">
-                    <navigation>
+                    <transition name="fade">
                         <router-view ref="view"></router-view>
-                    </navigation>
+                    </transition>
                 </div>
             </div>
         </div>
@@ -108,6 +108,24 @@
 
 <style lang="less" scoped>
     @import "less/public.less";
+    .fade-enter{
+        transform:translate(1000px,0);
+    }
+    /*.fade-enter-active{
+        transform:translate(500px,0);
+    }
+    .fadev-enter-to{
+        transform:translate(0,0);
+    }*/
+    /*离开*/
+    .fade-leave{
+        transform:translate(-1000px,0);
+        opacity: 1;
+    }
+    .fade-leave-active{
+        transform:translate(-1000px,0);
+        opacity: 0;
+    }
 
     .indexBg {
         position: relative;

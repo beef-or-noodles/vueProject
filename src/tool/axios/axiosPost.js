@@ -1,8 +1,4 @@
 import axios from 'axios'
-import {
-    Loading,
-    Message
-} from 'element-ui'
 import api from '../api/apiurl.js'
 import store from '../vuex/store/store.js'
 // axios.defaults.withCredentials = true; //是否携带cookie
@@ -10,8 +6,6 @@ axios.defaults.baseURL = api.baseURL; //默认请求地址
 const http_status={'400':'请求错误','401':'未授权，请登录','403':'拒绝访问','404':'请求地址出错','408':'请求超时','500':'服务器内部错误','501':'服务未实现','502':'网关错误','503':'服务不可用','504':'网关超时','505':'HTTP版本不受支持'};
 
 axios.defaults.timeout = 15000;
-let loading = null;
-let timer = null
 // 设置拦截器
 axios.interceptors.request.use( function(config) {
    let userData = store.state.userData
@@ -19,7 +13,6 @@ axios.interceptors.request.use( function(config) {
         let token = userData.user_info.id
         config.headers.token = token;
     }
-    /*请求超过一秒没回来就打开加载动画*/
     setloading(); //加载动画
     return config;
 }, function (error) {
@@ -46,30 +39,28 @@ axios.interceptors.response.use(function(response){
  * @returns {Promise}
  */
 //加载动画
+var loadingCount = 0;//设置请求个数
+let timer = null;
+
 function setloading() {
-    store.commit("setToast",{show:true,icon:"loading",title:"加载中..."})
+    if(loadingCount === 0){
+        timer = setTimeout(()=>{
+            store.commit("setToast",{show:true,icon:"loading",title:"加载中..."})
+        },300);
+    }
+    loadingCount++
 }
 
-//关闭加载 清除请求定时器
+//关闭加载
 function endLoading() {
-    store.commit("setToast")
+    if(loadingCount<=0)return
+    loadingCount--
+    if(loadingCount === 0){
+        window.clearTimeout(timer)
+        store.commit("setToast")
+    }
+
 }
-
-/*
- *消息提示
- *type:success  warning   info   error
- *msg：消息文字
- *time：关闭时间
- */
-function messageBox(type, msg, time) {
-    Message({
-        type: type,
-        message: msg,
-        duration: time,
-        showClose: true,
-    });
-};
-
 //psot 请求
 export function post(url, data = {}) {
     return new Promise((resolve, reject) => {
@@ -138,18 +129,12 @@ export function uploadImg(url, data) {
             if (response.data.code == 200) {
                 resolve(response.data.data);
                 if (response.data.diaShow) {
-                    messageBox('success', response.data.msg, 1500);
+                    store.commit("setToast",{show:true,icon:"success",title:response.data.msg})
                 }
             } else {
-                messageBox('error', response.data.msg, 1500);
+                store.commit("setToast",{show:true,icon:"error",title:response.data.msg})
             }
         }, err => {
-            let status = err.response.status;
-            if (status === 404) {
-                messageBox('error', '没找到请求地址' + status, 1500);
-            } else if (status === 500 || status === 504) {
-                messageBox('error', '服务器错误' + status, 1500);
-            }
             reject(err)
         });
     })
