@@ -2,10 +2,9 @@
     <div class="audio" :class="{active:hide}">
         <audio @ended="ended" @timeupdate="timeupdate" @canplay="canplay" src="" ref="audio"></audio>
         <div class="box">
-            <div class="explanded" :class="hide?' el-icon-d-arrow-left':' el-icon-d-arrow-right'" @click="hide=!hide">
+            <div class="explanded iconfont icon-music" @click="hide=!hide">
             </div>
             <div class="icon" :class="{stopAnimate:!playState}">
-                <div class="cen"></div>
                 <img :src="musicData.imgurl" alt="">
             </div>
             <div class="titleBox">
@@ -176,9 +175,9 @@
 
     .audio {
         position: fixed;
-        top: 20%;
+        bottom: 20%;
         right: 0;
-        width: 320px;
+        width: 300px;
         height: 90px;
         background: white;
         z-index: 999;
@@ -211,7 +210,7 @@
             }
         }
         &.active {
-            right: -320px;
+            right: -300px;
         }
         .box {
             position: relative;
@@ -219,9 +218,8 @@
             .explanded {
                 position: absolute;
                 left: -40px;
-                top: 20px;
-                width: 40px;
-                height: 40px;
+                width: 36px;
+                height: 36px;
                 background: rgba(230,79,42,1);
                 border-radius: 50%;
                 color: white;
@@ -232,17 +230,13 @@
                 align-items: center;
                 box-sizing: border-box;
                 transition: all .36s ease;
-                &:hover {
-                    cursor: pointer;
-                    padding-left: 5px;
-                }
             }
             .icon {
                 width: 70px;
                 height: 70px;
                 overflow: hidden;
                 position: absolute;
-                left: 40px;
+                left: 10px;
                 border-radius: 50%;
                 display: flex;
                 justify-content: center;
@@ -254,18 +248,6 @@
                     animation-play-state: paused;
                     -webkit-animation-play-state: paused; /* Safari 和 Chrome */
                 }
-                .cen {
-                    position: absolute;
-                    content: "";
-                    display: block;
-                    width: 15px;
-                    height: 15px;
-                    background: white;
-                    z-index: 99;
-                    border-radius: 50%;
-                    border: 4px solid #ffd7ce;
-                    opacity: .8;
-                }
                 img {
                     height: 100%;
                     width: 100%;
@@ -273,7 +255,7 @@
             }
             .titleBox {
                 position: absolute;
-                left: 110px;
+                left: 90px;
                 width: 210px;
                 overflow: hidden;
                 height: calc(100% - 10px);
@@ -306,8 +288,7 @@
             }
             .slidBar {
                 position: absolute;
-                width: calc(100% - 20px);
-                left: 20px;
+                width:100%;
                 height: 5px;
                 background: #ffd7ce;
                 bottom: 0;

@@ -78,7 +78,7 @@
             }
         },
       activated(){
-         console.log("1233333333333333333333");
+         console.log("缓存");
       },
         methods: {
             close(val) {

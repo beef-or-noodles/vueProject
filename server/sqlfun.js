@@ -55,7 +55,7 @@ var sqlMap = {
         insertRootMenu: ``,//添加数据
     },
     commentApi: {
-        addComment: `insert into comments(messageId,userId,articeId,title,commentUserId) values(?,?,?,?,?);`,
+        addComment: `insert into comments(messageId,userId,articeId,title,commentUserId,toCommentId) values(?,?,?,?,?,?);`,
         queryComment: `SELECT
                         u.userName,
                         u.image,
@@ -78,28 +78,28 @@ var sqlMap = {
                         cm.creatTime DESC 
                         LIMIT ?,?`,
         queryCommentChild:`SELECT
-                            \tu.userName,
-                            \tu.image,
-                            \tcm.id,
-                            \tcm.messageId,
-                            \tcm.userId,
-                            \tcm.articeId,
-                            \tcm.creatTime,
-                            \cm.commentUserId,
-                            \tcm.likes,
-                            \tcm.title,
-                            \tu2.userName commentUserName,
-                            \comm.title commentText
+                            u.userName,
+                            u.image,
+                            cm.messageId,
+                            cm.userId,
+                            cm.articeId,
+                            cm.creatTime,
+                            cm.commentUserId,
+                            cm.likes,
+                            cm.title,
+                            u2.userName AS commentUserName,
+                            cm.id,
+                            comments.title AS commentText
                             FROM
-                            \tcomments AS cm
-                            \tLEFT JOIN userinfo AS u ON u.id = cm.userId
-                            \tLEFT JOIN userinfo AS u2 ON u2.id = cm.commentUserId 
-                            \LEFT JOIN comments AS comm ON comm.userId = cm.commentUserId 
+                            comments AS cm
+                            LEFT JOIN userinfo AS u ON u.id = cm.userId
+                            LEFT JOIN userinfo AS u2 ON u2.id = cm.commentUserId
+                            LEFT JOIN comments ON cm.toCommentId = comments.id
                             WHERE
-                            \tcm.messageId = ?  and comm.messageId=?
+                            cm.messageId = ?
                             ORDER BY
-                            \tcm.creatTime DESC 
-                        LIMIT ?,?`,//查询回复
+                            cm.creatTime DESC
+                            LIMIT ?, ?`,//查询回复
         totalPush:`update comments set commentTotal=commentTotal+1 where id = ?`,//总数计算
         clickLikes:`update comments set likes=likes+1 where id = ?`,//留言点赞
 

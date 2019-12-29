@@ -222,7 +222,8 @@
                 commentUserName:"",//被评论人名字
                 commentUserId:"",
                 commentTotal:0,//总条数
-                childMessage:[]
+                childMessage:[],
+                toCommentId:0,
               }
 
 
@@ -245,8 +246,10 @@
                 if (commentItem.hasOwnProperty("index")&&commentItem.hasOwnProperty("childIndex")){//二级回复
 
                   console.log("二级回复");
+                  console.log(this.commentItem);
                   message.messageId = commentItem.messageId;
-                  message.commentUserId = commentItem.userId
+                  message.commentUserId = commentItem.userId;
+                  message.toCommentId = commentItem.id
                   name = `J_input_${commentItem.index}_${commentItem.childIndex}`;
                     this.addComment(message,()=>{
                         this.messageData[commentItem.index].commentTotal ++
@@ -309,7 +312,7 @@
                 if(!item.open){
                     let params = {
                         pageNo: 1,
-                        pageSize: 5,
+                        pageSize: 50,
                         messageId:item.id
                     }
                     this.$post(this.$api.queryCommentChild, params).then((data) => {

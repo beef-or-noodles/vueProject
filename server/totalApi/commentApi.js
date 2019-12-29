@@ -48,7 +48,7 @@ router.post('/queryCommentChild', function(req, res) {
     var pageSize = params.pageSize;
     let queryList = $sql.commentApi.queryCommentChild
     var sqls = `select count(*) from comments where messageId=${params.messageId} and messageId=0;${queryList}`
-    conn.query(sqls,[params.messageId,params.messageId,pageNo,pageSize], function(err, result) {
+    conn.query(sqls,[params.messageId,pageNo,pageSize], function(err, result) {
         if (err) {
             console.log(err);
             let Edata = returnData(500, '', '服务器错误', true);
@@ -88,21 +88,22 @@ router.post('/clickLikes', function(req, res) {
 /*添加评论*/
 router.post('/addComment', function(req, res) {
     var params = req.body;
-    var arr =[params.messageId,params.userId,params.articeId,params.title,params.commentUserId];
+    var arr =[params.messageId,params.userId,params.articeId,params.title,params.commentUserId,params.toCommentId];
     var sql = $sql.commentApi.addComment
     var totalPush = $sql.commentApi.totalPush
+    if(params.messageId != 0){
+        conn.query(totalPush, [params.messageId], function(err, result) {
+            if (err) {
+                console.log(err);
+                let Edata = returnData(500, '', '添加总条数错误', true);
+                res.send(Edata);
+            }
+            if (result) {
 
-    conn.query(totalPush, [params.messageId], function(err, result) {
-        if (err) {
-            console.log(err);
-            let Edata = returnData(500, '', '服务器错误', true);
-            res.send(Edata);
-        }
-        if (result) {
-            let data = returnData(200, '', '添加成功', false);
-            res.send(data);
-        }
-    })
+            }
+        })
+    }
+
     conn.query(sql, arr, function(err, result) {
         if (err) {
             console.log(err);
