@@ -25,7 +25,7 @@ export default {
   delectColumn: baseURL + '/delectColumn', //删除栏目
   updateColumn: baseURL + '/updateColumn', //修改
   batchSort: baseURL + '/batchSort', //保存批量排序
-  queryPhoto:baseURL + '/queryPhoto',//查询相册
+  queryPhoto:baseURL + '/queryPhotoAll',//查询相册
 
   addArtice: baseURL + '/addArtice', //保存批量排序
   queryArtice: baseURL + '/queryArtice', //根据栏目id查询文章

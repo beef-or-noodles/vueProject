@@ -21,6 +21,7 @@ var sqlMap = {
         delectColumn: 'delete from columnlist where id in (?);', //删除栏目
         searchColumn: 'select * from columnlist where userID=? and concat(columnName) like ?;', //根据名字模糊查询
         updateColumn: 'update columnlist set columnName = ? ,belongId = ? , checkRoot = ? ,belongName = ?, sort = ? , `describe` = ? ,imgUrl = ? where id = ?;', //根据ID修改
+        queryPhotoAll: `SELECT * FROM columnlist WHERE isType = ?; `
     },
     artice: {
         addArtice: 'insert into artice(userID,columnId,articeTitle,abstract,content,author,checkRoot,imgurl,columnName,setTime,strTime,articeType) values(?,?,?,?,?,?,?,?,?,?,?,?);', //添加文章

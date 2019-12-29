@@ -327,6 +327,21 @@ router.post('/queryPhoto',(req,res)=>{
   });
 });
 
-
+// 查找相册
+router.post('/queryPhotoAll',(req,res)=>{
+  var sql = $sql.column.queryPhotoAll;
+  var isType = req.body.isType
+  conn.query(sql,[isType],function(err, result){
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let rdata = returnData(200, result, '查询成功', false);
+      res.send(rdata);
+    }
+  });
+});
 
 module.exports = router;
