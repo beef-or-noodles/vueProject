@@ -9,7 +9,9 @@
                 </div>
                 <div class="right">
                     <transition name="fade">
-                        <router-view ref="view"></router-view>
+                        <keep-alive :exclude="['wcontent']">
+                            <router-view  ref="view"></router-view>
+                        </keep-alive>
                     </transition>
                 </div>
             </div>

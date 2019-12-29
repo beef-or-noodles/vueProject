@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-          target: 'https://smartwu.top/api',//https://smartwu.top/api ,http://localhost:8889/api
+          target: 'http://localhost:8889/api',//https://smartwu.top/api ,http://localhost:8889/api
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''
@@ -20,7 +20,7 @@ module.exports = {
        }
     },
     // Various Dev Server settings
-    host: '192.168.0.157', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
