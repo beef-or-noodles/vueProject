@@ -203,7 +203,7 @@
 
                         background-size: 100% 100%;
                         margin-bottom: 15px;
-                        color: white;
+                        color: #4e4e4e;
                         padding: 5px;
                         margin-left: 10px;
                         margin-top: 5px;

@@ -161,7 +161,7 @@
                 font-size: 14px;
                 color: #797b7c;
                 margin-top: 10px;
-                min-height: 42px;
+                height: 40px;
                 .overHidden(2)
             }
             .other{
