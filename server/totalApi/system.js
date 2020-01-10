@@ -47,6 +47,78 @@ function connLog(data){
         if (result) {}
     })
 }
+/*查询统计数据*/
+// 查询日志
+router.post('/queryChart', function(req, res) {
+    var sqls = `select count(*) from user_log where system = 'Windows';
+                select count(*) from user_log where system = 'iPhone' or system='Android';
+                select count(*) from user_log where system != 'Windows' and  system != 'iPhone' and system!='Android';
+                select count(*) from artice where articeType = 0;
+                select count(*) from artice where articeType = 1;
+                select count(*) from artice where articeType = 2;
+                select count(*) from userinfo;
+                select count(*) from columnlist;
+                select count(*) from comments;
+                `
+    conn.query(sqls, function(err, result) {
+        if (err) {
+            console.log(err);
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
+        }
+        if (result) {
+            var systemMun = {
+                pc:result[0][0]["count(*)"],
+                mobile:result[1][0]["count(*)"],
+                other:result[2][0]["count(*)"],
+            }
+            var contentNum = {
+                artice:result[3][0]["count(*)"],
+                photo:result[4][0]["count(*)"],
+                music:result[5][0]["count(*)"],
+                user:result[6][0]["count(*)"],
+                column:result[7][0]["count(*)"],
+                comments:result[8][0]["count(*)"],
+            }
+            let data = {
+                systemMun,
+                contentNum,
+            };
+            let rdata = returnData(200, data, '', false);
+            res.send(rdata);
+        }
+    })
+});
+
+//查询时间段内的数据
+router.post('/queryTimeLog', function(req, res) {
+    let params = req.body
+    let sqls = `SELECT
+                \tDATE_FORMAT( creatTime, '%Y-%m-%d' ) DAY,
+                \tCOUNT( id ) count 
+                FROM
+                \t\`user_log\` 
+                WHERE
+                \tcreatTime BETWEEN '${params.beginTime}' 
+                \tAND '${params.endTime}' 
+                GROUP BY
+                \tDAY 
+                ORDER BY
+                \tcreatTime;`
+    conn.query(sqls, function(err, result) {
+        if (err) {
+            console.log(err);
+            let Edata = returnData(500, '', '服务器错误', true);
+            res.send(Edata);
+        }
+        if (result) {
+            let data = result
+            let rdata = returnData(200, data, '', false);
+            res.send(rdata);
+        }
+    })
+})
+
 
 /*得到文件列表*/
 /*router("/queryFileList",function(req,res){

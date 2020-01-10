@@ -63,7 +63,7 @@ const router = new Router({
             path: '/home',
             name: 'home',
             component: mainIndex,
-            redirect: '/home/logList',
+            redirect: '/home/chart',
             meta: {title: '首页'},
             children: [{
                 path: '/home/columnEdit',
@@ -95,6 +95,11 @@ const router = new Router({
                 name: 'userEdit',
                 component: resolve => require(['@/components/manage/userInfo/userEdit.vue'], resolve),
                 meta: {title: '账号管理'},
+            },{
+                path: '/home/chart',
+                name: 'chart',
+                component: resolve => require(['@/components/manage/system/chart.vue'], resolve),
+                meta: {title: '图表统计'},
             },{
                 path: '/home/logList',
                 name: 'logList',
