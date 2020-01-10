@@ -20,7 +20,7 @@ export const routerMenuData = [{
     menuIndex: '1',
     rootPath: '/manage/system',
     rootMainList: [ {
-        rootChildName: '图标统计',
+        rootChildName: '图表统计',
         rootPower: true,
         rootLogin: true,
         rootPath: '/manage/system/chart',

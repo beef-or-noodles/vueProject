@@ -53,7 +53,7 @@ export default {
     return {
       isCollapse: true,
       menuData: '', //菜单数据
-      textName: "C_CMS",
+      textName: "一二三",
     }
   },
   created() {
