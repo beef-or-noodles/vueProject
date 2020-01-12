@@ -7,7 +7,7 @@
             </el-table-column>
             <el-table-column prop="articeId" label="文章id" width="100px">
             </el-table-column>
-            <el-table-column prop="title" label="评论内容" width="180px">
+            <el-table-column prop="title" label="评论内容">
                 <template slot-scope="scop">
                     <div v-html="scop.row.title"></div>
                 </template>
@@ -15,6 +15,9 @@
             <el-table-column prop="commentUserName" label="被评论人昵称" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="commentText" label="被评论内容" show-overflow-tooltip>
+                <template slot-scope="scop">
+                    <div v-html="scop.row.commentText"></div>
+                </template>
             </el-table-column>
             <el-table-column prop="likes" label="点赞次数" width="100px">
             </el-table-column>
