@@ -91,6 +91,11 @@ const router = new Router({
                 component: resolve => require(['@/components/manage/artice/recycle.vue'], resolve),
                 meta: {title: '回收站'},
             },{
+                path: '/home/commentList',
+                name: 'commentList',
+                component: resolve => require(['@/components/manage/artice/commentList.vue'], resolve),
+                meta: {title: '留言管理'},
+            },{
                 path: '/home/userEdit',
                 name: 'userEdit',
                 component: resolve => require(['@/components/manage/userInfo/userEdit.vue'], resolve),

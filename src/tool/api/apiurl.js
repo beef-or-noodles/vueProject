@@ -49,4 +49,6 @@ export default {
   queryComment:baseURL+"/queryComment",//查询评论
   queryCommentChild:baseURL+"/queryCommentChild",//查询子评论
   clickLikes:baseURL+"/clickLikes",//点赞
+  queryAllComment:baseURL+"/queryAllComment",//查询所有评论
+  delectComment:baseURL+"/delectComment",//删除评论
 }

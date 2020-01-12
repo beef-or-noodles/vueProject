@@ -19,7 +19,10 @@
                     </div>
                 </div>
                 <div class="zcBox" :class="{right:activeMove}">
-                    <h3>Sign Up</h3>
+                    <div class="iconLoad">
+                        <upload :fileType="1"  @change="fileChange"  :copper="true" :autoUp="true"></upload>
+                    </div>
+
                     <w-input title="用户名" placeholder="输入您的昵称" v-model="userName1"></w-input>
                     <w-input type="password" title="密码" v-model="password1"></w-input>
                     <w-input type="password" title="确认密码" v-model="password2"></w-input>
@@ -37,7 +40,7 @@
                         <div class="zc" @click="activeMove = false">
                             去登录
                         </div>
-                        <button class="btn" @click="judegeUserName(userName,2)">
+                        <button class="btn" @click="judegeUserName(userName1,2)">
                             立即注册
                         </button>
                     </div>
@@ -54,10 +57,10 @@
         routerMenuData
     } from '@/tool/public/routerData.js' //配置的路由表
     import wInput from '../components/wInput'
-
+    import upload from '../components/uploade'
     export default {
         components: {
-            wInput
+            wInput,upload
         },
         data() {
             return {
@@ -69,7 +72,7 @@
                 password2: '',
                 email: '',
                 code: '',
-
+                imgurl:"",
                 active: false,
                 active1: false,
                 active2: false,
@@ -120,6 +123,10 @@
 
             /*验证邮箱昵称*/
             judegeUserName(name,type=1){
+                if (name == ""){
+                    this.setToast({show:true,icon:"warning",title:"请输入用户名"})
+                    return
+                }
                 this.$post(this.$api.judegeUserName, {userName:name}).then((data) => {
                     if(type == 1){
                         this.getCode()
@@ -128,7 +135,10 @@
                     }
                 })
             },
-
+//上传图片
+            fileChange(val){
+                this.imgurl = val;
+            },
             //注册用户
             addNewUser() {
                 if (this.password1 != this.password2) {
@@ -143,6 +153,7 @@
                     passWord: this.password1,
                     Email: this.email,
                     code: this.code,
+                    imgurl:this.imgurl
                 }
                 this.$post(this.$api.addNewUser, params).then((data) => {
                     this.userName = this.userName1;
@@ -154,6 +165,11 @@
                     }).then(() => {
                         this.loginBtn();
                     }).catch(() => {
+                        this.userName1 = ""
+                        this.password1=""
+                        this.email=""
+                        this.email=""
+                        this.imgurl=""
                     });
                 });
             },
@@ -276,7 +292,7 @@
             background: rgba(0, 0, 0, 0.6);
 
             & > div {
-                margin-top: 150px;
+                margin-top: 100px;
                 padding: 0 60px;
                 font-family: "Times New Roman";
 
@@ -367,5 +383,10 @@
                 left: 0;
             }
         }
+    }
+    .iconLoad{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>

@@ -82,6 +82,14 @@ export const routerMenuData = [{
         path: '/home/recycle',
         name: 'recycle',
         icon: '',
+    }, {
+        rootChildName: '留言管理',
+        rootPower: true,
+        rootLogin: true,
+        rootPath: '/manage/artice/commentList',
+        path: '/home/commentList',
+        name: 'commentList',
+        icon: '',
     }]
 }, {
     rootMainName: '账号管理',

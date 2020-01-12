@@ -103,7 +103,28 @@ var sqlMap = {
                             LIMIT ?, ?`,//查询回复
         totalPush:`update comments set commentTotal=commentTotal+1 where id = ?`,//总数计算
         clickLikes:`update comments set likes=likes+1 where id = ?`,//留言点赞
-
+        queryAllComment:`SELECT
+                            u.userName,
+                            u.image,
+                            cm.messageId,
+                            cm.userId,
+                            cm.articeId,
+                            cm.creatTime,
+                            cm.commentUserId,
+                            cm.likes,
+                            cm.title,
+                            u2.userName AS commentUserName,
+                            cm.id,
+                            comments.title AS commentText
+                            FROM
+                            comments AS cm
+                            LEFT JOIN userinfo AS u ON u.id = cm.userId
+                            LEFT JOIN userinfo AS u2 ON u2.id = cm.commentUserId
+                            LEFT JOIN comments ON cm.toCommentId = comments.id
+                            ORDER BY
+                            cm.creatTime DESC
+                            LIMIT ?, ?`,
+        delectComment:`DELETE FROM comments WHERE id=?;`,//删除评论
     }
 }
 

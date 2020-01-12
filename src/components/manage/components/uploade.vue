@@ -112,6 +112,9 @@
             //剪辑图片返回数据
             saveImg(val){
                 this.imgurl = val;
+                if (this.autoUp) {
+                    this.submitUpload();
+                }
                 this.edit = false;
             },
             //手动上传图片
