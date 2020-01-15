@@ -122,7 +122,7 @@
             //文件预览
             preview(path){
                 var url = window.location.origin;
-                let newpath = path.substring(1,path.length)
+                let newpath = path.substring(0,path.length)
                 window.open(url+"/"+newpath,"_blank")
             }
         },

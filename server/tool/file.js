@@ -25,7 +25,6 @@ function getReaddir(path){
     let obj=[]
     function readdir(url){
       let files = fs.readdirSync(url);
-      console.log(files.length);
         files.forEach(function(item , index){
             let params = {
                 path:"",
