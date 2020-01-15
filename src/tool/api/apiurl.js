@@ -51,4 +51,8 @@ export default {
   clickLikes:baseURL+"/clickLikes",//点赞
   queryAllComment:baseURL+"/queryAllComment",//查询所有评论
   delectComment:baseURL+"/delectComment",//删除评论
+
+  queryFileList:baseURL+"/queryFileList",//查询文件
+  creatDir:baseURL+"/creatDir",//创建文件夹
+  delectFile:baseURL+"/delectFile",//删除文件
 }

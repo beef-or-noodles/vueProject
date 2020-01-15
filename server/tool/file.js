@@ -3,32 +3,17 @@
  */
 var fs = require("fs");
 
-/*读取文件内容*/
-export function readFile(path){
-    var params = {
-        data:"",
-    }
-    try{
-        var data = fs.readFileSync(path,'utf8');
-        params = {
-            data:data.toString(),
-        }
-    }catch(err) {
-        if (err) throw err
-    }
-    return params
-}
 /*
 * 创建文件夹
 * path：路径加名字
 * */
-export function creatDir(path){
-    var params = false;
+function creatDir(path){
+    var params = {};
     try{
         fs.mkdirSync(path);
-        params = true;
     }catch (e) {
         console.error(e);
+        params = e
     }
     return params
 }
@@ -36,10 +21,11 @@ export function creatDir(path){
 *文件读取
 * @params path 基础路径
 * */
-export function getReaddir(path){
+function getReaddir(path){
     let obj=[]
     function readdir(url){
       let files = fs.readdirSync(url);
+      console.log(files.length);
         files.forEach(function(item , index){
             let params = {
                 path:"",
@@ -60,30 +46,27 @@ export function getReaddir(path){
 }
 
 /*删除文件*/
-export function delectFile(path){
-    var params = false;
-
+function delectFile(path){
+    var params = {};
     var stat = fs.statSync(path);
     if(stat.isFile()){
         try{
             fs.unlinkSync(path);
-            params = true;
         }catch (e) {
-            console.log(e);
+            params=e
         }
     }else if(stat.isDirectory()){
         try{
             fs.rmdirSync(path);
-            params = true;
         }catch (e) {
-            console.log(e);
+            params=e
         }
     }
     return params
 }
 
 /*修改文件内容*/
-export function editFile(path,data){
+function editFile(path,data){
     var params = false;
     try {
         fs.writeFileSync(path,data);
@@ -94,6 +77,22 @@ export function editFile(path,data){
     return params
 }
 
+/*读取文件内容*/
+function readFile(path){
+    var params = {
+        data:"",
+    }
+    try{
+        var data = fs.readFileSync(path,'utf8');
+        params = {
+            data:data.toString(),
+        }
+    }catch(err) {
+        if (err) throw err
+    }
+    return params
+}
+
 module.exports={
-    getReaddir,delectFile
+    getReaddir,delectFile,creatDir
 }

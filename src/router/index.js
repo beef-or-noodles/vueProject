@@ -111,6 +111,11 @@ const router = new Router({
                 component: resolve => require(['@/components/manage/system/logList.vue'], resolve),
                 meta: {title: '接口日志'},
             },{
+                path: '/home/fileManager',
+                name: 'fileManager',
+                component: resolve => require(['@/components/manage/system/fileManager.vue'], resolve),
+                meta: {title: '文件管理'},
+            },{
                 path: '/home/email',
                 name: 'email',
                 component: resolve => require(['@/components/manage/tool/email.vue'], resolve),

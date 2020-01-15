@@ -7,7 +7,7 @@ var router = express.Router();
 var mysql = require('mysql'); //引入sql驱动
 var $sql = require('../sqlfun'); //载入sql语句
 var returnData = require('../tool/returnData'); //返回封装数据
-/*var file = require("../tool/file");*/
+var files = require("../tool/file");
 
 var conn = mysql.createConnection(models.mysql); //创建连接
 conn.connect(); //连接数据库
@@ -121,12 +121,35 @@ router.post('/queryTimeLog', function(req, res) {
 
 
 /*得到文件列表*/
-/*router("/queryFileList",function(req,res){
-    var fileList = file.getReaddir("");
+router.post("/queryFileList",function(req,res){
+    var path = req.body.path
+    var fileList = files.getReaddir(path);
+    let rdata = returnData(200, fileList, '', false);
+    res.send(rdata);
 });
-/!*删除文件*!/
-router("/deleteFileList",function(req,res){
-
-});*/
+//创建文件夹
+router.post("/creatDir",function(req,res){
+    var path = req.body.path
+    var bol = files.creatDir(path);
+    var rdata = {}
+    if(bol.hasOwnProperty('code')){
+         rdata = returnData(500, bol, `创建失败${bol.code}`, true);
+    }else{
+         rdata = returnData(200, bol, '新建成功', true);
+    }
+    res.send(rdata);
+});
+//删除文件
+router.post("/delectFile",function(req,res){
+    var path = req.body.path
+    var bol = files.delectFile(path);
+    var rdata = {}
+    if(bol.hasOwnProperty('code')){
+        rdata = returnData(500, bol, `删除失败${bol.code}`, true);
+    }else{
+        rdata = returnData(200, bol, '删除成功', true);
+    }
+    res.send(rdata);
+});
 
 module.exports = {router,connLog};

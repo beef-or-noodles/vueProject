@@ -32,6 +32,7 @@ const mutations = {
       icon: "loading",//success , error  ,warning,loading,
       time: 2000,//关闭时间毫秒
       title: "",//文字描述
+      shade:false,//是否有遮罩
       ...data
     }
     state.userData.toast = toast;

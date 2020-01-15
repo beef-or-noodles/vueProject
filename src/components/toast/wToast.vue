@@ -1,16 +1,15 @@
 <template>
     <transition name="slide-fade">
-        <div v-show="toast.show">
-            <div class="shade" id="shade">
-                <div class="loading">
-                    <div id="loading-center-absolute" v-if="toast.icon == 'loading'">
-                        <div id="object"></div>
-                    </div>
-                    <div class="font" v-else>
-                        <i class="iconfont" :class="iconType"></i>
-                    </div>
-                    <div class="loadingText" v-text="toast.title"></div>
+        <div>
+            <div class="shade" v-show="toast.shade&&toast.show"></div>
+            <div class="loading" v-show="toast.show">
+                <div id="loading-center-absolute" v-if="toast.icon == 'loading'">
+                    <div id="object"></div>
                 </div>
+                <div class="font" v-else>
+                    <i class="iconfont" :class="iconType"></i>
+                </div>
+                <div class="loadingText" v-text="toast.title"></div>
             </div>
         </div>
     </transition>
@@ -67,18 +66,22 @@
     .slide-fade-enter, .slide-fade-leave-to{
         opacity: 0;
     }
-    #shade {
+    .shade {
         position: fixed;
         width: 100%;
         height: 100%;
-        z-index: 9999;
+        z-index: 9998;
         top: 0;
         left: 0;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    #shade .loading {
+   .loading {
+        position: fixed;
+        top: calc(50% - 55px);;
+        left: calc(50% - 55px);
+        z-index: 9999;
         display: flex;
         align-items: center;
         justify-content: center;

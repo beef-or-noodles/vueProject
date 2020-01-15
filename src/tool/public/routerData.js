@@ -35,6 +35,14 @@ export const routerMenuData = [{
         path: '/home/logList',
         name: 'logList',
         icon: 'el-icon-message',
+    },{
+        rootChildName: '文件管理',
+        rootPower: true,
+        rootLogin: true,
+        rootPath: '/manage/system/fileManager',
+        path: '/home/fileManager',
+        name: 'fileManager',
+        icon: 'el-icon-message',
     }]
 }, {
     rootMainName: '文章管理',
