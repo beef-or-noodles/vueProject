@@ -29,7 +29,7 @@
                     </el-table-column>
                     <el-table-column label="操作" width="150px">
                         <template slot-scope="scope">
-                            <el-button type="success" @click='preview(scope.row.name)' size="mini">预览</el-button>
+                            <el-button type="success" @click='preview(scope.row.path)' size="mini">预览</el-button>
                             <el-button type="danger" @click='delectFile(scope.row.path,scope.$index)' size="mini">删除</el-button>
                         </template>
                     </el-table-column>
@@ -122,7 +122,7 @@
             //文件预览
             preview(path){
                 var url = window.location.origin;
-                let newpath = path.substring(0,path.length)
+                let newpath = path.substring(9,path.length)
                 window.open(url+"/"+newpath,"_blank")
             }
         },
