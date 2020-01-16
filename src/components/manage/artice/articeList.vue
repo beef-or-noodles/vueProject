@@ -108,7 +108,7 @@
               <el-input-number :disabled="!stick" v-model="stickDate" size="mini" :min="1"></el-input-number>　(天)
             </el-form-item>
             <el-form-item label="缩略图:">
-              <fileupload :img="fromArtie.imgurl" @change="fileChange" :autoUp="false" :copper="true"></fileupload>
+              <fileupload :img="fromArtie.imgurl" @change="fileChange" :autoUp="false" :copper="true" dirName="artice_cover"></fileupload>
             </el-form-item>
           </el-form>
         </el-col>

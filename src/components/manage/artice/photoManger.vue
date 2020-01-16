@@ -47,7 +47,7 @@
         <el-input v-model="fromData.describe" placeholder="相册描述" type="textarea" rows="5" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="封面图：" prop="imgUrl">
-        <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" :copper="false"></fileupload>
+        <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" :copper="false" dirName="photo_cover"></fileupload>
       </el-form-item>
       <el-col :span="10">
         <el-form-item label="是否显示：">
@@ -80,7 +80,7 @@
           </div>
         </el-col>
         <el-col :span="3">
-          <fileupload :multiple="true" @change="photoChange" :autoUp="true" :copper="false"></fileupload>
+          <fileupload :multiple="true" @change="photoChange" :autoUp="true" :copper="false" dirName="photo_pic"></fileupload>
         </el-col>
       </el-row>
     </div>

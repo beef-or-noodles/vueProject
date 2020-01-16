@@ -14,20 +14,28 @@ var returnData = require('../../tool/returnData');
 */
 var fs = require('fs');//node文件模块
 var multer = require('multer');
-
+var path = require("path");
 // 使用硬盘存储模式设置存放接收到的文件的路径以及文件名
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        var arr = []
+        if(req.headers.hasOwnProperty("dirname")){
+            arr = req.headers.dirname.split("_")
+        }else{
+            arr = file.originalname.split("_")
+        }
         // 接收到文件后输出的保存路径（若不存在则需要创建）
-        cb(null, 'upload/');
+        arr.splice(arr.length-1,1)
+        var str = arr.join("/")
+        var uploadFolder = './upload/'+str+'/';
+        createFolder(uploadFolder);
+        cb(null, 'upload/'+str+"/");
     },
     filename: function (req, file, cb) {
         // 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
         var time2 = new Date().getTime();
         var fileName = file.originalname.split(".")[1]
-        if(fileName){
-
-        }else{
+        if(!fileName){
             fileName = "png";
         }
         var setUrl = time2 + "." + fileName;
@@ -37,18 +45,20 @@ var storage = multer.diskStorage({
 
 // 创建文件夹
 var createFolder = function(folder){
-    try{
-        // 测试 path 指定的文件或目录的用户权限,我们用来检测文件是否存在
-        // 如果文件路径不存在将会抛出错误"no such file or directory"
-        fs.accessSync(folder);
-    }catch(e){
-        // 文件夹不存在，以同步的方式创建文件目录。
-        fs.mkdirSync(folder);
-    }
+    mkdirsSync(folder)
 };
 
-var uploadFolder = '../../upload/';
-createFolder(uploadFolder);
+// 递归创建目录 同步方法
+function mkdirsSync(dirname) {
+    if (fs.existsSync(dirname)) {
+        return true;
+    } else {
+        if (mkdirsSync(path.dirname(dirname))) {
+            fs.mkdirSync(dirname);
+            return true;
+        }
+    }
+}
 
 // 创建 multer 对象
 var upload = multer({ storage: storage });
@@ -57,7 +67,11 @@ var upload = multer({ storage: storage });
 router.post('/upload', upload.single('file'), function(req, res, next) {
     var file = req.file;
     // 接收文件成功后返回数据给前端
-    let pathUrl = `/server/${file.destination}/${file.filename}`
+    //正式
+    var desc = file.destination.substr(7,file.destination.length)
+    let pathUrl = `/${desc}/${file.filename}`
+ //本地开发
+/*    let pathUrl = `/server/${file.destination}/${file.filename}`*/
     var data = {path: pathUrl};
     var returnD = returnData(200,data,'上传成功',true);
     res.json(returnD);

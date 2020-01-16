@@ -73,7 +73,7 @@
                         <el-input type="email" v-model="fromData.Email"></el-input>
                     </el-form-item>
                     <el-form-item label="上传头像:" prop="imgurl">
-                        <fileupload @change="fileChange" :img="fromData.imgurl" :autoUp="false" :copper="true"></fileupload>
+                        <fileupload @change="fileChange" :img="fromData.imgurl" :autoUp="false" :copper="true" dirName="user_pic"></fileupload>
                     </el-form-item>
                 </el-form>
             </div>

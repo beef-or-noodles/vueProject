@@ -55,7 +55,7 @@
             },
             dirName:{ //文件夹名字
                 type: String,
-                default: "upload"
+                default: ""
             },
             autoUp: {//自动上传
                 type: Boolean,
@@ -126,8 +126,8 @@
                             lrz(_this.imgurl)
                                 .then(function (rst) {
                                     //成功时执行
-                                    console.log("压缩图片",rst.file);
-                                    _this.$post(_this.$api.upload,rst.formData).then((data) => {
+                                    let file = _this.fileCon(rst.file)
+                                    _this.$uploadImg(_this.$api.upload,file).then((data) => {
                                         _this.$emit("change",data.path)
                                     })
                                 }).catch(function (error) {
@@ -137,7 +137,8 @@
                             })
                         } else {
                             console.log("不压缩");
-                            this.$uploadImg(this.$api.upload, this.imgFormData).then((data) => {
+                            let file = _this.fileCon(this.imgFormData)
+                            this.$uploadImg(this.$api.upload, file).then((data) => {
                                 this.$emit("change",data.path)
                             })
                         }
@@ -149,11 +150,18 @@
                     }
                 }else if (this.fileType==2) {
                     console.log("上传MP3");
-                    this.$uploadImg(this.$api.upload, this.imgFormData).then((data) => {
+                    let file = _this.fileCon(this.imgFormData)
+                    this.$uploadImg(this.$api.upload, file).then((data) => {
                         this.dataUrl = data.path
                         this.$emit("change",data.path)
                     })
                 }
+            },
+            fileCon(file){
+                let type = file.type.split('/')[1]
+                let name = this.dirName+'_.'+type
+                var new_file = new File([file],name,{type:file.type});
+                return new_file
             },
         },
     }

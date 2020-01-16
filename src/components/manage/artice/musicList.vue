@@ -50,7 +50,7 @@
                               autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="封面图：" prop="imgUrl">
-                    <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false"
+                    <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" dirName="music_pic"
                                 :copper="false"></fileupload>
                 </el-form-item>
                 <el-col :span="10">
@@ -104,13 +104,13 @@
                 <el-row>
                     <el-col :span="12">
                     <el-form-item label="封面图：" prop="imgUrl">
-                        <fileupload :img="fromArtie.imgurl" @change="fileChangeMP3" :autoUp="false"
+                        <fileupload :img="fromArtie.imgurl" @change="fileChangeMP3" :autoUp="false" dirName="music_pic"
                                     :copper="true"></fileupload>
                     </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="上传MP3：" prop="imgUrl">
-                            <fileupload fileType="2" :img="fromArtie.content" @change="mp3Change" :autoUp="true"></fileupload>
+                            <fileupload fileType="2" :img="fromArtie.content" @change="mp3Change" :autoUp="true" dirName="music_mp3"></fileupload>
                         </el-form-item>
                     </el-col>
                     <el-col :span="10">
