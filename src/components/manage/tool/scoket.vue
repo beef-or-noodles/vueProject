@@ -44,6 +44,7 @@
 
 <script>
     import Vue from "vue"
+    import {mapGetters} from 'vuex'
     import VueSocketIO from 'vue-socket.io';//socket
     export default {
         name: "scoket",
@@ -62,6 +63,9 @@
 
             }
         },
+        computed:{
+            ...mapGetters(["getUserInfo"]),
+        },
         created(){
             let httpUrl = 'http://localhost:8889';
             if (process.env.NODE_ENV === 'production') { //生产环境使用
@@ -79,9 +83,10 @@
             },
             message(data) {
                  //监听message事件，方法是后台定义和提供的
+                console.log("123");
                 let messag = JSON.parse(data);
                 this.messageList.push({
-                    imgUrl:"http://img4.imgtn.bdimg.com/it/u=4228113134,2313429504&fm=26&gp=0.jpg",
+                    imgUrl:this.getUserInfo.image,
                     userID:2,
                     message:messag.message
                 })
@@ -114,7 +119,7 @@
                     console.log("接收后台数据",data);
                 });
                 this.messageList.push({
-                    imgUrl:"http://img4.imgtn.bdimg.com/it/u=4228113134,2313429504&fm=26&gp=0.jpg",
+                    imgUrl:this.getUserInfo.image,
                     userID:1,
                     message:this.input
                 })

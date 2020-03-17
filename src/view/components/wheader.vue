@@ -18,7 +18,7 @@
 
         <div class="canvas">
             <div class="title">
-                <div class="icon" @click="goLogin" title="去登录" >
+                <div class="icon" @click="goLogin" title="去登录">
                     <img :src="getUserInfo.image" v-if="getUserInfo.image" alt="">
                     <i class="icon_txt el-icon-user" v-else></i>
                 </div>
@@ -34,7 +34,8 @@
 </template>
 
 <script>
-    import {mapGetters,mapMutations,mapState} from 'vuex'
+    import {mapGetters, mapMutations, mapState} from 'vuex'
+
     export default {
         name: "wheader",
         data() {
@@ -44,22 +45,24 @@
                     name: "首页",
                     src: "/index",
                     id: 1,
-                }, {
-                    active: false,
-                    name: "相册",
-                    src: "/photoList",
-                    id: 2,
-                }, {
-                    active: false,
-                    name: "留言板",
-                    src: "/comment",
-                    id: 3,
-                },{
-                    active: false,
-                    name: "管理",
-                    src: "/login",
-                    id: 4,
-                }],
+                },
+                    //  {
+                    //     active: false,
+                    //     name: "相册",
+                    //     src: "/photoList",
+                    //     id: 2,
+                    // },
+                    {
+                        active: false,
+                        name: "留言板",
+                        src: "/comment",
+                        id: 3,
+                    }, {
+                        active: false,
+                        name: "管理",
+                        src: "/login",
+                        id: 4,
+                    }],
                 activeid: 1,
                 openSlider: false,
                 option: 0,
@@ -68,11 +71,11 @@
         mounted() {
             this.init();
         },
-        computed:{
-          ...mapGetters(["getUserInfo"]),
-          ...mapState({
-              navIndex:(state)=>state.userData.navIndex
-          })
+        computed: {
+            ...mapGetters(["getUserInfo"]),
+            ...mapState({
+                navIndex: (state) => state.userData.navIndex
+            })
         },
         props: {
             scroll: {
@@ -97,20 +100,20 @@
             }
         },
         methods: {
-            ...mapMutations(['setNavIndex','setLeftNavIndex']),
+            ...mapMutations(['setNavIndex', 'setLeftNavIndex']),
             leftNav() {
                 this.openSlider = !this.openSlider
                 this.$emit("close", this.openSlider);
             },
-            goLogin(){
-                if(!this.getUserInfo.hasOwnProperty("id")){
+            goLogin() {
+                if (!this.getUserInfo.hasOwnProperty("id")) {
                     this.$router.push({
-                        name:"login",
-                        params:{isview:true}
+                        name: "login",
+                        params: {isview: true}
                     })
-                }else{
+                } else {
                     this.$router.push({
-                        path:"/userInfo/0"
+                        path: "/userInfo/0"
                     })
                 }
 
@@ -236,13 +239,16 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    .icon_txt{
+
+                    .icon_txt {
                         color: #cdc4d0;
                         font-size: 50px;
                     }
-                    &:hover{
+
+                    &:hover {
                         cursor: pointer;
                     }
+
                     img {
                         width: 100%;
                         height: 100%;
