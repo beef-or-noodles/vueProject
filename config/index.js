@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-          target: 'http://localhost:8889/api',//https://smartwu.top/api ,http://localhost:8889/api
+          target: 'https://smartwu.top/api',//https://smartwu.top/api ,http://localhost:8889/api
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''

@@ -6,8 +6,26 @@ axios.defaults.baseURL = api.baseURL; //默认请求地址
 const http_status={'400':'请求错误','401':'未授权，请登录','403':'拒绝访问','404':'请求地址出错','408':'请求超时','500':'服务器内部错误','501':'服务未实现','502':'网关错误','503':'服务不可用','504':'网关超时','505':'HTTP版本不受支持'};
 
 axios.defaults.timeout = 15000;
+
+//防止重复提交
+let pending = [];
+let cancelToken = axios.CancelToken;
+let removePending = (config)=>{
+    for (let p in pending){
+        if(pending[p].u+ pending[p].data=== config.url + '&' + config.method+JSON.stringify(config.data)){
+            pending[p].f(); //执行取消操作
+            pending.splice(p, 1); //把这条记录从数组中移除
+        }
+    }
+}
+
 // 设置拦截器
 axios.interceptors.request.use( function(config) {
+    removePending(config)
+    config.cancelToken = new cancelToken((c)=>{
+        // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
+        pending.push({ u: config.url + '&' + config.method, f: c ,data:JSON.stringify(config.data)});
+    });
    let userData = store.state.userData
     if (userData.user_info.hasOwnProperty('id') && userData) {
         let token = userData.user_info.id
@@ -24,6 +42,7 @@ axios.interceptors.request.use( function(config) {
 // 添加响应拦截器
 axios.interceptors.response.use(function(response){
     // 对响应数据做点什么
+    removePending(response.config)
     endLoading();
     return response;
 }, function (error) {
