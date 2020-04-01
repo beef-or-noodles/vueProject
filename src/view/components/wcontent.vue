@@ -10,7 +10,7 @@
             <span class="ti">简介：</span>
             <span v-text="artieData.abstract"></span>
         </div>
-        <div class="artice" v-html="artieData.content"></div>
+        <div class="artice" v-highlight v-html="artieData.content"></div>
 
         <wmessage :articeId="articeId" ref="wmessage"></wmessage>
     </div>
@@ -100,6 +100,7 @@
             box-sizing: border-box;
             .overHidden(2);
             font-size: 14px;
+            padding: 10px;
             .ti{
                 color:black;
                 font-weight: 600;

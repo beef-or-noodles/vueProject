@@ -114,7 +114,7 @@
         </el-col>
         <el-col :span="17">
           <!-- 富文本编辑器 -->
-          <wang-edit v-model="fromArtie.content" :isClear="isClear" @change="change"></wang-edit>
+          <wang-edit v-model="fromArtie.content" :isClear="isClear" @change="change" ref="edit"></wang-edit>
         </el-col>
       </el-row>
     </div>
@@ -297,6 +297,7 @@ export default {
     },
     //添加文章
     addArtice() {
+      this.$refs.edit.saveHtml();
       var params = this.fromArtie;
       if (this.fromArtie.articeTitle == "") {
         this.$message({

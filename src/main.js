@@ -44,6 +44,14 @@ new Vue({
   },
   template: '<App/>'
 });
+
+Vue.directive('highlight',function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block)=>{
+    hljs.highlightBlock(block)
+  })
+})
+
 store.commit("setToast")
 //路由守卫
 router.beforeEach((to, from, next) => {

@@ -39,18 +39,18 @@ export default {
         this.info_ = null
       }
     },
-    value(val){
-      this.editor.txt.html(this.value);
-    }
   },
   mounted() {
     this.seteditor()
     this.editor.txt.html(this.value)
   },
   methods: {
+    saveHtml(){
+      this.editor.txt.html(this.value);
+    },
     seteditor() {
       this.editor = new E(this.$refs.toolbar, this.$refs.editor)
-      this.editor.customConfig.pasteFilterStyle = false//关闭代码样式过滤
+      this.editor.customConfig.pasteFilterStyle = true//关闭代码样式过滤
       this.editor.customConfig.uploadImgShowBase64 = true // base 64 存储图片
       this.editor.customConfig.uploadImgServer = '/api/upload' // 配置服务器端地址
       this.editor.customConfig.uploadImgHeaders = {
