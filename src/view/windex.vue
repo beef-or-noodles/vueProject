@@ -8,7 +8,7 @@
                     <wleft></wleft>
                 </div>
                 <div class="right">
-                    <transition name="fade">
+                    <transition name="slide-fade">
                         <keep-alive :exclude="['wcontent']">
                             <router-view  ref="view"></router-view>
                         </keep-alive>
@@ -110,22 +110,14 @@
 
 <style lang="less" scoped>
     @import "less/public.less";
-    .fade-enter{
-        transform:translate(1000px,0);
+    .slide-fade-enter-active {
+        transition: all .3s ease .3s;
     }
-    /*.fade-enter-active{
-        transform:translate(500px,0);
+    .slide-fade-leave-active {
+        transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
-    .fadev-enter-to{
-        transform:translate(0,0);
-    }*/
-    /*离开*/
-    .fade-leave{
-        transform:translate(-1000px,0);
-        opacity: 1;
-    }
-    .fade-leave-active{
-        transform:translate(-1000px,0);
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(10px);
         opacity: 0;
     }
 

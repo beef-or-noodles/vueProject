@@ -38,7 +38,9 @@
           </div>
             <div class="content">
               <!-- 路由出口 -->
-              <router-view></router-view>
+              <transition name="slide-fade">
+                <router-view></router-view>
+              </transition>
             </div>
         </el-main>
       </el-container>
@@ -113,6 +115,16 @@ export default {
   }
 </style>
 <style lang="less" scoped>
+  .slide-fade-enter-active {
+    transition: all .3s ease .3s;
+  }
+  .slide-fade-leave-active {
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+  }
 .home {
   width: 100%;
   height: 100vh;
