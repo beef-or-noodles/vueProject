@@ -56,16 +56,22 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-col :span="12">
-          <el-form-item label="是否显示:">
-            <el-switch v-model="fromData.checkRoot" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="栏目排序:" prop="relPassword">
-            <el-input-number v-model="fromData.sort" size="small" :min="0" label="排序"></el-input-number>
-          </el-form-item>
-        </el-col>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="是否显示:">
+              <el-switch v-model="fromData.checkRoot" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="栏目排序:" prop="relPassword">
+              <el-input-number v-model="fromData.sort" size="small" :min="0" label="排序"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="url重定向:">
+          <el-switch v-model="fromData.checkUrl" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
+          <el-input v-if="fromData.checkUrl" v-model="fromData.href"></el-input>
+        </el-form-item>
       </el-form>
 
     </div>
@@ -96,6 +102,8 @@ export default {
         },
         sort: 0,
         checkRoot: true,
+        checkUrl:false,
+        href:"",
       },
       tableData: [],
       idList: [],
@@ -114,6 +122,8 @@ export default {
           },
           checkRoot: true,
           sort:0,
+          checkUrl:false,
+          href:"",
         };
       } else {
         this.selectColumn();
@@ -185,26 +195,18 @@ export default {
       this.editDialog = true;
       this.submitType = type;
       this.updateID = val.id;
-      let num = '';
       let select = {
         id: val.belongId+'',
         name: val.belongName,
       };
-
-      if (val.checkRoot == 1) {
-        num = true;
-      } else {
-        num = false;
-      }
-      let _this = this;
       this.fromData = {
         columnName: val.columnName,
         belongId: select,
         sort: val.sort,
-        checkRoot: num,
+        checkRoot: val.checkRoot==0?false:true,
+        checkUrl:val.checkUrl==0?false:true,
+        href:val.href,
       }
-
-
     },
     // 添加栏目
     addUser(type) {

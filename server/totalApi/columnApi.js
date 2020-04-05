@@ -17,13 +17,18 @@ router.post('/addColumn', (req, res) => {
   } else {
     params.checkRoot = 0;
   }
+  if (params.checkUrl) {
+    params.checkUrl = 1;
+  } else {
+    params.checkUrl = 0;
+  }
   if(!params.hasOwnProperty("isType")){
     params["isType"] = 0;
   }
   var describe = params.describe;
   var imgUrl = params.imgUrl;
   var userID = req.headers.token;
-  conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name,describe,imgUrl,userID,params.isType], function(err, result) {
+  conn.query(sql, [params.columnName, params.belongId.id, params.sort, params.checkRoot, params.belongId.name,describe,imgUrl,userID,params.isType,params.checkUrl,params.href,], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
@@ -265,12 +270,14 @@ router.post('/updateColumn', (req, res) => {
   var id = req.body.id;
   var columnName = req.body.columnName;
   var belongId = req.body.belongId.id;
-  var checkRoot = req.body.checkRoot;
+  var checkRoot = req.body.checkRoot?1:0;
   var belongName = req.body.belongId.name;
   var sort = req.body.sort;
   var describe = req.body.describe;
   var imgUrl = req.body.imgUrl;
-  conn.query(sql, [columnName, belongId, checkRoot, belongName, sort,describe,imgUrl,id], function(err, result) {
+  var checkUrl = req.body.checkUrl?1:0;
+  var href = req.body.href;
+  conn.query(sql, [columnName, belongId, checkRoot, belongName, sort,describe,imgUrl,checkUrl,href,id], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);
