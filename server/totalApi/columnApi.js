@@ -173,6 +173,8 @@ router.post('/queryColumn', (req, res) => {
                     children.push({
                       'id': chird[q].id,
                       'label': chird[q].columnName,
+                      'checkUrl':chird[q].checkUrl,
+                      'href':chird[q].href,
                     })
                   }
                 }
@@ -180,6 +182,8 @@ router.post('/queryColumn', (req, res) => {
               let arr = {
                 'id': id,
                 'label': name,
+                'checkUrl':rootMenu[f].checkUrl,
+                'href':rootMenu[f].href,
                 'children': children,
               }
               setData.push(arr);
