@@ -45,8 +45,8 @@ export default {
     this.editor.txt.html(this.value)
   },
   methods: {
-    saveHtml(){
-      this.editor.txt.html(this.value);
+    saveHtml(content){
+      this.editor.txt.html(content);
     },
     seteditor() {
       this.editor = new E(this.$refs.toolbar, this.$refs.editor)

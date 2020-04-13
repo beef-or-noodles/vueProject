@@ -195,6 +195,7 @@ export default {
         this.articeId = "";
         this.stickDate = 1; //置顶天数
         this.stick = false;
+        this.$refs.edit.saveHtml("");
       }
     }
   },
@@ -297,7 +298,6 @@ export default {
     },
     //添加文章
     addArtice() {
-      this.$refs.edit.saveHtml();
       var params = this.fromArtie;
       if (this.fromArtie.articeTitle == "") {
         this.$message({
@@ -400,6 +400,10 @@ export default {
       this.fromArtie = arr;
       this.dialogVisible = true;
       this.articeId = row.id;
+      setTimeout(()=>{
+        this.$refs.edit.saveHtml(row.content);
+      })
+
     },
     //设置推荐文章
     setRecommend(id,type,index){
