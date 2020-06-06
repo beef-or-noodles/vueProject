@@ -93,18 +93,7 @@ router.post('/queryChart', function(req, res) {
 //查询时间段内的数据
 router.post('/queryTimeLog', function(req, res) {
     let params = req.body
-    let sqls = `SELECT
-                \tDATE_FORMAT( creatTime, '%Y-%m-%d' ) DAY,
-                \tCOUNT( id ) count 
-                FROM
-                \t\`user_log\` 
-                WHERE
-                \tcreatTime BETWEEN '${params.beginTime}' 
-                \tAND '${params.endTime}' 
-                GROUP BY
-                \tDAY 
-                ORDER BY
-                \tcreatTime;`
+    let sqls = `SELECT DATE_FORMAT( creatTime, '%Y-%m-%d' ) DAY,COUNT( id ) count FROM user_log WHERE creatTime BETWEEN '${params.beginTime}' AND '${params.endTime}' GROUP BY DAY;`
     conn.query(sqls, function(err, result) {
         if (err) {
             console.log(err);
