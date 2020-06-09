@@ -444,6 +444,7 @@ export default {
   top: 0;
   width: calc(100% - 230px);
   height: 100%;
+  overflow: auto;
 }
 .image {
   width: 70px;

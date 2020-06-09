@@ -27,14 +27,6 @@
             <div class="icon">
               <img :src="getUserInfo.image" alt="">
             </div>
-            <div class="message">
-              <el-badge :value="200" :max="99">
-                <i class="el-icon-bell"></i>
-              </el-badge>
-            </div>
-            <div class="setting">
-              <i class="el-icon-setting"></i>
-            </div>
           </div>
             <div class="content">
               <!-- 路由出口 -->
@@ -190,12 +182,6 @@ export default {
 
 .icon img {
   width: 100%;
-}
-
-.message,
-.setting {
-  font-size: 22px;
-  margin-top: 20px;
 }
 
 .exit {
