@@ -72,7 +72,7 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
     //正式
     if(config.EVN === "production"){
         var desc = file.destination.substr(7,file.destination.length)
-        pathUrl = `http://39.99.193.63:8889${desc}/${file.filename}`
+        pathUrl = `http://39.99.193.63:8889/${desc}/${file.filename}`
     }else{
         //本地开发
         pathUrl = `/server/${file.destination}/${file.filename}`
