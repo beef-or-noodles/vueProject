@@ -24,10 +24,10 @@ router.post('/addArtice', function(req, res) {
   var time = new Date(params.setTime).getTime().toString();
   var strTime = new Date(params.setTime).Format("yyyy-MM-dd HH:mm").toString();
   var sql = $sql.artice.addArtice;
-  var arr = [userID,params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.imgurl, params.columnId.name, time,strTime, params.articeType]
+  var arr = [userID,params.columnId.id, params.articeTitle, params.abstract, params.content,params.markdownStr, params.author, params.checkRoot, params.imgurl, params.columnId.name, time,strTime, params.articeType]
   if (params.imgurl == '') {
     sql =  $sql.artice.addArticeNoimg
-    arr = [userID,params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.columnId.name, time,strTime,params.articeType]
+    arr = [userID,params.columnId.id, params.articeTitle, params.abstract, params.content,params.markdownStr, params.author, params.checkRoot, params.columnId.name, time,strTime,params.articeType]
   }
   conn.query(sql, arr, function(err, result) {
     if (err) {
@@ -94,7 +94,7 @@ router.post('/updateArtice', function(req, res) {
     }
   }
 
-  conn.query(sql, [params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.imgurl, params.columnId.name, time, params.id], function(err, result) {
+  conn.query(sql, [params.columnId.id, params.articeTitle, params.abstract, params.content, params.author, params.checkRoot, params.imgurl, params.columnId.name, time,params.markdownStr, params.id], function(err, result) {
     if (err) {
       console.log(err);
       let Edata = returnData(500, '', '服务器错误', true);

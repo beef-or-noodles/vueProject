@@ -24,11 +24,11 @@ var sqlMap = {
         queryPhotoAll: `SELECT * FROM columnlist WHERE isType = ?; `
     },
     artice: {
-        addArtice: 'insert into artice(userID,columnId,articeTitle,abstract,content,author,checkRoot,imgurl,columnName,setTime,strTime,articeType) values(?,?,?,?,?,?,?,?,?,?,?,?);', //添加文章
-        addArticeNoimg: 'insert into artice(userID,columnId,articeTitle,abstract,content,author,checkRoot,columnName,setTime,strTime,articeType) values(?,?,?,?,?,?,?,?,?,?,?);', //添加文章
+        addArtice: 'insert into artice(userID,columnId,articeTitle,abstract,content,markdownStr,author,checkRoot,imgurl,columnName,setTime,strTime,articeType) values(?,?,?,?,?,?,?,?,?,?,?,?,?);', //添加文章
+        addArticeNoimg: 'insert into artice(userID,columnId,articeTitle,abstract,content,markdownStr,author,checkRoot,columnName,setTime,strTime,articeType) values(?,?,?,?,?,?,?,?,?,?,?,?);', //添加文章
         queryArtice: 'select * from artice where recycle=1 and columnId=?', //根据栏目id查找文章
         delectArtice: 'DELETE FROM artice WHERE id in (?);', //删除文章
-        updateArtice: 'update artice set columnId=?,articeTitle=?,abstract=?,content=?,author=?,checkRoot=?,imgurl=?,columnName=?,setTime=? where id = ?', //修改文章
+        updateArtice: 'update artice set columnId=?,articeTitle=?,abstract=?,content=?,author=?,checkRoot=?,imgurl=?,columnName=?,setTime=?, markdownStr=? where id = ?', //修改文章
         searchArtice: 'select * from artice where userID = ? and recycle=? and concat(articeTitle,author,abstract) like ?;', //根据名字模糊查询
         articeInfo: 'select * from artice where checkRoot=1 and id = ?', //前台查询
         articeClickNumber: 'UPDATE artice SET clickNumber = clickNumber+1 WHERE id=?', //点击率

@@ -34,7 +34,11 @@ import "../static/view/css/iconfont.css";
 //全局组件
 Vue.component('wPage', resolve=>(require(["@/components/manage/components/wPage"],resolve)))
 
-
+// markdowm
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// use
+Vue.use(mavonEditor)
 new Vue({
   el: '#app',
   router,

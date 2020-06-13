@@ -74,7 +74,7 @@
     <wPage @pageSize="pageSize" @pageNo="pageNo" :total="paging.total"></wPage>
   </div>
   <!-- 编辑弹窗 -->
-  <el-dialog title="编辑" :close-on-click-modal="false" :visible.sync="dialogVisible" width="1100px">
+  <el-dialog title="编辑" :close-on-click-modal="false" :visible.sync="dialogVisible" width="1200px">
     <div class="diaContent">
       <el-row :gutter="15">
         <el-col :span="7">
@@ -113,8 +113,15 @@
           </el-form>
         </el-col>
         <el-col :span="17">
-          <!-- 富文本编辑器 -->
-          <wang-edit v-model="fromArtie.content" :isClear="isClear" @change="change" ref="edit"></wang-edit>
+          <el-radio-group v-model="editer">
+            <el-radio :label="1">富文本编辑器</el-radio>
+            <el-radio :label="2">markdown编辑器</el-radio>
+          </el-radio-group>
+          <div style="margin-top: 15px">
+            <!-- 富文本编辑器 -->
+            <wang-edit v-show="editer == 1" v-model="fromArtie.content" :isClear="isClear" @change="change" ref="edit"></wang-edit>
+            <mavon-editor v-show="editer == 2" style="min-height: 580px" @change="markdown"  ref=md @imgAdd="imgAdd" @imgDel="imgDel" v-model="fromArtie.markdownStr"></mavon-editor>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -135,6 +142,7 @@ export default {
   },
   data() {
     return {
+      editer: 1,
       dialogVisible: false,
       searchName: '', //搜索文章
       filterText: '',
@@ -162,6 +170,7 @@ export default {
         setTime: new Date(),
         creatTime: new Date(),
         articeType:0,
+        markdownStr: ''
       },
       tableData: [],
       treeData: [],
@@ -191,6 +200,7 @@ export default {
           setTime: new Date(),
           creatTime: new Date(),
           articeType:0,
+          markdownStr: ''
         }
         this.articeId = "";
         this.stickDate = 1; //置顶天数
@@ -229,6 +239,18 @@ export default {
     // 富文本编辑框改变事件
     change(val) {
       this.fromArtie.content = val;
+    },
+    markdown(value,render){
+        this.fromArtie.markdownStr = value;
+        this.fromArtie.content = render;
+    },
+    imgAdd(pos, $file){
+      this.$uploadImg(this.$api.upload,$file).then(data=>{
+        this.$refs.md.$img2Url(pos, data.path);
+      })
+    },
+    imgDel(pos){
+      delete this.img_file[pos];
     },
     //得到栏目列表
     getTreeList() {
@@ -400,6 +422,11 @@ export default {
       this.fromArtie = arr;
       this.dialogVisible = true;
       this.articeId = row.id;
+      if(row.markdownStr){
+        this.editer = 2
+      }else{
+        this.editer = 1
+      }
       setTimeout(()=>{
         this.$refs.edit.saveHtml(row.content);
       })
