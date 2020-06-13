@@ -69,7 +69,7 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
     // 接收文件成功后返回数据给前端
     //正式
     var desc = file.destination.substr(7,file.destination.length)
-    let pathUrl = `/${desc}/${file.filename}`
+    let pathUrl = `http://39.99.193.63:8889/${desc}/${file.filename}`
  //本地开发
 /*    let pathUrl = `/server/${file.destination}/${file.filename}`*/
     var data = {path: pathUrl};

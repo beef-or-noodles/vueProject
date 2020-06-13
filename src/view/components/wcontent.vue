@@ -65,7 +65,11 @@
         },
     }
 </script>
-
+<style>
+    .contents .artice img{
+        max-width: 100%;
+    }
+</style>
 <style lang="less" scoped>
     @import "../less/public";
     .contents{

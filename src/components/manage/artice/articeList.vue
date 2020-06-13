@@ -120,7 +120,7 @@
           <div style="margin-top: 15px">
             <!-- 富文本编辑器 -->
             <wang-edit v-show="editer == 1" v-model="fromArtie.content" :isClear="isClear" @change="change" ref="edit"></wang-edit>
-            <mavon-editor v-show="editer == 2" style="min-height: 580px" @change="markdown"  ref=md @imgAdd="imgAdd" @imgDel="imgDel" v-model="fromArtie.markdownStr"></mavon-editor>
+            <mavon-editor v-show="editer == 2" style="min-height: 580px" @change="markdown"  ref=md @imgAdd="imgAdd" v-model="fromArtie.markdownStr"></mavon-editor>
           </div>
         </el-col>
       </el-row>
@@ -248,9 +248,6 @@ export default {
       this.$uploadImg(this.$api.upload,$file).then(data=>{
         this.$refs.md.$img2Url(pos, data.path);
       })
-    },
-    imgDel(pos){
-      delete this.img_file[pos];
     },
     //得到栏目列表
     getTreeList() {
