@@ -77,7 +77,7 @@
                 let params = this.paging;
                 params.type = 1;
                 this.$post(this.$api.queryArtice, params).then((data) => {
-                    console.log(data.data);
+
                     this.$refs.waterfall.setData(data.data);
                     this.paging.total = data.total;
                 });

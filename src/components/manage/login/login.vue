@@ -20,7 +20,8 @@
                 </div>
                 <div class="zcBox" :class="{right:activeMove}">
                     <div class="iconLoad">
-                        <upload :fileType="1"  @change="fileChange"  :copper="true" :autoUp="true"></upload>
+<!--                        <upload :fileType="1"  @change="fileChange"  :copper="true" :autoUp="true"></upload>-->
+                        <img-edit :edit="true" folder="user_pic" v-if="activeMove"  @change="fileChange" :cropXY="{fixedBox:false}" :operation="['cover','delete','edit']" :imgList="[]"></img-edit>
                     </div>
 
                     <w-input title="用户名" placeholder="输入您的昵称" v-model="userName1"></w-input>
@@ -58,9 +59,10 @@
     } from '@/tool/public/routerData.js' //配置的路由表
     import wInput from '../components/wInput'
     import upload from '../components/uploade'
+    import imgEdit from '../components/imageEdit/imgEdit'
     export default {
         components: {
-            wInput,upload
+            wInput,upload,imgEdit
         },
         data() {
             return {
@@ -137,7 +139,7 @@
             },
 //上传图片
             fileChange(val){
-                this.imgurl = val;
+                this.imgurl = val[0];
             },
             //注册用户
             addNewUser() {

@@ -38,7 +38,7 @@
 
 
   <!-- 弹窗 -->
-  <el-dialog title="创建相册" :close-on-click-modal="false" width="420px" :visible.sync="creatPhoto">
+  <el-dialog title="创建相册" :close-on-click-modal="false" width="520px" :visible.sync="creatPhoto">
     <el-form v-model="fromData" label-width="85px">
       <el-form-item label="相册名称：">
         <el-input v-model="fromData.columnName" placeholder="相册名" size="small" autocomplete="off"></el-input>
@@ -47,7 +47,8 @@
         <el-input v-model="fromData.describe" placeholder="相册描述" type="textarea" rows="5" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="封面图：" prop="imgUrl">
-        <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" :copper="false" dirName="photo_cover"></fileupload>
+<!--        <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" :copper="false" dirName="photo_cover"></fileupload>-->
+        <img-edit :edit="true" folder="photo_cover" v-if="creatPhoto"  @change="fileChange" :cropXY="{fixedBox:false}" :operation="['cover','delete','edit']" :imgList="fromData.imgUrl?[fromData.imgUrl]:[]"></img-edit>
       </el-form-item>
       <el-col :span="10">
         <el-form-item label="是否显示：">
@@ -94,9 +95,11 @@
 </template>
 <script>
   import fileupload from "../components/uploade";
+  import imgEdit from '../components/imageEdit/imgEdit'
 export default {
   components:{
-    fileupload
+    fileupload,
+    imgEdit
   },
   data() {
     return {
@@ -243,7 +246,7 @@ export default {
       this.queryArtice()
     },
     fileChange(val){
-      this.fromData.imgUrl = val;
+      this.fromData.imgUrl = val[0];
     },
     photoChange(val){
       this.saverPhoto(val)

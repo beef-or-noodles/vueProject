@@ -26,7 +26,7 @@
           <el-table-column label="" width='80'>
             <template slot-scope="scope">
               <div class="image">
-                <img :src="scope.row.imgurl" />
+                <img :src="imgStr(scope.row.imgurl)" />
               </div>
             </template>
           </el-table-column>
@@ -108,7 +108,8 @@
               <el-input-number :disabled="!stick" v-model="stickDate" size="mini" :min="1"></el-input-number>　(天)
             </el-form-item>
             <el-form-item label="缩略图:">
-              <fileupload :img="fromArtie.imgurl" @change="fileChange" :autoUp="false" :copper="true" dirName="artice_cover"></fileupload>
+<!--              <fileupload :img="fromArtie.imgurl" @change="fileChange" :autoUp="false" :copper="true" dirName="artice_cover"></fileupload>-->
+              <img-edit folder="artice_cover" v-if="dialogVisible" ref="imgEdit" :imgList="imgurlArr" @change="imgEditChange" title="选择图片" :max="5" :cropXY="{fixedBox:false}" :operation="['cover','crop','delete','edit']"></img-edit>
             </el-form-item>
           </el-form>
         </el-col>
@@ -135,10 +136,12 @@
 <script>
 import wangEdit from '../publicComponents/wangEditor'
 import fileupload from "../components/uploade";
+import imgEdit from '../components/imageEdit/imgEdit'
 export default {
   components: {
     wangEdit,
-    fileupload
+    fileupload,
+    imgEdit
   },
   data() {
     return {
@@ -147,7 +150,7 @@ export default {
       searchName: '', //搜索文章
       filterText: '',
       isClear: false,
-      imgurl: '',
+      imgurlArr: [],
       isCompress: true, //是否压缩
       imgFormData: '', //图片file对象
       time: new Date(),
@@ -205,6 +208,7 @@ export default {
         this.articeId = "";
         this.stickDate = 1; //置顶天数
         this.stick = false;
+        this.imgurlArr = []
         this.$refs.edit.saveHtml("");
       }
     }
@@ -214,6 +218,9 @@ export default {
     this.getColumnList();
   },
   methods: {
+    imgStr(url){
+        return url?url.split(',')[0]:''
+    },
     setTime: function(val) {
       let date = new Date(val);
       let time = date.getTime();
@@ -235,6 +242,9 @@ export default {
     //上传图片
     fileChange(val){
       this.fromArtie.imgurl = val;
+    },
+    imgEditChange(val){
+      this.imgurlArr=val
     },
     // 富文本编辑框改变事件
     change(val) {
@@ -340,18 +350,24 @@ export default {
         }else{
           params.setTime = new Date(params.creatTime).getTime();
         }
-        if (this.articeId == '') {
-          this.$post(this.$api.addArtice, params).then((data) => {
-            this.dialogVisible = false;
-            this.queryArtice(this.columnId);
-          });
-        } else {
-          params.id = this.articeId;
-          this.$post(this.$api.updateArtice, params).then((data) => {
-            this.dialogVisible = false;
-            this.queryArtice(this.columnId);
-          });
-        }
+        // 上传图片
+        this.$refs.imgEdit.uploadImg(this.imgurlArr).then(data=>{
+          params.imgurl = data.join(",")
+          if (this.articeId == '') {
+            this.$post(this.$api.addArtice, params).then((data) => {
+              this.dialogVisible = false;
+              this.queryArtice(this.columnId);
+            });
+          } else {
+            params.id = this.articeId;
+            this.$post(this.$api.updateArtice, params).then((data) => {
+              this.dialogVisible = false;
+              this.queryArtice(this.columnId);
+            });
+          }
+        })
+
+
 
       }
 
@@ -423,6 +439,9 @@ export default {
         this.editer = 2
       }else{
         this.editer = 1
+      }
+      if(row.imgurl){
+        this.imgurlArr = row.imgurl.split(',')
       }
       setTimeout(()=>{
         this.$refs.edit.saveHtml(row.content);

@@ -83,7 +83,7 @@
             },
             message(data) {
                  //监听message事件，方法是后台定义和提供的
-                console.log("123");
+
                 let messag = JSON.parse(data);
                 this.messageList.push({
                     imgUrl:this.getUserInfo.image,

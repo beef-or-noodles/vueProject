@@ -87,7 +87,7 @@
             // 选择图片
             uploadChange(file, fileList) {
                 const type = file.raw.type;
-                console.log(type);
+
                 let typeArr = []
                 if(this.fileType == 1){
                     typeArr = ["image/jpeg","image/png","image/jpg"]
@@ -182,4 +182,32 @@
             }
         }
     }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 120px;
+        height: 120px;
+        line-height: 120px;
+        text-align: center;
+        border: 1px dashed #c6c8c9;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+        display: block;
+    }
+
 </style>

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var returnData = require('../../tool/returnData');
+const config = require("../../tool/config")
 /*
  1. fs.stat  检测是文件还是目录(目录 文件是否存在)
  2. fs.mkdir  创建目录 （创建之前先判断是否存在）
@@ -67,11 +68,17 @@ var upload = multer({ storage: storage });
 router.post('/upload', upload.single('file'), function(req, res, next) {
     var file = req.file;
     // 接收文件成功后返回数据给前端
+    let pathUrl = ""
     //正式
-    var desc = file.destination.substr(7,file.destination.length)
-    let pathUrl = `http://39.99.193.63:8889/${desc}/${file.filename}`
- //本地开发
-/*    let pathUrl = `/server/${file.destination}/${file.filename}`*/
+    if(config.EVN === "production"){
+        var desc = file.destination.substr(7,file.destination.length)
+        pathUrl = `http://39.99.193.63:8889${desc}/${file.filename}`
+    }else{
+        //本地开发
+        pathUrl = `/server/${file.destination}/${file.filename}`
+    }
+
+
     var data = {path: pathUrl};
     var returnD = returnData(200,data,'上传成功',true);
     res.json(returnD);

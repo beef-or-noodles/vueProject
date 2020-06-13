@@ -37,7 +37,7 @@ export default {
           passWord:'12345'
         }
         this.$post(this.$api.addUser,params).then((data)=>{
-          console.log(data);
+
         });
       },
       bottomCode(){

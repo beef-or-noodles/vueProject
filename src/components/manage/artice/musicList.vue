@@ -50,8 +50,10 @@
                               autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="封面图：" prop="imgUrl">
-                    <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" dirName="music_pic"
-                                :copper="false"></fileupload>
+<!--                    <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" dirName="music_pic"-->
+<!--                                :copper="false"></fileupload>-->
+                    <img-edit :edit="true" folder="music_pic" v-if="creatPhoto"  @change="fileChange" :cropXY="{fixedBox:false}" :operation="['cover','delete','edit']" :imgList="fromData.imgUrl?[fromData.imgUrl]:[]"></img-edit>
+
                 </el-form-item>
                 <el-col :span="10">
                     <el-form-item label="是否显示：">
@@ -131,10 +133,10 @@
 </template>
 <script>
     import fileupload from "../components/uploade";
-
+    import imgEdit from '../components/imageEdit/imgEdit'
     export default {
         components: {
-            fileupload
+            fileupload,imgEdit
         },
         data() {
             return {
@@ -143,7 +145,6 @@
                 isCompress: true, //是否压缩
                 MP3dia:false,
                 imgFormData: '', //图片file对象
-                imgUrl: '',
                 updateID: '',
                 submitType: 1, //1：增加  2：修改
                 listData: [],
@@ -328,7 +329,7 @@
                 this.queryArtice()
             },
             fileChange(val) {
-                this.fromData.imgUrl = val;
+                this.fromData.imgUrl = val[0];
             },
             mp3Change(val){
                 this.fromArtie.content = val

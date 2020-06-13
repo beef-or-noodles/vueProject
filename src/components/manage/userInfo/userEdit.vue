@@ -73,7 +73,8 @@
                         <el-input type="email" v-model="fromData.Email"></el-input>
                     </el-form-item>
                     <el-form-item label="上传头像:" prop="imgurl">
-                        <fileupload @change="fileChange" :img="fromData.imgurl" :autoUp="false" :copper="true" dirName="user_pic"></fileupload>
+<!--                        <fileupload @change="fileChange" :img="fromData.imgurl" :autoUp="false" :copper="true" dirName="user_pic"></fileupload>-->
+                        <img-edit :edit="true" folder="user_pic" v-if="editDialog"  @change="fileChange" :cropXY="{fixedBox:false}" :operation="['cover','delete','edit']" :imgList="fromData.imgurl?[fromData.imgurl]:[]"></img-edit>
                     </el-form-item>
                 </el-form>
             </div>
@@ -110,9 +111,11 @@
 </template>
 <script>
     import fileupload from "../components/uploade";
+    import imgEdit from '../components/imageEdit/imgEdit'
     export default {
         components:{
-            fileupload
+            fileupload,
+            imgEdit
         },
         data() {
             return {
@@ -189,7 +192,7 @@
 
             //上传图片
             fileChange(val){
-                this.fromData.imgurl = val;
+                this.fromData.imgurl = val[0];
             },
             //增加
             addUserBtn(type) {
