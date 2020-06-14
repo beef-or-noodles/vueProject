@@ -2,7 +2,7 @@
     <div class="listBox">
         <div class="list" @click="checkArtice(item)" v-for="item in tableData">
             <div class="pic" v-if="true">
-                <img :src="item.imgurl" alt="">
+                <img :src="imgStr(item.imgurl)" alt="">
             </div>
             <div class="right" :class="{noImg:false}">
                 <div class="title">{{item.articeTitle}}</div>
@@ -46,6 +46,9 @@
             }
         },
         methods: {
+            imgStr(url){
+                return url?url.split(',')[0]:''
+            },
             // 根据栏目ID查询文章列表
             queryArtice() {
                 let params = this.paging;

@@ -1,7 +1,7 @@
 <template>
     <div class="water-fall" id="waterFall">
         <div class="water-item" v-for="(elem,index) in imgData" :key="index">
-            <img class="img" :src="elem.imgUrl" alt="">
+            <img class="img" :src="imgStr(elem.imgUrl)" alt="">
             <div class="msgBox">
                 <div class="zanBtn el-icon-star-off" @click="zanBtn(index)" title="留下小星星" v-if="elem.click"></div>
                 <div class="zanBtn el-icon-star-off" @click="zanBtn(index)" title="更多小星星" style="color:red;"
@@ -61,6 +61,9 @@
       this.initImg();
     },
     methods: {
+        imgStr(url){
+            return url?url.split(',')[0]:''
+        },
       //赞
       zanBtn(index) {
         this.imgData[index].click = false;

@@ -3,7 +3,7 @@
         <a-water-fall ref="waterfall">
             <template slot-scope="scope">
                 <div class="box" @click="detail(scope.row)">
-                    <div class="img"><img :src="scope.row.imgurl" alt=""></div>
+                    <div class="img"><img :src="imgStr(scope.row.imgurl)" alt=""></div>
                     <div class="title">{{scope.row.articeTitle}}</div>
                     <div class="desc">{{scope.row.abstract}}</div>
                     <div class="time">{{scope.row.strTime}} <span class=" zanBtn el-icon-star-off" title="更多小星星" style="color:red;"></span></div>
@@ -36,6 +36,9 @@
             this.queryArtice()
         },
         methods: {
+            imgStr(url){
+                return url?url.split(',')[0]:''
+            },
             //查询文章列表
             queryArtice() {
                 let params = this.paging;
