@@ -48,7 +48,7 @@
       </el-form-item>
       <el-form-item label="封面图：" prop="imgUrl">
 <!--        <fileupload :img="fromData.imgUrl" @change="fileChange" :autoUp="false" :copper="false" dirName="photo_cover"></fileupload>-->
-        <img-edit :edit="true" folder="photo_cover" v-if="creatPhoto"  @change="fileChange" :cropXY="{fixedBox:false}" :operation="['cover','delete','edit']" :imgList="fromData.imgUrl?[fromData.imgUrl]:[]"></img-edit>
+        <img-edit :edit="true" folder="photo_cover" @change="fileChange" :cropXY="{fixedBox:false}" :operation="['cover','delete','edit']" :imgList="fromData.imgUrl?[fromData.imgUrl]:[]"></img-edit>
       </el-form-item>
       <el-col :span="10">
         <el-form-item label="是否显示：">

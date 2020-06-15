@@ -109,7 +109,7 @@
             </el-form-item>
             <el-form-item label="缩略图:">
 <!--              <fileupload :img="fromArtie.imgurl" @change="fileChange" :autoUp="false" :copper="true" dirName="artice_cover"></fileupload>-->
-              <img-edit folder="artice_cover" v-if="dialogVisible" ref="imgEdit" :imgList="imgurlArr" @change="imgEditChange" title="选择图片" :max="5" :cropXY="{fixedBox:false}" :operation="['cover','crop','delete','edit']"></img-edit>
+              <img-edit folder="artice_cover" ref="imgEdit" :imgList="imgurlArr" @change="imgEditChange" title="选择图片" :max="5" :cropXY="{fixedBox:false}" :operation="['cover','crop','delete','edit']"></img-edit>
             </el-form-item>
           </el-form>
         </el-col>

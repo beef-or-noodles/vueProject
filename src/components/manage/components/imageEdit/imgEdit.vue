@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="box_img">
-      <draggable v-model="setList">
+      <draggable v-model="imgList">
         <transition-group class="imgList">
-          <div v-for="(item,index) in setList" :key="index" class="imgBox">
+          <div v-for="(item,index) in imgList" :key="index" class="imgBox">
             <template v-if="input">
               <el-input class="input" v-if="inputShow" v-model="item.value" size="mini" placeholder="请输入说明" />
               <img :src="item.url" alt="">
@@ -186,7 +186,7 @@ export default {
             downImg: '#',
             imgerror: '',
             editImage: -1,
-            setList: this.imgList,
+
             rule: {
                 size: 2,
                 format: 'jpg/png/jpeg'
@@ -201,7 +201,7 @@ export default {
     },
     computed: {
         imgDisable() {
-            if (this.setList.length >= this.max) {
+            if (this.imgList.length >= this.max) {
                 return true
             } else {
                 return false
@@ -209,7 +209,7 @@ export default {
         },
         // 单张图片
         single() {
-            if (this.setList.length === 1 && this.max === 1) {
+            if (this.imgList.length === 1 && this.max === 1) {
                 return false
             } else {
                 return true
@@ -225,9 +225,6 @@ export default {
                 this.option.img = ''
                 this.editImage = -1
             }
-        },
-        setList(val) {
-            this.change(val)
         },
         operation: {
             handler(val) {
@@ -270,7 +267,7 @@ export default {
                 this.$message.error('上传头像图片大小不能超过 ' + rule.size + 'MB!')
                 return
             }
-            if (this.setList.length >= this.max && this.editImage === -1) {
+            if (this.imgList.length >= this.max && this.editImage === -1) {
                 this.$message.error('最多上传' + this.max + '个文件')
                 return
             }
@@ -317,39 +314,39 @@ export default {
             if (this.editImage < 0) {
                 // 增加
                 if (this.input) {
-                    this.setList.push({
+                    this.imgList.push({
                         value: '',
                         url: val,
                         source: 2
                     })
                 } else {
-                    this.setList.push(val)
+                    this.imgList.push(val)
                 }
             } else {
                 // 修改
                 if (this.input) {
-                    const data = this.setList[this.editImage]
+                    const data = this.imgList[this.editImage]
                     data.url = val
-                    this.setList.splice(this.editImage, 1)
-                    this.setList.splice(this.editImage, 0, data)
+                    this.imgList.splice(this.editImage, 1)
+                    this.imgList.splice(this.editImage, 0, data)
                 } else {
-                    this.setList.splice(this.editImage, 1)
-                    this.setList.splice(this.editImage, 0, val)
+                    this.imgList.splice(this.editImage, 1)
+                    this.imgList.splice(this.editImage, 0, val)
                 }
             }
             if (this.max === 1) {
                 // 单张自动上传
-                this.aotoUpload(this.setList)
+                this.aotoUpload(this.imgList)
             } else {
                 // 多张返回本地路径
-                this.change(this.setList)
+                this.change(this.imgList)
             }
             this.editImgDialog = false
             this.editImage = -1
         },
         // 删除图片
         deletImg(index) {
-            this.setList.splice(index, 1)
+            this.imgList.splice(index, 1)
         },
         // 编辑图片
         async crop(item, index) {
@@ -372,11 +369,11 @@ export default {
         },
         // 设置为第一张
         setIndex(index) {
-            const arr = this.setList
+            const arr = this.imgList
             const img = arr[index]
-            this.setList.splice(index, 1)
+            this.imgList.splice(index, 1)
             arr.unshift(img)
-            this.setList = arr
+            this.imgList = arr
         },
         // 错误提示
         errorMsg() {
