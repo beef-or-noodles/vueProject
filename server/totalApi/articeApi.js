@@ -151,27 +151,51 @@ router.post('/queryArtice', function(req, res) {
   }else{
     arr = [params.columnId]
     if (params.type == 0) {//查询所有
-      sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
+      sqls = `select count(*) from artice where recycle=1 and columnId = ${params.columnId} ;select *,id as artice_id,(select count(*) as commentNum from comments where articeId = artice_id) as commentNum from artice where recycle=1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
     } else if (params.type == 1) {//查询可看文章
-      sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and columnId = ${params.columnId} ;select * from artice where recycle=1 and checkRoot = 1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
+      sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and columnId = ${params.columnId} ;select *,id as artice_id,(select count(*) as commentNum from comments where articeId = artice_id) as commentNum from artice where recycle=1 and checkRoot = 1 and columnId = ${params.columnId} order by setTime DESC limit ${pageNo},${pageSize}`
     }
   }
-  conn.query(sqls, arr,function(err, result) {
+  // 查询 所有标签
+  const tagSql = `select * from tag`
+  conn.query(tagSql,arr,function(err,result){
     if (err) {
       console.log(err);
-      let Edata = returnData(500, '', '服务器错误', true);
+      let Edata = returnData(500, '', '标签查询失败', true);
       res.send(Edata);
     }
-    if (result) {
-      let total = result[0][0]['count(*)']; //得到总条数
-      let data = {
-        'total': total,
-        'pageSize': pageSize,
-        'pageNo': pageNo,
-        'data': result[1],
-      };
-      let rdata = returnData(200, data, '', false);
-      res.send(rdata);
+    if(result){
+      let tagList = result
+      conn.query(sqls, arr,function(err, result) {
+        if (err) {
+          console.log(err);
+          let Edata = returnData(500, '', '服务器错误', true);
+          res.send(Edata);
+        }
+        if (result) {
+          let articleList = result[1]
+          if(articleList){
+            articleList.forEach(item=>{
+              let tag = item.tags
+              let newArr = []
+              if(tag){
+                let arr = tag.split(',')
+                 newArr = tagList.filter((item)=>{return arr.some((ls=>{return item.id == ls}))})
+              }
+              item['tags'] = newArr
+            })
+          }
+          let total = result[0][0]['count(*)']; //得到总条数
+          let data = {
+            'total': total,
+            'pageSize': pageSize,
+            'pageNo': pageNo,
+            'data': articleList,
+          };
+          let rdata = returnData(200, data, '', false);
+          res.send(rdata);
+        }
+      })
     }
   })
 });

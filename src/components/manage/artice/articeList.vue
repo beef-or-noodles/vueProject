@@ -42,22 +42,34 @@
                   </p>
                 </div>
               </el-tooltip>
-              <el-col :span="9">
-                时间：{{setTime(scope.row.creatTime)}}
-              </el-col>
-              <el-col :span="5">
-                &nbsp;<span v-show="scope.row.setTime > (new Date().getTime())" style="color:green;">已置顶</span>
-              </el-col>
-              <el-col :span="6">
-                <span>状态：</span>
-                <span style="color:red;" v-if="scope.row.checkRoot == 0">待审核</span>
-                <span style="color:green;" v-if="scope.row.checkRoot == 1">审核通过</span>
-              </el-col>
-              <el-col :span="4">
-                <span>推荐：</span>
-                <el-button type="danger" v-if="scope.row.recommend == 0" size="mini" plain @click="setRecommend(scope.row.id,1,scope.$index)">否</el-button>
-                <el-button type="primary" v-if="scope.row.recommend == 1" size="mini" plain @click="setRecommend(scope.row.id,0,scope.$index)">是</el-button>
-              </el-col>
+              <el-row class="elRow">
+                <el-col :span="6">
+                  时间：{{setTime(scope.row.creatTime)}}
+                </el-col>
+                <el-col :span="5">
+                  <span>状态：</span>
+                  <span style="color:red;" v-if="scope.row.checkRoot == 0">待审核</span>
+                  <span style="color:green;" v-if="scope.row.checkRoot == 1">审核通过</span>
+                </el-col>
+                <el-col :span="13">
+                  &nbsp;<span v-show="scope.row.setTime > (new Date().getTime())" style="color:green;">已置顶</span>
+                </el-col>
+              </el-row>
+              <el-row class="elRow">
+                <el-col :span="6">
+                  <span>推荐：</span>
+                  <el-button type="danger" v-if="scope.row.recommend == 0" size="mini" plain @click="setRecommend(scope.row.id,1,scope.$index)">否</el-button>
+                  <el-button type="primary" v-if="scope.row.recommend == 1" size="mini" plain @click="setRecommend(scope.row.id,0,scope.$index)">是</el-button>
+                </el-col>
+                <el-col :span="4">
+                  <span>留言：{{scope.row.commentNum}}</span>
+                </el-col>
+                <el-col :span="14">
+                  <div class="tag">
+                    <span v-for="item in scope.row.tags">#{{item.tag_name}}</span>
+                  </div>
+                </el-col>
+              </el-row>
             </template>
           </el-table-column>
           <el-table-column label="" fixed="right" width="150">
@@ -108,7 +120,6 @@
               <el-input-number :disabled="!stick" v-model="stickDate" size="mini" :min="1"></el-input-number>　(天)
             </el-form-item>
             <el-form-item label="缩略图:">
-<!--              <fileupload :img="fromArtie.imgurl" @change="fileChange" :autoUp="false" :copper="true" dirName="artice_cover"></fileupload>-->
               <img-edit folder="artice_cover" ref="imgEdit" :imgList="imgurlArr" @change="imgEditChange" title="选择图片" :max="5" :cropXY="{fixedBox:false}" :operation="['cover','crop','delete','edit']"></img-edit>
             </el-form-item>
           </el-form>
@@ -461,7 +472,7 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .search {
   overflow: hidden;
 }
@@ -535,4 +546,17 @@ export default {
 .headIcon img {
   width: 100%;
 }
+  .tag{
+    display: flex;
+    span{
+      display: block;
+      background-color: #e8eaeb;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+  }
+  .el-row{
+    margin-top: 10px;
+  }
 </style>
