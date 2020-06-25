@@ -147,7 +147,7 @@ router.post('/queryArtice', function(req, res) {
   var sqls = "";
   var arr = []
   if(params.columnId == "" || typeof params.columnId==="undefined"){
-    sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and articeType = 0;select * from artice where recycle=1 and checkRoot = 1 and articeType = 0 order by setTime DESC limit ${pageNo},${pageSize}`
+    sqls = `select count(*) from artice where recycle=1 and checkRoot=1 and articeType = 0;select *,id as artice_id,(select count(*) as commentNum from comments where articeId = artice_id) as commentNum from artice where recycle=1 and checkRoot = 1 and articeType = 0 order by setTime DESC limit ${pageNo},${pageSize}`
   }else{
     arr = [params.columnId]
     if (params.type == 0) {//查询所有
