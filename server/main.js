@@ -7,6 +7,7 @@ const articeApi = require('./totalApi/articeApi');
 const sendEmailApi = require('./totalApi/sendEmailApi');
 const system = require('./totalApi/system');
 const commentApi = require('./totalApi/commentApi');
+const tagApi = require('./totalApi/tagApi');
 const config = require("./tool/config")
 
 const fs = require('fs');
@@ -67,7 +68,7 @@ app.get('*', function(req, res) {
     res.send(html)
 })
 // 后端api路由
-app.use('/api', [userApi,upload,columnApi,articeApi,sendEmailApi,system.router,commentApi]);
+app.use('/api', [userApi,upload,columnApi,articeApi,sendEmailApi,system.router,commentApi,tagApi]);
 
 const httpsOption = { //加入Https证书
     key : fs.readFileSync("./https/2215442_www.smartwu.top.key"),
@@ -78,10 +79,10 @@ const httpsOption = { //加入Https证书
 // http.createServer(app).listen(server);
 if (config.EVN == "production") {
     //生产环境
-    var server =  https.createServer(httpsOption, app)
+    var server  = require('http').createServer(app);
     var io      = require('socket.io').listen(server);
-    server.listen('443', () => {
-        console.log('Server listening on Port 443');
+    server.listen('8889', () => {
+        console.log('Server listening on Port 8889');
     })
 }else{
     //开发环境

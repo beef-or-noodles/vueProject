@@ -55,4 +55,9 @@ export default {
   queryFileList:baseURL+"/queryFileList",//查询文件
   creatDir:baseURL+"/creatDir",//创建文件夹
   delectFile:baseURL+"/delectFile",//删除文件
+
+  queryAllTag: baseURL+"/queryAllTag",
+  delectTag: baseURL+"/delectTag",
+  updateTag: baseURL+"/updateTag",
+  addTag: baseURL+'addTag'
 }

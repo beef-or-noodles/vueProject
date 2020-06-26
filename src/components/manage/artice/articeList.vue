@@ -115,6 +115,16 @@
             <el-form-item label="作者:" style="margin-bottom:10px;">
               <el-input v-model="fromArtie.author" size="small"></el-input>
             </el-form-item>
+            <el-form-item label="标签:" style="margin-bottom:10px;">
+              <el-tag
+                      :key="index"
+                      v-for="(tag,index) in tagList"
+                      :disable-transitions="false"
+                      >
+                {{tag.tag_name}}
+              </el-tag>
+              <el-button type="primary" size="small" @click="tagshow=true">编辑</el-button>
+            </el-form-item>
             <el-form-item label="是否置顶:" style="margin-bottom:10px;">
               <el-checkbox v-model="stick"></el-checkbox>
               <el-input-number :disabled="!stick" v-model="stickDate" size="mini" :min="1"></el-input-number>　(天)
@@ -142,20 +152,25 @@
       <el-button type="primary" @click="addArtice">保存</el-button>
     </span>
   </el-dialog>
+  <tag-select :list="tagList" v-model="tagshow" @save="tagSave"></tag-select>
 </div>
 </template>
 <script>
 import wangEdit from '../publicComponents/wangEditor'
 import fileupload from "../components/uploade";
 import imgEdit from '../components/imageEdit/imgEdit'
+import tagSelect from '../components/tagSelect'
 export default {
   components: {
     wangEdit,
     fileupload,
-    imgEdit
+    imgEdit,
+    tagSelect
   },
   data() {
     return {
+      tagshow: false,
+      tagList:[],
       editer: 1,
       dialogVisible: false,
       searchName: '', //搜索文章
@@ -184,7 +199,8 @@ export default {
         setTime: new Date(),
         creatTime: new Date(),
         articeType:0,
-        markdownStr: ''
+        markdownStr: '',
+        tags:[]
       },
       tableData: [],
       treeData: [],
@@ -214,8 +230,10 @@ export default {
           setTime: new Date(),
           creatTime: new Date(),
           articeType:0,
-          markdownStr: ''
+          markdownStr: '',
+          tags:[]
         }
+        this.tagList = []
         this.articeId = "";
         this.stickDate = 1; //置顶天数
         this.stick = false;
@@ -231,6 +249,14 @@ export default {
   methods: {
     imgStr(url){
         return url?url.split(',')[0]:''
+    },
+    tagSave(list){
+      this.tagList = JSON.parse(JSON.stringify(list))
+      let arr = list.map(item=>{
+        return item.id
+      })
+      this.fromArtie['tags'] = arr.join(',')
+      this.tagshow = false
     },
     setTime: function(val) {
       let date = new Date(val);
@@ -436,6 +462,11 @@ export default {
         id: row.columnId + '',
         name: row.columnName,
       }
+      this.tagList = JSON.parse(JSON.stringify(row.tags))
+      let tags = row.tags.map(ls=>{
+        return ls.id
+      })
+      arr['tags'] = tags.join(',')
       var nowDate = new Date().getTime();
       if (row.setTime > nowDate) {//是置顶
         this.stick = true;
@@ -444,6 +475,7 @@ export default {
         this.stickDate = day;
       }
       this.fromArtie = arr;
+      console.log(arr);
       this.dialogVisible = true;
       this.articeId = row.id;
       if(row.markdownStr){
