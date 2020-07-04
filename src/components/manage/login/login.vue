@@ -8,7 +8,7 @@
                 <div class="loginBox" :class="{left:activeMove}">
                     <h3>Sign Up</h3>
                     <w-input title="用户名" placeholder="请输入QQ邮箱 / 账号" v-model="userName"></w-input>
-                    <w-input type="password" title="密码" placeholder="输入您的密码" v-model="password"></w-input>
+                    <w-input type="password" @keyup.enter.native="loginBtn" title="密码" placeholder="输入您的密码" v-model="password"></w-input>
                     <div style="margin-top:20px;">
                         <div class="zc" @click="activeMove = true">
                             没有账号？立即注册

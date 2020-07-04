@@ -17,13 +17,13 @@
             </el-menu-item>
           </el-submenu>
         </el-menu>
-        <div class="exit" @click="exitBtn">
-          <i class="el-icon-back"></i>退出
-        </div>
       </el-aside>
       <el-container>
         <el-main class="right">
           <div class="contentTop">
+            <div class="exit" @click="exitBtn">
+              <i class="el-icon-back"></i>退出
+            </div>
             <div class="icon">
               <img :src="getUserInfo.image" alt="">
             </div>
@@ -159,13 +159,13 @@ export default {
 .contentTop {
   height: 60px;
   border-bottom: 2px dashed #eeeae9;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
-
-.contentTop div {
-  float: right;
-  margin-right: 20px;
-}
-
+  .contentTop>div{
+    margin-left: 15px;
+  }
 .icon {
   width: 50px;
   height: 50px;
@@ -185,10 +185,7 @@ export default {
 }
 
 .exit {
-  position: absolute;
-  bottom: 20px;
-  left: 50px;
-  color: #808281;
+
 }
 
 .exit:hover {

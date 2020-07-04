@@ -160,6 +160,7 @@ router.post('/queryColumn', (req, res) => {
             chird.push(data[i])
           }
         }
+        rootMenu.sort(sortRule('sort',true));//排序
         // 拼合树型数据
         for (let f in rootMenu) {
             if (rootMenu[f].checkRoot == 1) {
@@ -186,6 +187,7 @@ router.post('/queryColumn', (req, res) => {
                 'href':rootMenu[f].href,
                 'children': children,
               }
+              children.sort(sortRule('sort',true));//排序
               setData.push(arr);
             }
           }
