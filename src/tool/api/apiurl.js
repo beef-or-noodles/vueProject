@@ -59,5 +59,5 @@ export default {
   queryAllTag: baseURL+"/queryAllTag",
   delectTag: baseURL+"/delectTag",
   updateTag: baseURL+"/updateTag",
-  addTag: baseURL+'addTag'
+  addTag: baseURL+'/addTag'
 }
