@@ -9,7 +9,7 @@
                     <li :class="{active:item.id == leftNav.first}" v-for="item in list">
                         <a @click.stop="firstClick(item)">{{item.label}}</a>
                         <ul class="child">
-                            <li @click.stop="childClick(chi.id)" :class="{active:chi.id == leftNav.child}" v-for="chi in item.children"><a>{{chi.label}}</a></li>
+                            <li @click.stop="childClick(chi)" :class="{active:chi.id == leftNav.child}" v-for="chi in item.children"><a>{{chi.label}}</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -54,22 +54,41 @@
         methods: {
             ...mapMutations(["setLeftNavIndex","setNavIndex"]),
             firstClick(item) {
-                this.active.first = item.id
-                if(item.children.length == 0){
-                    this.$router.push({
-                        path:"/list/"+item.id,
-                    })
+                if(item.href){
+                    if(item.checkUrl==1){
+                        window.open(item.href)
+                    }else{
+                        window.location.href=item.href
+                    }
+                }else{
+                    this.active.first = item.id
+                    if(item.children.length == 0){
+                        this.$router.push({
+                            path:"/list/"+item.id,
+                        })
+                    }
+                    this.setLeftNavIndex(this.active);
+                    this.setNavIndex()
                 }
-                this.setLeftNavIndex(this.active);
-                this.setNavIndex()
+
             },
-            childClick(id){
-                this.active.child = id
-                this.$router.push({
-                    path:"/list/"+id,
-                })
-                this.setLeftNavIndex(this.active);
-                this.setNavIndex()
+            childClick(chi){
+                if(chi.href){
+                    if(chi.checkUrl==1){
+                        window.open(chi.href)
+                    }else{
+                        window.location.href=chi.href
+                    }
+
+                }else{
+                    this.active.child = chi.id
+                    this.$router.push({
+                        path:"/list/"+chi.id,
+                    })
+                    this.setLeftNavIndex(this.active);
+                    this.setNavIndex()
+                }
+
             },
             //得到栏目列表queryRecommend
             getTreeList() {
