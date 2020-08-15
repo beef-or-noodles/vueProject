@@ -189,7 +189,7 @@ export default {
 
             rule: {
                 size: 2,
-                format: 'jpg/png/jpeg'
+                format: 'jpg/png/jpeg/gif'
             },
             control: {
                 cover: false, // 裁剪
