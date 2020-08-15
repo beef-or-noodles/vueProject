@@ -134,6 +134,7 @@ router.post('/queryColumn', (req, res) => {
                   if (id == cId) {
                     let item = chird[q];
                     item.label = chird[q].columnName
+                    item.belongName = name
                     children.push(item);
                   }
               }

@@ -245,17 +245,43 @@ router.post('/searchArtice', (req, res) => {
   var value = '%' + req.body.searchName + '%';
   var type = req.body.recycle; //type 1 文章  0 回收站
   var userID = req.headers.token
-  conn.query(sql, [userID,type, value ], function(err, result) {
+  var arr = []
+  // 查询 所有标签
+  const tagSql = $sql.tag.queryAllTag
+  conn.query(tagSql,arr,function(err,result) {
     if (err) {
       console.log(err);
-      let Edata = returnData(500, '', '服务器错误', true);
+      let Edata = returnData(500, '', '标签查询失败', true);
       res.send(Edata);
     }
     if (result) {
-      let rdata = returnData(200, result, '共找到 ' + result.length + ' 条数据', true);
-      res.send(rdata);
+      let tagList = result
+      conn.query(sql, [userID,type, value ], function(err, result) {
+        if (err) {
+          console.log(err);
+          let Edata = returnData(500, '', '服务器错误', true);
+          res.send(Edata);
+        }
+        if (result) {
+          let articleList = result
+          if(articleList){
+            articleList.forEach(item=>{
+              let tag = item.tags
+              let newArr = []
+              if(tag){
+                let arr = tag.split(',')
+                newArr = tagList.filter((item)=>{return arr.some((ls=>{return item.id == ls}))})
+              }
+              item['tags'] = newArr
+            })
+          }
+          let rdata = returnData(200, articleList, '共找到 ' + result.length + ' 条数据', true);
+          res.send(rdata);
+        }
+      })
     }
   })
+
 });
 
 // 查询回收站文章
