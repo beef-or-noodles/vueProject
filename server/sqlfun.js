@@ -32,6 +32,7 @@ var sqlMap = {
         searchArtice: 'select * from artice where userID = ? and recycle=? and concat(articeTitle,author,abstract) like ?;', //根据名字模糊查询
         articeInfo: 'select * from artice where checkRoot=1 and id = ?', //前台查询
         articeClickNumber: 'UPDATE artice SET clickNumber = clickNumber+1 WHERE id=?', //点击率
+        articeLikeNumber: 'UPDATE artice SET likeNumber = likeNumber+1 WHERE id=?', //喜欢
         recommendArtice: 'update artice set recommend = ? where id = ?', //设置推荐文章
         queryRecommend: 'select * from artice where recommend = 1 and recycle = 1 and checkRoot = 1 order by setTime DESC limit 0,8', //查询前八条数据
     },

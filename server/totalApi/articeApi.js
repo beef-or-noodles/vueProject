@@ -408,5 +408,21 @@ router.post('/articeClickNumber', (req, res) => {
     }
   })
 })
+// 喜欢文章
+router.post('/articeLike', (req, res) => {
+  var sql = $sql.artice.articeLikeNumber;
+  var id = req.body.id;
+  conn.query(sql, [id], function(err, result) {
+    if (err) {
+      console.log(err);
+      let Edata = returnData(500, '', '服务器错误', true);
+      res.send(Edata);
+    }
+    if (result) {
+      let rdata = returnData(200, '', '成功', false);
+      res.send(rdata);
+    }
+  })
+})
 
 module.exports = router
