@@ -23,7 +23,7 @@
     "node-schedule": "^1.3.2",
     "nodemailer": "^6.1.1",
     "schart.js": "^3.0.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.5.0",
     "svg-captcha": "^1.3.12",
     "vue": "^2.5.2",
     "vue-cropper": "^0.4.9",
